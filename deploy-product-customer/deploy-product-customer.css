@@ -10,34 +10,35 @@
  * on it. The -0.45s delay starts the first pass after the reset. The phone
  * itself stays still. Turn on the block's Loop setting to repeat it.
  *
- * Laid out on a 1200 × 901 grid; --u is one grid pixel, taken from the
- * block's width, so the graphic scales with its container (max 1200px).
+ * Laid out on the Figma frame's 786 × 598 grid; --u is one grid pixel,
+ * taken from the block's width, so the graphic scales with its container
+ * (max 786px, the frame's size). Icons and photo are the Figma exports.
  */
 .dpc {
   --navy: #0f2b4d;
-  --line: #006eb8;
-  --card-rule: #e8eef3;
+  --line: #006fba;
+  --shadow: rgba(15, 43, 77, 0.1);
   --cycle: 10s;
   --start: -0.45s;
-  --u: calc(100cqw / 1200);
+  --u: calc(100cqw / 786);
   container-type: inline-size;
   width: 100%;
-  max-width: 1200px;
+  max-width: 786px;
   margin-inline: auto;
-  font-family: "Inter", var(--wp--preset--font-family--primary, system-ui), sans-serif;
+  font-family: var(--wp--preset--font-family--primary, "Kanit"), sans-serif;
   color: var(--navy);
   -webkit-font-smoothing: antialiased;
 }
 .dpc *, .dpc *::before, .dpc *::after { box-sizing: border-box; }
 
-.stage { position: relative; width: 100%; aspect-ratio: 1200 / 901; overflow: hidden; }
+.stage { position: relative; width: 100%; aspect-ratio: 786 / 598; overflow: hidden; }
 
 /* Connectors. The mask paths draw each line in; the dots march outward. */
 .lines { position: absolute; inset: 0; width: 100%; height: 100%; }
-.dots path { stroke-dasharray: 5 5; }
+.dots path { stroke-dasharray: 4 4; }
 .reveal { stroke-dasharray: 1 1; }
 
-/* Cards: placed on the 1200 × 901 grid. */
+/* Cards: placed on the 786 × 598 grid. */
 .card {
   position: absolute;
   left: calc(var(--x) * var(--u));
@@ -46,60 +47,72 @@
   height: calc(var(--h) * var(--u));
   display: flex;
   align-items: center;
-  border-radius: calc(16 * var(--u));
-  box-shadow: 0 calc(6 * var(--u)) calc(24 * var(--u)) rgba(15, 43, 77, 0.08);
+  border-radius: calc(12 * var(--u));
+  background: #fff;
+  box-shadow: inset 0 0 0 calc(2 * var(--u)) #fff, 0 0 calc(16 * var(--u)) var(--shadow);
 }
-.card.dark { flex-direction: column; justify-content: center; gap: calc(22 * var(--u)); padding-top: calc(6 * var(--u)); background: var(--navy); border: calc(3 * var(--u)) solid #fff; color: #fff; }
-.card.light { background: #fff; border: calc(1 * var(--u)) solid var(--card-rule); }
-.label { font-size: calc(34 * var(--u)); font-weight: 600; letter-spacing: -0.01em; line-height: 1; white-space: nowrap; }
+.card.dark { flex-direction: column; justify-content: center; gap: calc(16 * var(--u)); background: var(--navy); color: #fff; }
+.card.light { gap: calc(24 * var(--u)); padding: 0 calc(24 * var(--u)) 0 calc(16 * var(--u)); }
+.card.light.pass, .card.light.otp { padding: 0 calc(16 * var(--u)) 0 calc(24 * var(--u)); }
+.label { font-size: calc(24 * var(--u)); font-weight: 400; letter-spacing: 0; line-height: 1.25; white-space: nowrap; }
 .icon { display: block; flex: none; overflow: visible; }
 .icon * { transform-box: fill-box; transform-origin: center; }
 
-.ivr    { --x: 482; --y: 24;  --w: 288; --h: 166; }
-.ai     { --x: 78;  --y: 119; --w: 288; --h: 167; }
-.live   { --x: 888; --y: 119; --w: 288; --h: 167; }
-.pay    { --x: 446; --y: 255; --w: 354; --h: 125; padding-left: calc(20 * var(--u)); gap: calc(32 * var(--u)); }
-.esig   { --x: 153; --y: 421; --w: 389; --h: 124; padding-left: calc(22 * var(--u)); gap: calc(32 * var(--u)); }
-.pass   { --x: 706; --y: 421; --w: 334; --h: 124; padding: 0 calc(20 * var(--u)) 0 calc(35 * var(--u)); justify-content: space-between; }
-.eforms { --x: 24;  --y: 587; --w: 306; --h: 124; padding-left: calc(20 * var(--u)); gap: calc(26 * var(--u)); }
-.otp    { --x: 919; --y: 587; --w: 249; --h: 124; padding: 0 calc(20 * var(--u)) 0 calc(37 * var(--u)); justify-content: space-between; }
+.ivr    { --x: 312;    --y: 0;   --w: 197;    --h: 114; }
+.ai     { --x: 37;     --y: 65;  --w: 197;    --h: 114; }
+.live   { --x: 589;    --y: 65;  --w: 197;    --h: 114; }
+.pay    { --x: 288;    --y: 159; --w: 223.57; --h: 84.57; }
+.esig   { --x: 88;     --y: 271; --w: 243.57; --h: 84.57; }
+.pass   { --x: 465;    --y: 271; --w: 212.57; --h: 84.57; }
+.eforms { --x: 0;      --y: 384; --w: 195.57; --h: 84.57; }
+.otp    { --x: 611.57; --y: 384; --w: 161.57; --h: 84.57; }
 
-.ivr .icon  { width: calc(62 * var(--u)); height: calc(48 * var(--u)); }
-.ai .icon   { width: calc(58 * var(--u)); height: calc(58 * var(--u)); margin-bottom: calc(-6 * var(--u)); }
-.live .icon { width: calc(50 * var(--u)); height: calc(54 * var(--u)); }
-.pay .icon, .esig .icon { width: calc(76 * var(--u)); height: calc(76 * var(--u)); }
-.pass .icon   { width: calc(84 * var(--u)); height: calc(84 * var(--u)); }
-.eforms .icon { width: calc(94 * var(--u)); height: calc(84 * var(--u)); }
-.otp .icon    { width: calc(84 * var(--u)); height: calc(49 * var(--u)); }
-.slot { fill: #d3b2f9; }
+.dark .icon  { width: calc(36 * var(--u)); height: calc(36 * var(--u)); }
+.light .icon { width: calc(52.574 * var(--u)); height: calc(52.574 * var(--u)); }
+.slot { fill: #d3b2f8; }
 .scan { opacity: 0; }
 
-/* Device: still. */
-.phone { position: absolute; left: calc(378 * var(--u)); top: calc(592 * var(--u)); width: calc(498 * var(--u)); height: calc(440 * var(--u)); padding: calc(17 * var(--u)); border-radius: calc(92 * var(--u)); background: #111; box-shadow: inset 0 0 0 calc(2 * var(--u)) #2a2b30; }
-.btn { position: absolute; left: calc(-5 * var(--u)); width: calc(6 * var(--u)); height: calc(70 * var(--u)); border-radius: calc(3 * var(--u)) 0 0 calc(3 * var(--u)); background: #1b1c20; }
-.b1 { top: calc(170 * var(--u)); }
-.b2 { top: calc(258 * var(--u)); }
-.screen {
-  position: relative;
-  height: 100%;
-  overflow: hidden;
-  border-radius: calc(76 * var(--u));
+/* Device: still. Cropped by the stage's bottom edge, as in the frame. */
+.phone {
+  position: absolute;
+  left: calc(237.83 * var(--u));
+  top: calc(387 * var(--u));
+  width: calc(347.72 * var(--u));
+  height: calc(720 * var(--u));
+  border-radius: calc(60.47 * var(--u));
   background:
-    linear-gradient(180deg, rgba(4, 149, 115, 0) 40%, rgba(4, 149, 115, 0.35) 100%),
-    linear-gradient(100deg, #0070b6 0%, #0380a3 45%, #038989 75%, #04936f 100%);
-  color: #fff;
+    linear-gradient(180deg, rgba(185, 172, 172, 0.5) 0%, rgba(247, 240, 240, 0.5) 18.14%, rgba(247, 240, 240, 0.5) 83.01%, rgba(83, 77, 77, 0.5) 100%),
+    #090808;
 }
-.wave { position: absolute; inset: 0; width: 100%; height: 100%; color: rgba(0, 35, 60, 0.13); }
-.status { position: absolute; top: calc(26 * var(--u)); left: calc(36 * var(--u)); right: calc(38 * var(--u)); display: flex; align-items: center; justify-content: space-between; }
-.clock { font-size: calc(17 * var(--u)); font-weight: 500; }
-.status-icons { width: calc(88 * var(--u)); height: calc(14 * var(--u)); }
-.call { position: absolute; top: calc(158 * var(--u)); left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: calc(26 * var(--u)); line-height: 1; }
-.number { font-size: calc(43 * var(--u)); letter-spacing: 0.04em; }
-.timer { font-size: calc(20 * var(--u)); letter-spacing: 0.02em; }
+.phone::before { content: ""; position: absolute; inset: calc(3.78 * var(--u)); border: calc(2.83 * var(--u)) solid #342e3c; border-radius: calc(56.69 * var(--u)); background: #111; }
+.btn { position: absolute; left: calc(-2.83 * var(--u)); width: calc(2.83 * var(--u)); border-radius: calc(1 * var(--u)) 0 0 calc(1 * var(--u)); background: #918a8c; box-shadow: inset calc(-1 * var(--u)) 0 calc(2 * var(--u)) rgba(0, 0, 0, 0.5); }
+.b1 { top: calc(137.95 * var(--u)); height: calc(27.4 * var(--u)); }
+.b2 { top: calc(190.86 * var(--u)); height: calc(53.86 * var(--u)); }
+.screen {
+  position: absolute;
+  left: calc(15.12 * var(--u));
+  top: calc(14.17 * var(--u));
+  width: calc(318.42 * var(--u));
+  height: calc(690.71 * var(--u));
+  overflow: hidden;
+  border-radius: calc(48.19 * var(--u));
+  background: linear-gradient(138.68deg, #006fba 2.16%, #07aa4d 68.64%);
+  color: #fcfcfc;
+  font-family: -apple-system, "SF Pro Display", system-ui, sans-serif;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+.wave { position: absolute; top: 0; left: 0; width: 100%; height: auto; aspect-ratio: 462 / 420; color: rgba(0, 0, 0, 0.08); }
+.status { position: absolute; top: calc(16 * var(--u)); left: calc(24.3 * var(--u)); right: calc(26.6 * var(--u)); display: flex; align-items: center; justify-content: space-between; }
+.clock { font-size: calc(12.79 * var(--u)); color: #fff; }
+.status-icons { width: calc(60.73 * var(--u)); height: calc(10.33 * var(--u)); }
+.call { position: absolute; top: calc(102 * var(--u)); left: 0; right: calc(10 * var(--u)); display: flex; flex-direction: column; align-items: center; gap: calc(12.3 * var(--u)); }
+.number { font-size: calc(30.19 * var(--u)); }
+.timer { font-size: calc(15.09 * var(--u)); }
 
 /* Customer, with "on a call" ripples. */
-.avatar { position: absolute; left: calc(543 * var(--u)); top: calc(534 * var(--u)); width: calc(168 * var(--u)); height: calc(168 * var(--u)); border-radius: 50%; }
-.avatar img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; border: calc(5 * var(--u)) solid #fff; border-radius: 50%; object-fit: cover; background: #e9e9ec; box-shadow: 0 calc(4 * var(--u)) calc(18 * var(--u)) rgba(15, 43, 77, 0.18); }
+.avatar { position: absolute; left: calc(356 * var(--u)); top: calc(351 * var(--u)); width: calc(110 * var(--u)); height: calc(110 * var(--u)); border-radius: 50%; }
+.avatar img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #e9e9ec; box-shadow: 0 0 0 calc(1.9 * var(--u)) #fff, 0 0 calc(15.17 * var(--u)) var(--shadow); }
 .avatar::before, .avatar::after { content: ""; position: absolute; inset: 0; border: calc(2 * var(--u)) solid rgba(255, 255, 255, 0.85); border-radius: 50%; opacity: 0; }
 
 /*
@@ -140,13 +153,13 @@
 .wave g:nth-child(5n) { animation-duration: 6.4s; animation-delay: -2.5s; }
 
 .handset { animation: ring var(--cycle) ease-in-out var(--start) infinite both; }
-.keys circle { animation: key var(--cycle) ease-in-out calc(var(--start) + var(--k)) infinite both; }
-.keys circle:nth-child(1) { --k: 0s; }
-.keys circle:nth-child(5) { --k: 0.3s; }
-.keys circle:nth-child(3) { --k: 0.6s; }
-.keys circle:nth-child(4) { --k: 0.9s; }
-.keys circle:nth-child(2) { --k: 1.2s; }
-.keys circle:nth-child(6) { --k: 1.5s; }
+.keys > g { animation: key var(--cycle) ease-in-out calc(var(--start) + var(--k)) infinite both; }
+.keys > g:nth-child(1) { --k: 0s; }
+.keys > g:nth-child(5) { --k: 0.3s; }
+.keys > g:nth-child(3) { --k: 0.6s; }
+.keys > g:nth-child(4) { --k: 0.9s; }
+.keys > g:nth-child(2) { --k: 1.2s; }
+.keys > g:nth-child(6) { --k: 1.5s; }
 .sparkle { animation: twinkle 2.8s ease-in-out infinite; }
 .plus { animation: twinkle-small 2.8s ease-in-out 0.5s infinite; }
 .cup { animation: pulse 2.4s ease-in-out infinite; }
@@ -234,7 +247,7 @@
 }
 @keyframes wallet {
   0%, 48%, 100% { translate: 0 0; }
-  54%, 64% { translate: 0 18px; }
+  54%, 64% { translate: 0 14px; }
   70% { translate: 0 0; }
 }
 @keyframes write {
@@ -255,14 +268,14 @@
 @keyframes scan {
   0%, 55% { opacity: 0; translate: 0 0; }
   57% { opacity: 0.45; translate: 0 0; }
-  66% { opacity: 0.45; translate: 0 48px; }
-  69%, 100% { opacity: 0; translate: 0 48px; }
+  66% { opacity: 0.45; translate: 0 32px; }
+  69%, 100% { opacity: 0; translate: 0 32px; }
 }
 @keyframes click {
   0%, 58%, 80%, 100% { translate: 0 0; scale: 1; }
-  66% { translate: 30px -12px; scale: 1; }
-  68% { translate: 30px -12px; scale: 0.82; }
-  70% { translate: 30px -12px; scale: 1; }
+  66% { translate: 18px -6px; scale: 1; }
+  68% { translate: 18px -6px; scale: 0.82; }
+  70% { translate: 18px -6px; scale: 1; }
 }
 @keyframes select {
   0%, 67%, 78%, 100% { rotate: 0deg; }
@@ -287,20 +300,20 @@
   80%, 100% { opacity: 1; scale: 1; }
 }
 @keyframes slot-1 {
-  0%, 63%, 71%, 100% { fill: #d3b2f9; }
+  0%, 63%, 71%, 100% { fill: #d3b2f8; }
   64%, 70% { fill: #a14dfd; }
 }
 @keyframes slot-2 {
-  0%, 70%, 75%, 100% { fill: #d3b2f9; }
+  0%, 70%, 75%, 100% { fill: #d3b2f8; }
   71%, 74% { fill: #a14dfd; }
 }
 @keyframes slot-3 {
-  0%, 74%, 79%, 100% { fill: #d3b2f9; }
+  0%, 74%, 79%, 100% { fill: #d3b2f8; }
   75%, 78% { fill: #a14dfd; }
 }
 
 /* Ambient loops: each rests at its first frame. */
-@keyframes march { to { stroke-dashoffset: -10; } }
+@keyframes march { to { stroke-dashoffset: -8; } }
 @keyframes float { 50% { translate: 0 calc(-6 * var(--u)); } }
 @keyframes wave { 50% { transform: translateY(46px); } }
 @keyframes ripple {
