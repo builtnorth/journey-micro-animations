@@ -21,3 +21,4 @@ lint, photo prep and render scripts).
 | `deploy-product-customer/` | Customer on a call, connected to AI, IVR/IVA, Live Agent, Payments, eSignatures, Passkeys, eForms and OTP (design width 786) |
 | `get-demo/` | Agent with headset inside three rings of product badges (design width 1000) |
 | `featured-image-payments/` | Agent call window confirming each payment step in turn beside the customer's phone, ending on "Payment confirmed" (design width 1216) |
+| `password-reset-flow/` | Password reset request, SMS and Face ID beside the agent window confirming each step in turn, ending on "Success" (design width 1624) |
