@@ -17,3 +17,4 @@ See [AGENTS.md](AGENTS.md) for the motion rules and what the block allows.
 | Folder | Description |
 | --- | --- |
 | `deploy-product-customer/` | Customer on a call, connected to AI, IVR/IVA, Live Agent, Payments, eSignatures, Passkeys, eForms and OTP (design width 786) |
+| `get-demo/` | Agent with headset inside three rings of product badges (design width 1000; photo: `get-demo-agent.png`, awaiting its Cloudinary link) |

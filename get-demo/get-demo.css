@@ -1,0 +1,112 @@
+/*
+ * Get a demo. The agent appears on her panel, then the rings draw out from
+ * her one at a time and the badges on each ring fade in as it closes:
+ * inner (Speed), middle (AI, Time), outer (Payments, Passkeys, Developers,
+ * eSignatures, Done). Then it holds. Nothing loops: nothing in the scene is
+ * live.
+ *
+ * Pure CSS. The build is one 10s pass whose first and last frames are the
+ * finished graphic, so play-once and reduced motion end on it; the -0.45s
+ * delay skips its reset.
+ *
+ * Laid out on the Figma frame's 1000 × 992 grid (set the block's design
+ * width to 1000); --u is one grid pixel, so the graphic scales as a whole.
+ * Icons are the Figma exports; the photo is a cut-out PNG hosted on Cloudinary.
+ */
+.gdm {
+  --cycle: 10s;
+  --start: -0.45s;
+  --u: calc(100cqw / 1000);
+  container-type: inline-size;
+  width: 100%;
+  max-width: 1000px;
+  margin-inline: auto;
+  font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
+}
+.gdm *, .gdm *::before, .gdm *::after { box-sizing: border-box; }
+
+.stage { position: relative; width: 100%; aspect-ratio: 1000 / 992.052; overflow: hidden; }
+
+/* Layers, back to front: panel and the two inner rings, the agent, the outer ring, badges. */
+.back, .front { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ring { stroke-dasharray: 1 1; }
+
+.agent {
+  position: absolute;
+  left: calc(139.008 * var(--u));
+  top: calc(163.374 * var(--u));
+  width: calc(663.861 * var(--u));
+  height: calc(668.27 * var(--u));
+  max-width: none;
+  object-fit: fill;
+}
+
+.badge { position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); width: calc(var(--s) * var(--u)); height: calc(var(--s) * var(--u)); }
+.badge svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.badge.blue { --s: 85.345; }
+.badge.navy { --s: 110.831; }
+
+.lightning { --x: 247.719; --y: 531.142; }
+.ai        { --x: 166.819; --y: 329.928; }
+.timer     { --x: 683.335; --y: 288.441; }
+.payments  { --x: 170.967; --y: 124.566; }
+.passkeys  { --x: 573.395; --y: 70.633; }
+.code      { --x: 818.169; --y: 477.209; }
+.esig      { --x: 83.844;  --y: 661.827; }
+.check     { --x: 542.278; --y: 836.074; }
+
+/*
+ * Timeline (one 10s pass). 0–4%: the finished graphic fades and resets.
+ * Panel 5–11%, agent 7–14%. Rings draw clockwise from the top: inner 14–22%,
+ * middle 20–30%, outer 28–40%. Each ring's badges fade in as it closes:
+ * inner 21–27%, middle 29–35%, outer 39–45%. Hold 45–100%.
+ */
+.panel       { animation: panel-in var(--cycle) ease-out var(--start) both; }
+.agent       { animation: agent-in var(--cycle) ease-out var(--start) both; }
+.ring.r1     { animation: ring-1 var(--cycle) ease-in-out var(--start) both; }
+.ring.r2     { animation: ring-2 var(--cycle) ease-in-out var(--start) both; }
+.ring.r3     { animation: ring-3 var(--cycle) ease-in-out var(--start) both; }
+.badge.r1    { animation: badge-1 var(--cycle) ease-out var(--start) both; }
+.badge.r2    { animation: badge-2 var(--cycle) ease-out var(--start) both; }
+.badge.r3    { animation: badge-3 var(--cycle) ease-out var(--start) both; }
+
+@keyframes panel-in {
+  0% { opacity: 1; }
+  4%, 5% { opacity: 0; }
+  11%, 100% { opacity: 1; }
+}
+@keyframes agent-in {
+  0% { opacity: 1; translate: 0 0; }
+  4%, 7% { opacity: 0; translate: 0 calc(16 * var(--u)); }
+  14%, 100% { opacity: 1; translate: 0 0; }
+}
+@keyframes ring-1 {
+  0% { stroke-dashoffset: 0; }
+  4%, 14% { stroke-dashoffset: 1; }
+  22%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes ring-2 {
+  0% { stroke-dashoffset: 0; }
+  4%, 20% { stroke-dashoffset: 1; }
+  30%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes ring-3 {
+  0% { stroke-dashoffset: 0; }
+  4%, 28% { stroke-dashoffset: 1; }
+  40%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes badge-1 {
+  0% { opacity: 1; scale: 1; }
+  4%, 21% { opacity: 0; scale: 0.94; }
+  27%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes badge-2 {
+  0% { opacity: 1; scale: 1; }
+  4%, 29% { opacity: 0; scale: 0.94; }
+  35%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes badge-3 {
+  0% { opacity: 1; scale: 1; }
+  4%, 39% { opacity: 0; scale: 0.94; }
+  45%, 100% { opacity: 1; scale: 1; }
+}
