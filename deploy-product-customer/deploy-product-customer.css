@@ -1,0 +1,313 @@
+/*
+ * Deploy product to customer. A customer is on a call; the dotted
+ * connectors draw out from her and each channel card pops in (Payments,
+ * eForms / OTP, IVR/IVA / eSignatures / Passkeys, then AI / Live Agent).
+ * While the graphic holds, each icon does a small action: the IVR rings and
+ * keys are pressed, a bill slides into the wallet, the signature is written,
+ * a face is scanned, the dropdown is clicked and the OTP code types in.
+ * Pure CSS: one 10s cycle whose first and last frames are the finished
+ * graphic, so it loops without a jump, and play-once / reduced motion end
+ * on it. The -0.45s delay starts the first pass after the reset. The phone
+ * itself stays still. Turn on the block's Loop setting to repeat it.
+ *
+ * Laid out on a 1200 × 901 grid; --u is one grid pixel, taken from the
+ * block's width, so the graphic scales with its container (max 1200px).
+ */
+.dpc {
+  --navy: #0f2b4d;
+  --line: #006eb8;
+  --card-rule: #e8eef3;
+  --cycle: 10s;
+  --start: -0.45s;
+  --u: calc(100cqw / 1200);
+  container-type: inline-size;
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  font-family: "Inter", var(--wp--preset--font-family--primary, system-ui), sans-serif;
+  color: var(--navy);
+  -webkit-font-smoothing: antialiased;
+}
+.dpc *, .dpc *::before, .dpc *::after { box-sizing: border-box; }
+
+.stage { position: relative; width: 100%; aspect-ratio: 1200 / 901; overflow: hidden; }
+
+/* Connectors. The mask paths draw each line in; the dots march outward. */
+.lines { position: absolute; inset: 0; width: 100%; height: 100%; }
+.dots path { stroke-dasharray: 5 5; }
+.reveal { stroke-dasharray: 1 1; }
+
+/* Cards: placed on the 1200 × 901 grid. */
+.card {
+  position: absolute;
+  left: calc(var(--x) * var(--u));
+  top: calc(var(--y) * var(--u));
+  width: calc(var(--w) * var(--u));
+  height: calc(var(--h) * var(--u));
+  display: flex;
+  align-items: center;
+  border-radius: calc(16 * var(--u));
+  box-shadow: 0 calc(6 * var(--u)) calc(24 * var(--u)) rgba(15, 43, 77, 0.08);
+}
+.card.dark { flex-direction: column; justify-content: center; gap: calc(22 * var(--u)); padding-top: calc(6 * var(--u)); background: var(--navy); border: calc(3 * var(--u)) solid #fff; color: #fff; }
+.card.light { background: #fff; border: calc(1 * var(--u)) solid var(--card-rule); }
+.label { font-size: calc(34 * var(--u)); font-weight: 600; letter-spacing: -0.01em; line-height: 1; white-space: nowrap; }
+.icon { display: block; flex: none; overflow: visible; }
+.icon * { transform-box: fill-box; transform-origin: center; }
+
+.ivr    { --x: 482; --y: 24;  --w: 288; --h: 166; }
+.ai     { --x: 78;  --y: 119; --w: 288; --h: 167; }
+.live   { --x: 888; --y: 119; --w: 288; --h: 167; }
+.pay    { --x: 446; --y: 255; --w: 354; --h: 125; padding-left: calc(20 * var(--u)); gap: calc(32 * var(--u)); }
+.esig   { --x: 153; --y: 421; --w: 389; --h: 124; padding-left: calc(22 * var(--u)); gap: calc(32 * var(--u)); }
+.pass   { --x: 706; --y: 421; --w: 334; --h: 124; padding: 0 calc(20 * var(--u)) 0 calc(35 * var(--u)); justify-content: space-between; }
+.eforms { --x: 24;  --y: 587; --w: 306; --h: 124; padding-left: calc(20 * var(--u)); gap: calc(26 * var(--u)); }
+.otp    { --x: 919; --y: 587; --w: 249; --h: 124; padding: 0 calc(20 * var(--u)) 0 calc(37 * var(--u)); justify-content: space-between; }
+
+.ivr .icon  { width: calc(62 * var(--u)); height: calc(48 * var(--u)); }
+.ai .icon   { width: calc(58 * var(--u)); height: calc(58 * var(--u)); margin-bottom: calc(-6 * var(--u)); }
+.live .icon { width: calc(50 * var(--u)); height: calc(54 * var(--u)); }
+.pay .icon, .esig .icon { width: calc(76 * var(--u)); height: calc(76 * var(--u)); }
+.pass .icon   { width: calc(84 * var(--u)); height: calc(84 * var(--u)); }
+.eforms .icon { width: calc(94 * var(--u)); height: calc(84 * var(--u)); }
+.otp .icon    { width: calc(84 * var(--u)); height: calc(49 * var(--u)); }
+.slot { fill: #d3b2f9; }
+.scan { opacity: 0; }
+
+/* Device: still. */
+.phone { position: absolute; left: calc(378 * var(--u)); top: calc(592 * var(--u)); width: calc(498 * var(--u)); height: calc(440 * var(--u)); padding: calc(17 * var(--u)); border-radius: calc(92 * var(--u)); background: #111; box-shadow: inset 0 0 0 calc(2 * var(--u)) #2a2b30; }
+.btn { position: absolute; left: calc(-5 * var(--u)); width: calc(6 * var(--u)); height: calc(70 * var(--u)); border-radius: calc(3 * var(--u)) 0 0 calc(3 * var(--u)); background: #1b1c20; }
+.b1 { top: calc(170 * var(--u)); }
+.b2 { top: calc(258 * var(--u)); }
+.screen {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: calc(76 * var(--u));
+  background:
+    linear-gradient(180deg, rgba(4, 149, 115, 0) 40%, rgba(4, 149, 115, 0.35) 100%),
+    linear-gradient(100deg, #0070b6 0%, #0380a3 45%, #038989 75%, #04936f 100%);
+  color: #fff;
+}
+.wave { position: absolute; inset: 0; width: 100%; height: 100%; color: rgba(0, 35, 60, 0.13); }
+.status { position: absolute; top: calc(26 * var(--u)); left: calc(36 * var(--u)); right: calc(38 * var(--u)); display: flex; align-items: center; justify-content: space-between; }
+.clock { font-size: calc(17 * var(--u)); font-weight: 500; }
+.status-icons { width: calc(88 * var(--u)); height: calc(14 * var(--u)); }
+.call { position: absolute; top: calc(158 * var(--u)); left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: calc(26 * var(--u)); line-height: 1; }
+.number { font-size: calc(43 * var(--u)); letter-spacing: 0.04em; }
+.timer { font-size: calc(20 * var(--u)); letter-spacing: 0.02em; }
+
+/* Customer, with "on a call" ripples. */
+.avatar { position: absolute; left: calc(543 * var(--u)); top: calc(534 * var(--u)); width: calc(168 * var(--u)); height: calc(168 * var(--u)); border-radius: 50%; }
+.avatar img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; border: calc(5 * var(--u)) solid #fff; border-radius: 50%; object-fit: cover; background: #e9e9ec; box-shadow: 0 calc(4 * var(--u)) calc(18 * var(--u)) rgba(15, 43, 77, 0.18); }
+.avatar::before, .avatar::after { content: ""; position: absolute; inset: 0; border: calc(2 * var(--u)) solid rgba(255, 255, 255, 0.85); border-radius: 50%; opacity: 0; }
+
+/*
+ * Timeline (one 10s cycle). 0–4%: the finished graphic fades and resets.
+ * Avatar 6–12%. Lines draw: centre 12–17%, phone sides 13–18%, middle ring
+ * 22–27%, outer ring 31–36%. Cards pop: Payments 17–23%, eForms / OTP
+ * 18–24%, IVR / eSignatures / Passkeys 27–33%, AI / Live Agent 36–42%.
+ * Hold 42–100% with the icon actions: IVR rings 44–54% and keys 56–75%,
+ * wallet 48–70%, signature 46–64%, scan 54–70%, dropdown 58–80%,
+ * OTP types 60–80%. Small ambient loops (dots, sound bars, floating cards,
+ * ripples, sparkle) run on their own and rest at their first frame.
+ */
+.lines { animation: lines var(--cycle) ease var(--start) infinite both; }
+.reveal.r1 { animation: draw-1 var(--cycle) ease-out var(--start) infinite both; }
+.reveal.r2 { animation: draw-2 var(--cycle) ease-out var(--start) infinite both; }
+.reveal.r3 { animation: draw-3 var(--cycle) ease-out var(--start) infinite both; }
+.reveal.r4 { animation: draw-4 var(--cycle) ease-out var(--start) infinite both; }
+.dots path { animation: march 0.6s linear infinite; }
+
+.avatar { animation: avatar var(--cycle) ease var(--start) infinite both; }
+.avatar::before, .avatar::after { animation: ripple 3s ease-out infinite; }
+.avatar::after { animation-delay: 1.5s; }
+
+.card { --float: float 6s ease-in-out var(--fd, 0s) infinite; }
+.pay            { --fd: -2.2s; animation: pop-1 var(--cycle) ease var(--start) infinite both, var(--float); }
+.eforms         { --fd: -2.7s; animation: pop-2 var(--cycle) ease var(--start) infinite both, var(--float); }
+.otp            { --fd: -1s;   animation: pop-2 var(--cycle) ease var(--start) infinite both, var(--float); }
+.ivr            { --fd: 0s;    animation: pop-3 var(--cycle) ease var(--start) infinite both, var(--float); }
+.esig           { --fd: -0.6s; animation: pop-3 var(--cycle) ease var(--start) infinite both, var(--float); }
+.pass           { --fd: -4s;   animation: pop-3 var(--cycle) ease var(--start) infinite both, var(--float); }
+.ai             { --fd: -1.4s; animation: pop-4 var(--cycle) ease var(--start) infinite both, var(--float); }
+.live           { --fd: -3.1s; animation: pop-4 var(--cycle) ease var(--start) infinite both, var(--float); }
+
+.wave g { animation: wave 4.8s ease-in-out infinite; }
+.wave g:nth-child(3n + 1) { animation-duration: 4.2s; animation-delay: -0.7s; }
+.wave g:nth-child(3n + 2) { animation-duration: 5.6s; animation-delay: -1.9s; }
+.wave g:nth-child(4n) { animation-duration: 3.8s; animation-delay: -1.2s; }
+.wave g:nth-child(5n) { animation-duration: 6.4s; animation-delay: -2.5s; }
+
+.handset { animation: ring var(--cycle) ease-in-out var(--start) infinite both; }
+.keys circle { animation: key var(--cycle) ease-in-out calc(var(--start) + var(--k)) infinite both; }
+.keys circle:nth-child(1) { --k: 0s; }
+.keys circle:nth-child(5) { --k: 0.3s; }
+.keys circle:nth-child(3) { --k: 0.6s; }
+.keys circle:nth-child(4) { --k: 0.9s; }
+.keys circle:nth-child(2) { --k: 1.2s; }
+.keys circle:nth-child(6) { --k: 1.5s; }
+.sparkle { animation: twinkle 2.8s ease-in-out infinite; }
+.plus { animation: twinkle-small 2.8s ease-in-out 0.5s infinite; }
+.cup { animation: pulse 2.4s ease-in-out infinite; }
+.bill { animation: wallet var(--cycle) cubic-bezier(0.65, 0, 0.35, 1) var(--start) infinite both; }
+.sig-line { transform-origin: left center; animation: write var(--cycle) ease-in-out var(--start) infinite both; }
+.sig-line.two { animation-delay: calc(var(--start) + 0.35s); }
+.leaf { transform-origin: 0% 100%; animation: sign var(--cycle) ease-in-out var(--start) infinite both; }
+.frame { animation: squeeze var(--cycle) ease-in-out var(--start) infinite both; }
+.scan { animation: scan var(--cycle) ease-in-out var(--start) infinite both; }
+.pointer { transform-origin: 0% 0%; animation: click var(--cycle) ease-in-out var(--start) infinite both; }
+.select { animation: select var(--cycle) ease-in-out var(--start) infinite both; }
+.star.s1 { animation: type-1 var(--cycle) ease-out var(--start) infinite both; }
+.star.s2 { animation: type-2 var(--cycle) ease-out var(--start) infinite both; }
+.star.s3 { animation: type-3 var(--cycle) ease-out var(--start) infinite both; }
+.slot.u1 { animation: slot-1 var(--cycle) linear var(--start) infinite both; }
+.slot.u2 { animation: slot-2 var(--cycle) linear var(--start) infinite both; }
+.slot.u3 { animation: slot-3 var(--cycle) linear var(--start) infinite both; }
+
+/* Build */
+@keyframes lines {
+  0% { opacity: 1; }
+  4% { opacity: 0; }
+  4.5%, 100% { opacity: 1; }
+}
+@keyframes draw-1 {
+  0%, 4% { stroke-dashoffset: 0; }
+  4.5%, 12% { stroke-dashoffset: 1; }
+  17%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes draw-2 {
+  0%, 4% { stroke-dashoffset: 0; }
+  4.5%, 13% { stroke-dashoffset: 1; }
+  18%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes draw-3 {
+  0%, 4% { stroke-dashoffset: 0; }
+  4.5%, 22% { stroke-dashoffset: 1; }
+  27%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes draw-4 {
+  0%, 4% { stroke-dashoffset: 0; }
+  4.5%, 31% { stroke-dashoffset: 1; }
+  36%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes avatar {
+  0% { opacity: 1; scale: 1; }
+  4%, 6% { opacity: 0; scale: 0.4; }
+  10.5% { opacity: 1; scale: 1.06; }
+  12%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes pop-1 {
+  0% { opacity: 1; scale: 1; }
+  4%, 17% { opacity: 0; scale: 0.7; }
+  21% { opacity: 1; scale: 1.04; }
+  23%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes pop-2 {
+  0% { opacity: 1; scale: 1; }
+  4%, 18% { opacity: 0; scale: 0.7; }
+  22% { opacity: 1; scale: 1.04; }
+  24%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes pop-3 {
+  0% { opacity: 1; scale: 1; }
+  4%, 27% { opacity: 0; scale: 0.7; }
+  31% { opacity: 1; scale: 1.04; }
+  33%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes pop-4 {
+  0% { opacity: 1; scale: 1; }
+  4%, 36% { opacity: 0; scale: 0.7; }
+  40% { opacity: 1; scale: 1.04; }
+  42%, 100% { opacity: 1; scale: 1; }
+}
+
+/* Icon actions during the hold */
+@keyframes ring {
+  0%, 44%, 54%, 100% { rotate: 0deg; }
+  45.5%, 48.5%, 51.5% { rotate: -8deg; }
+  47%, 50%, 53% { rotate: 8deg; }
+}
+@keyframes key {
+  0%, 56%, 60%, 100% { scale: 1; fill-opacity: 1; }
+  58% { scale: 0.6; fill-opacity: 0.35; }
+}
+@keyframes wallet {
+  0%, 48%, 100% { translate: 0 0; }
+  54%, 64% { translate: 0 18px; }
+  70% { translate: 0 0; }
+}
+@keyframes write {
+  0%, 46% { scale: 1 1; }
+  47% { scale: 0 1; }
+  53%, 100% { scale: 1 1; }
+}
+@keyframes sign {
+  0%, 46%, 64%, 100% { rotate: 0deg; }
+  50% { rotate: -8deg; }
+  55% { rotate: 5deg; }
+  60% { rotate: -3deg; }
+}
+@keyframes squeeze {
+  0%, 54%, 70%, 100% { scale: 1; }
+  62% { scale: 0.92; }
+}
+@keyframes scan {
+  0%, 55% { opacity: 0; translate: 0 0; }
+  57% { opacity: 0.45; translate: 0 0; }
+  66% { opacity: 0.45; translate: 0 48px; }
+  69%, 100% { opacity: 0; translate: 0 48px; }
+}
+@keyframes click {
+  0%, 58%, 80%, 100% { translate: 0 0; scale: 1; }
+  66% { translate: 30px -12px; scale: 1; }
+  68% { translate: 30px -12px; scale: 0.82; }
+  70% { translate: 30px -12px; scale: 1; }
+}
+@keyframes select {
+  0%, 67%, 78%, 100% { rotate: 0deg; }
+  69%, 76% { rotate: 180deg; }
+}
+@keyframes type-1 {
+  0%, 60% { opacity: 1; scale: 1; }
+  62%, 68% { opacity: 0; scale: 0; }
+  70% { opacity: 1; scale: 1.25; }
+  72%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes type-2 {
+  0%, 60% { opacity: 1; scale: 1; }
+  62%, 72% { opacity: 0; scale: 0; }
+  74% { opacity: 1; scale: 1.25; }
+  76%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes type-3 {
+  0%, 60% { opacity: 1; scale: 1; }
+  62%, 76% { opacity: 0; scale: 0; }
+  78% { opacity: 1; scale: 1.25; }
+  80%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes slot-1 {
+  0%, 63%, 71%, 100% { fill: #d3b2f9; }
+  64%, 70% { fill: #a14dfd; }
+}
+@keyframes slot-2 {
+  0%, 70%, 75%, 100% { fill: #d3b2f9; }
+  71%, 74% { fill: #a14dfd; }
+}
+@keyframes slot-3 {
+  0%, 74%, 79%, 100% { fill: #d3b2f9; }
+  75%, 78% { fill: #a14dfd; }
+}
+
+/* Ambient loops: each rests at its first frame. */
+@keyframes march { to { stroke-dashoffset: -10; } }
+@keyframes float { 50% { translate: 0 calc(-6 * var(--u)); } }
+@keyframes wave { 50% { transform: translateY(46px); } }
+@keyframes ripple {
+  0% { opacity: 0; scale: 1; }
+  5% { opacity: 0.9; }
+  100% { opacity: 0; scale: 1.45; }
+}
+@keyframes twinkle { 50% { scale: 0.86; rotate: 12deg; } }
+@keyframes twinkle-small { 50% { scale: 0.4; opacity: 0.3; } }
+@keyframes pulse { 50% { scale: 1.14; } }
