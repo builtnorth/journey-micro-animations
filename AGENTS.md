@@ -49,6 +49,13 @@ The default is the build, then stillness.
   editor preview ignores this, so check loops on the front end.
 - A looping value has to loop without a visible jump. A timer reel ends on a
   repeat of its first entry and runs on `steps()`.
+- **Only transform whole boxes.** Don't scale, rotate or move shapes
+  *inside* an `<svg>` (`<circle>`, `<path>`, `<g>`): with
+  `transform-box`/`transform-origin` and the block scaling the graphic, some
+  browsers draw them in the wrong place (Safari especially). Give anything
+  that moves its own element (an HTML element, or its own small `<svg>`) and
+  animate that. Animating paint inside an SVG (opacity, stroke-dashoffset,
+  fill) is fine.
 - **Write keyframe names literally** in `animation` / `animation-name`. The
   block scopes the CSS and renames every `@keyframes`, so a name held in a
   custom property (`animation: var(--draw) …`) never matches and the

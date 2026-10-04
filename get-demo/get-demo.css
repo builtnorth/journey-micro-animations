@@ -26,9 +26,14 @@
 
 .stage { position: relative; width: 100%; aspect-ratio: 1000 / 992.052; overflow: hidden; }
 
-/* Layers, back to front: panel and the two inner rings, the agent, the outer ring, badges. */
-.back, .front { position: absolute; inset: 0; width: 100%; height: 100%; }
-.ring { transform-box: fill-box; transform-origin: center; }
+/* Layers, back to front: panel, the two inner rings, the agent, the outer ring, badges. */
+.back { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* Each ring is its own small SVG, animated as a whole box, so it scales reliably in every browser. */
+.ring { position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); width: calc(var(--s) * var(--u)); height: calc(var(--s) * var(--u)); overflow: visible; }
+.ring.r1 { --x: 276.759; --y: 307.111; --s: 396.204; }
+.ring.r2 { --x: 167.411; --y: 196.873; --s: 615.197; }
+.ring.r3 { --x: 70.514;  --y: 94.642;  --s: 805.446; }
 
 .agent {
   position: absolute;
