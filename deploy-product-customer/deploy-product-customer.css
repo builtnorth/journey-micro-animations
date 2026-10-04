@@ -33,7 +33,7 @@
 
 .stage { position: relative; width: 100%; aspect-ratio: 786 / 598; overflow: hidden; }
 
-/* Connectors: dashed, each segment drawn from the hub outward. */
+/* Connectors: dashed, as in the frame (the rings run behind the cards); each drawn from the hub outward. */
 .lines { position: absolute; inset: 0; width: 100%; height: 100%; }
 .lines path { stroke-dasharray: 4 4; }
 
@@ -114,21 +114,19 @@
 /*
  * Timeline (one 10s cycle). 0–4%: the finished graphic fades and resets.
  * Customer 6–12%. Connectors draw ring by ring: centre 12–17%, phone sides
- * 13–18%, middle ring 22–27%, outer ring 31–36%. Each card fades in once its
+ * 13–18%, middle ring (and on up to IVR/IVA) 22–27%, outer ring 31–36%. Each card fades in once its
  * connector arrives: Payments 17–23%, eForms / OTP 18–24%, IVR/IVA /
  * eSignatures / Passkeys 27–33%, AI / Live Agent 36–42%. Hold 42–100%.
  */
 .lines { animation: lines var(--cycle) ease var(--start) infinite both; }
-.lines path { --shown: inset(-6px); animation: var(--draw) var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .up    { --hide: inset(calc(100% + 6px) -6px -6px -6px); }
-.lines .left  { --hide: inset(-6px -6px -6px calc(100% + 6px)); }
-.lines .right { --hide: inset(-6px calc(100% + 6px) -6px -6px); }
-.lines .sw    { --hide: inset(-6px -6px calc(100% + 6px) calc(100% + 6px)); }
-.lines .se    { --hide: inset(-6px calc(100% + 6px) calc(100% + 6px) -6px); }
-.lines .r1 { --draw: draw-1; }
-.lines .r2 { --draw: draw-2; }
-.lines .r3 { --draw: draw-3; }
-.lines .r4 { --draw: draw-4; }
+.lines .r1.up { animation: draw-1-up var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r2.left { animation: draw-2-left var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r2.right { animation: draw-2-right var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r3.up { animation: draw-3-up var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r3.sw { animation: draw-3-sw var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r3.se { animation: draw-3-se var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r4.sw { animation: draw-4-sw var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r4.se { animation: draw-4-se var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
 
 .avatar { animation: avatar var(--cycle) ease-out var(--start) infinite both; }
 
@@ -143,25 +141,45 @@
   4% { opacity: 0; }
   4.5%, 100% { opacity: 1; }
 }
-@keyframes draw-1 {
-  0%, 4% { clip-path: var(--shown); }
-  4.5%, 12% { clip-path: var(--hide); }
-  17%, 100% { clip-path: var(--shown); }
+@keyframes draw-1-up {
+  0%, 4% { clip-path: inset(-6px); }
+  4.5%, 12% { clip-path: inset(calc(100% + 6px) -6px -6px -6px); }
+  17%, 100% { clip-path: inset(-6px); }
 }
-@keyframes draw-2 {
-  0%, 4% { clip-path: var(--shown); }
-  4.5%, 13% { clip-path: var(--hide); }
-  18%, 100% { clip-path: var(--shown); }
+@keyframes draw-2-left {
+  0%, 4% { clip-path: inset(-6px); }
+  4.5%, 13% { clip-path: inset(-6px -6px -6px calc(100% + 6px)); }
+  18%, 100% { clip-path: inset(-6px); }
 }
-@keyframes draw-3 {
-  0%, 4% { clip-path: var(--shown); }
-  4.5%, 22% { clip-path: var(--hide); }
-  27%, 100% { clip-path: var(--shown); }
+@keyframes draw-2-right {
+  0%, 4% { clip-path: inset(-6px); }
+  4.5%, 13% { clip-path: inset(-6px calc(100% + 6px) -6px -6px); }
+  18%, 100% { clip-path: inset(-6px); }
 }
-@keyframes draw-4 {
-  0%, 4% { clip-path: var(--shown); }
-  4.5%, 31% { clip-path: var(--hide); }
-  36%, 100% { clip-path: var(--shown); }
+@keyframes draw-3-up {
+  0%, 4% { clip-path: inset(-6px); }
+  4.5%, 22% { clip-path: inset(calc(100% + 6px) -6px -6px -6px); }
+  27%, 100% { clip-path: inset(-6px); }
+}
+@keyframes draw-3-sw {
+  0%, 4% { clip-path: inset(-6px); }
+  4.5%, 22% { clip-path: inset(-6px -6px calc(100% + 6px) calc(100% + 6px)); }
+  27%, 100% { clip-path: inset(-6px); }
+}
+@keyframes draw-3-se {
+  0%, 4% { clip-path: inset(-6px); }
+  4.5%, 22% { clip-path: inset(-6px calc(100% + 6px) calc(100% + 6px) -6px); }
+  27%, 100% { clip-path: inset(-6px); }
+}
+@keyframes draw-4-sw {
+  0%, 4% { clip-path: inset(-6px); }
+  4.5%, 31% { clip-path: inset(-6px -6px calc(100% + 6px) calc(100% + 6px)); }
+  36%, 100% { clip-path: inset(-6px); }
+}
+@keyframes draw-4-se {
+  0%, 4% { clip-path: inset(-6px); }
+  4.5%, 31% { clip-path: inset(-6px calc(100% + 6px) calc(100% + 6px) -6px); }
+  36%, 100% { clip-path: inset(-6px); }
 }
 @keyframes avatar {
   0% { opacity: 1; scale: 1; }

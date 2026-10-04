@@ -23,9 +23,9 @@ The default is the build, then stillness.
 - **Entrances are simple:** opacity plus at most a small scale (0.94 to 1) or
   a short move, eased out, with no overshoot or bounce. Stagger by group in
   story order, not one item at a time.
-- **Nothing draws over or through another element.** End connectors at the
-  card or photo edge, not underneath it, so nothing shows through a card
-  while it fades in.
+- **Connectors match the frame.** Draw lines and rings whole, as Figma has
+  them (full dashed arcs running behind the cards), not cut into pieces
+  between cards.
 - When unsure, leave it out. Ask before adding motion the brief didn't ask for.
 
 ## Timing
@@ -37,6 +37,12 @@ The default is the build, then stillness.
 - The cycle is: a short reset (0 to 4%), the build, then a long hold.
 - Use `infinite` on cycle animations; the block's Loop setting decides
   whether they repeat (off = every animation plays once).
+- **Write keyframe names literally** in `animation` / `animation-name`. The
+  block scopes the CSS and renames every `@keyframes`, so a name held in a
+  custom property (`animation: var(--draw) …`) never matches and the
+  animation silently doesn't run on the site, though it works in the editor.
+  Keep keyframe values literal too: one `@keyframes` per variant, no `var()`
+  inside them. `var()` for durations and delays is fine.
 
 ## What the block allows (it sanitizes on the front end)
 
