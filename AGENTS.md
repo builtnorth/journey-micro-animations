@@ -53,8 +53,10 @@ The default is the build, then stillness.
   *inside* an `<svg>` (`<circle>`, `<path>`, `<g>`): with
   `transform-box`/`transform-origin` and the block scaling the graphic, some
   browsers draw them in the wrong place (Safari especially). Give anything
-  that moves its own element (an HTML element, or its own small `<svg>`) and
-  animate that. Animating paint inside an SVG (opacity, stroke-dashoffset,
+  that moves its own element and animate that: a positioned `<div>` wrapping
+  an `<svg>` with no class (`<div class="ring"><svg viewBox="…">…</svg></div>`).
+  Put position, size and animation on the `<div>`, never on the `<svg>`
+  itself: on the site a styled `<svg>` lost its size and drew at full width. Animating paint inside an SVG (opacity, stroke-dashoffset,
   fill) is fine.
 - **Write keyframe names literally** in `animation` / `animation-name`. The
   block scopes the CSS and renames every `@keyframes`, so a name held in a
