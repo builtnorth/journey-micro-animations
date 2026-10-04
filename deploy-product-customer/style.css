@@ -1,0 +1,563 @@
+/* ==========================================================================
+   Deploy Product Customer – micro animation
+   --------------------------------------------------------------------------
+   Self-contained: every class is prefixed with `dpc` so it can sit on a page
+   next to other micro animations without collisions.
+
+   The artwork is laid out on a 1200 × 901 design grid. `--u` is one design
+   pixel, derived from the container width, so the whole graphic scales
+   fluidly with its wrapper (max 1200px wide).
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+.dpc {
+  --u: calc(100cqw / 1200);
+
+  --dpc-navy: #0f2b4d;
+  --dpc-blue: #006eb8;
+  --dpc-icon-blue: #1a8ad0;
+  --dpc-card-border: #e8eef3;
+  --dpc-shadow: 0 calc(6 * var(--u)) calc(24 * var(--u)) rgba(15, 43, 77, 0.08);
+
+  /* Intro timing (seconds after load) */
+  --dpc-idle: 2.8s;
+
+  container-type: inline-size;
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dpc *,
+.dpc *::before,
+.dpc *::after {
+  box-sizing: border-box;
+}
+
+.dpc__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1200 / 901;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Connector lines
+   -------------------------------------------------------------------------- */
+
+.dpc__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.dpc__dots path {
+  stroke-dasharray: 5 5;
+  animation: dpc-march 0.6s linear infinite;
+}
+
+/* Each connector is revealed (drawn) by its matching mask path */
+.dpc__reveal {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 0;
+  animation: dpc-draw 0.45s ease-out var(--d, 0s) backwards;
+}
+
+.dpc__reveal--1  { --d: 0.9s; }
+.dpc__reveal--9,
+.dpc__reveal--10 { --d: 1.0s; }
+.dpc__reveal--2,
+.dpc__reveal--3,
+.dpc__reveal--4  { --d: 1.35s; }
+.dpc__reveal--5,
+.dpc__reveal--6  { --d: 1.95s; }
+.dpc__reveal--7,
+.dpc__reveal--8  { --d: 1.95s; }
+
+/* --------------------------------------------------------------------------
+   Cards
+   -------------------------------------------------------------------------- */
+
+.dpc__card {
+  position: absolute;
+  left: calc(var(--x) * var(--u));
+  top: calc(var(--y) * var(--u));
+  width: calc(var(--w) * var(--u));
+  height: calc(var(--h) * var(--u));
+  display: flex;
+  align-items: center;
+  border-radius: calc(16 * var(--u));
+  box-shadow: var(--dpc-shadow);
+  animation:
+    dpc-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) var(--d) backwards,
+    dpc-float var(--float, 6s) ease-in-out calc(var(--dpc-idle) + var(--fd, 0s)) infinite;
+}
+
+.dpc__card--dark {
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(22 * var(--u));
+  padding-top: calc(6 * var(--u));
+  background: var(--dpc-navy);
+  border: calc(3 * var(--u)) solid #fff;
+  color: #fff;
+}
+
+.dpc__card--light {
+  background: #fff;
+  border: calc(1 * var(--u)) solid var(--dpc-card-border);
+  color: var(--dpc-navy);
+}
+
+.dpc__label {
+  font-size: calc(34 * var(--u));
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.dpc__icon {
+  display: block;
+  flex: none;
+  overflow: visible;
+}
+
+/* Positions on the 1200 × 901 grid */
+.dpc__card--ivr    { --x: 482; --y: 24;  --w: 288; --h: 166; --d: 1.65s; --fd: 0s;    --float: 6.4s; }
+.dpc__card--ai     { --x: 78;  --y: 119; --w: 288; --h: 167; --d: 2.25s; --fd: -1.4s; --float: 5.8s; }
+.dpc__card--live   { --x: 888; --y: 119; --w: 288; --h: 167; --d: 2.25s; --fd: -3.1s; --float: 6.2s; }
+.dpc__card--pay    { --x: 446; --y: 255; --w: 354; --h: 125; --d: 1.2s;  --fd: -2.2s; --float: 5.6s; }
+.dpc__card--esig   { --x: 153; --y: 421; --w: 389; --h: 124; --d: 1.65s; --fd: -0.6s; --float: 6.6s; }
+.dpc__card--pass   { --x: 706; --y: 421; --w: 334; --h: 124; --d: 1.65s; --fd: -4s;   --float: 6s; }
+.dpc__card--eforms { --x: 24;  --y: 587; --w: 306; --h: 124; --d: 1.35s; --fd: -2.7s; --float: 6.3s; }
+.dpc__card--otp    { --x: 919; --y: 587; --w: 249; --h: 124; --d: 1.35s; --fd: -1s;   --float: 5.9s; }
+
+/* Card contents */
+.dpc__card--ivr .dpc__icon  { width: calc(62 * var(--u)); height: calc(48 * var(--u)); }
+.dpc__card--ai .dpc__icon   { width: calc(58 * var(--u)); height: calc(58 * var(--u)); margin-bottom: calc(-6 * var(--u)); }
+.dpc__card--live .dpc__icon { width: calc(50 * var(--u)); height: calc(54 * var(--u)); }
+
+.dpc__card--pay    { padding-left: calc(20 * var(--u)); gap: calc(32 * var(--u)); }
+.dpc__card--esig   { padding-left: calc(22 * var(--u)); gap: calc(32 * var(--u)); }
+.dpc__card--pass   { padding: 0 calc(20 * var(--u)) 0 calc(35 * var(--u)); justify-content: space-between; }
+.dpc__card--eforms { padding-left: calc(20 * var(--u)); gap: calc(26 * var(--u)); }
+.dpc__card--otp    { padding: 0 calc(20 * var(--u)) 0 calc(37 * var(--u)); justify-content: space-between; }
+
+.dpc__card--pay .dpc__icon,
+.dpc__card--esig .dpc__icon,
+.dpc__card--pass .dpc__icon   { width: calc(84 * var(--u)); height: calc(84 * var(--u)); }
+.dpc__card--eforms .dpc__icon { width: calc(94 * var(--u)); height: calc(84 * var(--u)); }
+.dpc__card--otp .dpc__icon    { width: calc(84 * var(--u)); height: calc(49 * var(--u)); }
+
+/* --------------------------------------------------------------------------
+   Phone
+   -------------------------------------------------------------------------- */
+
+.dpc__phone {
+  position: absolute;
+  left: calc(378 * var(--u));
+  top: calc(592 * var(--u));
+  width: calc(498 * var(--u));
+  height: calc(440 * var(--u));
+  padding: calc(17 * var(--u));
+  border-radius: calc(92 * var(--u));
+  background: #111;
+  box-shadow: inset 0 0 0 calc(2 * var(--u)) #2a2b30;
+  animation: dpc-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0s backwards;
+}
+
+.dpc__phone-btn {
+  position: absolute;
+  left: calc(-5 * var(--u));
+  width: calc(6 * var(--u));
+  border-radius: calc(3 * var(--u)) 0 0 calc(3 * var(--u));
+  background: #1b1c20;
+}
+.dpc__phone-btn--1 { top: calc(170 * var(--u)); height: calc(70 * var(--u)); }
+.dpc__phone-btn--2 { top: calc(258 * var(--u)); height: calc(70 * var(--u)); }
+
+.dpc__screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: calc(76 * var(--u));
+  background:
+    linear-gradient(180deg, rgba(4, 149, 115, 0) 40%, rgba(4, 149, 115, 0.35) 100%),
+    linear-gradient(100deg, #0070b6 0%, #0380a3 45%, #038989 75%, #04936f 100%);
+  color: #fff;
+}
+
+.dpc__wave {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: rgba(0, 35, 60, 0.13);
+}
+
+.dpc__wave g {
+  animation: dpc-wave 2.4s ease-in-out infinite alternate;
+}
+.dpc__wave g:nth-child(3n + 1) { animation-duration: 2.1s; animation-delay: -0.7s; }
+.dpc__wave g:nth-child(3n + 2) { animation-duration: 2.8s; animation-delay: -1.9s; }
+.dpc__wave g:nth-child(4n)     { animation-duration: 1.9s; animation-delay: -1.2s; }
+.dpc__wave g:nth-child(5n)     { animation-duration: 3.2s; animation-delay: -2.5s; }
+
+.dpc__status {
+  position: absolute;
+  top: calc(26 * var(--u));
+  left: calc(36 * var(--u));
+  right: calc(38 * var(--u));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dpc__clock {
+  font-size: calc(17 * var(--u));
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.dpc__status-icons {
+  width: calc(88 * var(--u));
+  height: calc(14 * var(--u));
+}
+
+.dpc__call {
+  position: absolute;
+  top: calc(158 * var(--u));
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(26 * var(--u));
+  animation: dpc-fade-up 0.6s ease-out 1s backwards;
+}
+
+.dpc__number {
+  font-size: calc(43 * var(--u));
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+/* Live call timer: counts up from 2:47 */
+@property --dpc-min {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 2;
+}
+@property --dpc-sec {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 47;
+}
+
+.dpc__timer {
+  font-size: calc(20 * var(--u));
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  counter-reset: dpc-min var(--dpc-min) dpc-sec var(--dpc-sec);
+  animation:
+    dpc-minutes 6000s steps(100, end) -167s infinite,
+    dpc-seconds 60s steps(60, end) -47s infinite;
+}
+.dpc__timer::after {
+  content: counter(dpc-min) ":" counter(dpc-sec, decimal-leading-zero);
+}
+
+/* --------------------------------------------------------------------------
+   Customer avatar
+   -------------------------------------------------------------------------- */
+
+.dpc__avatar {
+  position: absolute;
+  left: calc(543 * var(--u));
+  top: calc(534 * var(--u));
+  width: calc(168 * var(--u));
+  height: calc(168 * var(--u));
+  border-radius: 50%;
+  animation: dpc-avatar-pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s backwards;
+}
+
+.dpc__avatar img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: calc(5 * var(--u)) solid #fff;
+  object-fit: cover;
+  background: #e9e9ec;
+  box-shadow: 0 calc(4 * var(--u)) calc(18 * var(--u)) rgba(15, 43, 77, 0.18);
+}
+
+/* "On a call" ripple rings */
+.dpc__avatar::before,
+.dpc__avatar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: calc(2 * var(--u)) solid rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  animation: dpc-ripple 3s ease-out var(--dpc-idle) infinite;
+}
+.dpc__avatar::after {
+  animation-delay: calc(var(--dpc-idle) + 1.5s);
+}
+
+/* --------------------------------------------------------------------------
+   Icon micro-interactions
+   -------------------------------------------------------------------------- */
+
+.dpc__icon * {
+  transform-box: fill-box;
+}
+
+/* IVR – keypad presses */
+.dpc__ivr-keys circle {
+  transform-origin: center;
+  animation: dpc-key 3.6s ease-in-out calc(var(--dpc-idle) + var(--k, 0s)) infinite;
+}
+.dpc__ivr-keys circle:nth-child(1) { --k: 0s; }
+.dpc__ivr-keys circle:nth-child(5) { --k: 0.3s; }
+.dpc__ivr-keys circle:nth-child(3) { --k: 0.6s; }
+.dpc__ivr-keys circle:nth-child(4) { --k: 0.9s; }
+.dpc__ivr-keys circle:nth-child(2) { --k: 1.2s; }
+.dpc__ivr-keys circle:nth-child(6) { --k: 1.5s; }
+
+.dpc__ivr-handset {
+  transform-origin: 50% 50%;
+  animation: dpc-ring 3.6s ease-in-out var(--dpc-idle) infinite;
+}
+
+/* AI – sparkle twinkle */
+.dpc__ai-star {
+  transform-origin: center;
+  animation: dpc-twinkle 2.8s ease-in-out var(--dpc-idle) infinite;
+}
+.dpc__ai-plus {
+  transform-origin: center;
+  animation: dpc-twinkle-small 2.8s ease-in-out calc(var(--dpc-idle) + 0.5s) infinite;
+}
+
+/* Live Agent – headset pulse */
+.dpc__live-cup {
+  transform-origin: center;
+  animation: dpc-pulse 2.4s ease-in-out var(--dpc-idle) infinite;
+}
+
+/* Payments – card slides in and out of the wallet */
+.dpc__pay-card {
+  animation: dpc-pay 3.2s cubic-bezier(0.65, 0, 0.35, 1) var(--dpc-idle) infinite;
+}
+
+/* eSignatures – lines get written, leaf signs */
+.dpc__esig-line {
+  transform-origin: left center;
+  animation: dpc-write 4s ease-in-out calc(var(--dpc-idle) + var(--w-d, 0s)) infinite;
+}
+.dpc__esig-line--2 { --w-d: 0.35s; }
+
+.dpc__esig-leaf {
+  transform-origin: 0% 100%;
+  animation: dpc-sign 4s ease-in-out var(--dpc-idle) infinite;
+}
+
+/* Passkeys – face scan */
+.dpc__pass-frame {
+  transform-origin: center;
+  animation: dpc-frame 3s ease-in-out var(--dpc-idle) infinite;
+}
+.dpc__pass-scan {
+  opacity: 0;
+  animation: dpc-scan 3s ease-in-out var(--dpc-idle) infinite;
+}
+
+/* eForms – cursor clicks the dropdown */
+.dpc__eforms-cursor {
+  transform-origin: 0% 0%;
+  animation: dpc-cursor 3.6s ease-in-out var(--dpc-idle) infinite;
+}
+.dpc__eforms-caret {
+  transform-origin: center;
+  animation: dpc-caret 3.6s ease-in-out var(--dpc-idle) infinite;
+}
+
+/* OTP – code is typed one character at a time */
+.dpc__otp-line {
+  fill: #d3b2f9;
+  animation: dpc-otp-line 3.6s step-end calc(var(--dpc-idle) + var(--o, 0s)) infinite;
+}
+.dpc__otp-star {
+  transform-origin: center;
+  animation: dpc-otp-star 3.6s ease-out calc(var(--dpc-idle) + var(--o, 0s)) infinite;
+}
+.dpc__otp-star--2,
+.dpc__otp-line--2 { --o: 0.4s; }
+.dpc__otp-star--3,
+.dpc__otp-line--3 { --o: 0.8s; }
+
+/* --------------------------------------------------------------------------
+   Keyframes
+   -------------------------------------------------------------------------- */
+
+/* Intro */
+@keyframes dpc-rise {
+  from { opacity: 0; translate: 0 calc(140 * var(--u)); }
+}
+
+@keyframes dpc-avatar-pop {
+  from { opacity: 0; scale: 0.4; }
+}
+
+@keyframes dpc-pop {
+  from { opacity: 0; scale: 0.7; }
+}
+
+@keyframes dpc-fade-up {
+  from { opacity: 0; translate: 0 calc(12 * var(--u)); }
+}
+
+@keyframes dpc-draw {
+  from { stroke-dashoffset: 1; }
+}
+
+/* Idle loops */
+@keyframes dpc-float {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 calc(-6 * var(--u)); }
+}
+
+@keyframes dpc-march {
+  to { stroke-dashoffset: -10; }
+}
+
+@keyframes dpc-wave {
+  from { transform: translateY(0); }
+  to   { transform: translateY(46px); }
+}
+
+@keyframes dpc-minutes {
+  from { --dpc-min: 0; }
+  to   { --dpc-min: 100; }
+}
+
+@keyframes dpc-seconds {
+  from { --dpc-sec: 0; }
+  to   { --dpc-sec: 60; }
+}
+
+@keyframes dpc-ripple {
+  0%   { opacity: 0.9; scale: 1; }
+  100% { opacity: 0;   scale: 1.45; }
+}
+
+@keyframes dpc-key {
+  0%, 12%, 100% { fill-opacity: 1; scale: 1; }
+  5%            { fill-opacity: 0.35; scale: 0.6; }
+}
+
+@keyframes dpc-ring {
+  0%, 30%, 100% { rotate: 0deg; }
+  4%, 12%, 20%  { rotate: -8deg; }
+  8%, 16%, 24%  { rotate: 8deg; }
+}
+
+@keyframes dpc-twinkle {
+  0%, 100% { scale: 1;    rotate: 0deg; }
+  50%      { scale: 0.86; rotate: 12deg; }
+}
+
+@keyframes dpc-twinkle-small {
+  0%, 100% { scale: 1;   opacity: 1; }
+  50%      { scale: 0.4; opacity: 0.3; }
+}
+
+@keyframes dpc-pulse {
+  0%, 100% { scale: 1; }
+  50%      { scale: 1.14; }
+}
+
+@keyframes dpc-pay {
+  0%, 15%, 100% { translate: 0 0; }
+  45%, 70%      { translate: 0 18px; }
+}
+
+@keyframes dpc-write {
+  0%        { scale: 0 1; }
+  25%, 85%  { scale: 1 1; }
+  100%      { scale: 0 1; opacity: 0; }
+}
+
+@keyframes dpc-sign {
+  0%, 100% { rotate: 0deg; }
+  20%      { rotate: -8deg; }
+  40%      { rotate: 5deg; }
+  60%      { rotate: -3deg; }
+  75%      { rotate: 0deg; }
+}
+
+@keyframes dpc-frame {
+  0%, 100% { scale: 1; }
+  50%      { scale: 0.92; }
+}
+
+@keyframes dpc-scan {
+  0%   { opacity: 0;    translate: 0 0; }
+  10%  { opacity: 0.45; }
+  50%  { opacity: 0.45; translate: 0 48px; }
+  60%  { opacity: 0;    translate: 0 48px; }
+  100% { opacity: 0;    translate: 0 0; }
+}
+
+@keyframes dpc-cursor {
+  0%, 100% { translate: 0 0; scale: 1; }
+  30%      { translate: 30px -12px; scale: 1; }
+  38%      { translate: 30px -12px; scale: 0.82; }
+  46%      { translate: 30px -12px; scale: 1; }
+  70%      { translate: 0 0; }
+}
+
+@keyframes dpc-caret {
+  0%, 36%, 100% { rotate: 0deg; }
+  42%, 80%      { rotate: 180deg; }
+}
+
+@keyframes dpc-otp-line {
+  0%   { fill: #a14dfd; }
+  12%  { fill: #d3b2f9; }
+}
+
+@keyframes dpc-otp-star {
+  0%   { scale: 0;    opacity: 0; }
+  8%   { scale: 1.25; opacity: 1; }
+  14%  { scale: 1; }
+  80%  { scale: 1;    opacity: 1; }
+  90%  { scale: 0;    opacity: 0; }
+  100% { scale: 0;    opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion: show the finished composition, no movement
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .dpc *,
+  .dpc *::before,
+  .dpc *::after {
+    animation: none !important;
+  }
+}
