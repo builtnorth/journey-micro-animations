@@ -76,6 +76,12 @@ these limits:
   placeholder such as `src="CLOUDINARY_URL:<file name>"` and
   say the graphic is waiting on it. Never commit the image or invent a URL.
   Set `width`/`height` on the `<img>` to the 1x size.
+- **Images must be opaque.** WordPress converts imported images to AVIF,
+  which turns transparent edges into a dark, noisy fringe. Export photos as
+  JPG (or flatten them onto a solid colour; shapes like circles are cut in
+  CSS), and link a JPG. For a PNG already on Cloudinary, add `b_white/` (or
+  the background colour) to the URL's transformations and change the
+  extension to `.jpg`.
 - **CSS** is scoped to the block automatically. Theme preset variables
   (`var(--wp--preset--…)`) are fine.
 - **Fonts:** set them once on the graphic's root with
