@@ -63,13 +63,15 @@ these limits:
   `<defs>` they point to. Use CSS instead: `clip-path: inset()` for reveals,
   `filter: drop-shadow()` for shadows, CSS gradients on HTML elements.
 - **No `id` attributes.** Figma exports add them; strip them.
-- **No `data:` URIs.** Images are files committed to the graphic's folder,
-  and the `<img src>` is the file's full raw GitHub URL, so WordPress can
-  fetch and import it into the media library:
-  `https://raw.githubusercontent.com/builtnorth/journey-micro-animations/<default branch>/<folder>/<file>`.
-  Use the default branch (currently `claude/confident-goodall-excjjt`), push
-  the file before using the graphic, and update the links if that branch
-  changes. Export photos at 2x, with `width`/`height` set to the 1x size.
+- **No `data:` URIs, and no images in the repo.** Images are hosted on
+  Cloudinary and the `<img src>` is the full Cloudinary URL the user gives
+  you (`https://res.cloudinary.com/dxat7whi/image/upload/…`); WordPress
+  imports it into the media library. When a graphic needs an image: export
+  it from Figma (photos at 2x, PNG or JPG), send the file to the user to
+  upload, and use the link they send back. Until then, use a clear
+  placeholder such as `src="CLOUDINARY_URL:<file name>"` and
+  say the graphic is waiting on it. Never commit the image or invent a URL.
+  Set `width`/`height` on the `<img>` to the 1x size.
 - **CSS** is scoped to the block automatically. Theme preset variables
   (`var(--wp--preset--…)`) are fine.
 - **Fonts:** set them once on the graphic's root with

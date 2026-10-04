@@ -12,7 +12,7 @@
  *
  * Laid out on the Figma frame's 786 × 598 grid (set the block's design
  * width to 786); --u is one grid pixel, so the graphic scales as a whole.
- * Icons are the Figma exports; the photo is customer.jpg in this folder.
+ * Icons are the Figma exports; the photo is hosted on Cloudinary.
  */
 .dpc {
   --navy: #0f2b4d;

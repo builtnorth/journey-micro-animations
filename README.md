@@ -6,8 +6,9 @@ Each animation has its own folder:
 
 - `<name>.html`: the markup fragment (inline SVG)
 - `<name>.css`: its styles and keyframes
-- any images it uses (e.g. `customer.jpg`), linked by their raw GitHub URL so
-  WordPress imports them into the media library
+
+Images are not kept here: they are hosted on Cloudinary and linked by URL,
+and WordPress imports them into the media library.
 
 Every animation runs on one `--cycle` whose first and last frames are the finished
 graphic, so it loops without a jump and play-once / reduced motion end on it.
