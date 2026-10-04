@@ -17,97 +17,124 @@
       <span class="ref">#728739</span>
       <span class="cancel">Cancel</span>
       <span class="track"></span>
-      <span class="track fill"></span>
+      <span class="seg g1"></span>
+      <span class="seg g2"></span>
+      <span class="seg g3"></span>
+      <span class="seg g4"></span>
 
       <div class="step s1">
         <span class="label">Initiating...</span>
         <span class="halo"></span>
-        <div class="icon wait">
-          <svg viewBox="1.0863 1.0863 37.917 37.917" fill="none">
-            <circle cx="20.0445" cy="20.0448" r="18.9586" fill="#E4ECED" stroke="#E4ECED" stroke-width="2.17234" />
-            <circle cx="11.1037" cy="20.5835" r="2.90842" fill="#A1BCC9" />
-            <circle cx="20.5832" cy="20.5835" r="2.90842" fill="#A1BCC9" />
-            <circle cx="30.0622" cy="20.5835" r="2.90842" fill="#A1BCC9" />
-          </svg>
+        <div class="icon wait"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
+        <div class="icon busy">
+          <div class="spinner">
+            <svg viewBox="0 0 37.917 37.917" fill="none">
+              <path opacity="0.3" d="M37.9172 18.9586C37.9172 29.4291 29.4291 37.9172 18.9586 37.9172C8.48805 37.9172 0 29.4291 0 18.9586C0 8.48805 8.48805 0 18.9586 0C29.4291 0 37.9172 8.48805 37.9172 18.9586ZM5.91161 18.9586C5.91161 26.1642 11.7529 32.0056 18.9586 32.0056C26.1642 32.0056 32.0056 26.1642 32.0056 18.9586C32.0056 11.7529 26.1642 5.91161 18.9586 5.91161C11.7529 5.91161 5.91161 11.7529 5.91161 18.9586Z" fill="#006FBA" />
+              <path d="M34.9614 18.9586C36.5938 18.9586 37.9407 17.6274 37.6872 16.0147C37.4551 14.5382 37.0487 13.0908 36.4741 11.7035C35.5213 9.40329 34.1248 7.31331 32.3643 5.55284C30.6039 3.79238 28.5139 2.3959 26.2137 1.44314C24.8264 0.868493 23.379 0.462051 21.9025 0.229954C20.2898 -0.0235313 18.9586 1.32336 18.9586 2.95581C18.9586 4.58825 20.2985 5.87833 21.8892 6.24501C22.5921 6.40702 23.2819 6.62742 23.9515 6.90475C25.5344 7.56043 26.9727 8.52146 28.1842 9.73298C29.3957 10.9445 30.3568 12.3828 31.0124 13.9657C31.2898 14.6353 31.5102 15.3251 31.6722 16.028C32.0389 17.6187 33.3289 18.9586 34.9614 18.9586Z" fill="#006FBA" />
+            </svg>
+          </div>
         </div>
-        <div class="icon now">
+        <div class="icon done">
           <svg viewBox="1.0863 1.0863 37.917 37.917" fill="none">
             <circle cx="20.0445" cy="20.0448" r="18.9586" fill="#07AA4D" stroke="#07AA4D" stroke-width="2.17234" />
             <path d="M11.6187 22.2555L17.9857 26.3644L28.4707 13.7253" stroke="white" stroke-width="3.25851" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </div>
         <span class="status idle wait">Waiting</span>
-        <span class="status ok now">Connected</span>
+        <span class="status busy">Connecting…</span>
+        <span class="status ok done">Connected</span>
       </div>
 
       <div class="step s2">
         <span class="label">Credit Card Number</span>
         <span class="halo"></span>
-        <div class="icon wait">
-          <svg viewBox="1.0863 1.0863 37.917 37.917" fill="none">
-            <circle cx="20.0445" cy="20.0448" r="18.9586" fill="#E4ECED" stroke="#E4ECED" stroke-width="2.17234" />
-            <circle cx="11.1037" cy="20.5835" r="2.90842" fill="#A1BCC9" />
-            <circle cx="20.5832" cy="20.5835" r="2.90842" fill="#A1BCC9" />
-            <circle cx="30.0622" cy="20.5835" r="2.90842" fill="#A1BCC9" />
-          </svg>
+        <div class="icon wait"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
+        <div class="icon busy">
+          <div class="spinner">
+            <svg viewBox="0 0 37.917 37.917" fill="none">
+              <path opacity="0.3" d="M37.9172 18.9586C37.9172 29.4291 29.4291 37.9172 18.9586 37.9172C8.48805 37.9172 0 29.4291 0 18.9586C0 8.48805 8.48805 0 18.9586 0C29.4291 0 37.9172 8.48805 37.9172 18.9586ZM5.91161 18.9586C5.91161 26.1642 11.7529 32.0056 18.9586 32.0056C26.1642 32.0056 32.0056 26.1642 32.0056 18.9586C32.0056 11.7529 26.1642 5.91161 18.9586 5.91161C11.7529 5.91161 5.91161 11.7529 5.91161 18.9586Z" fill="#006FBA" />
+              <path d="M34.9614 18.9586C36.5938 18.9586 37.9407 17.6274 37.6872 16.0147C37.4551 14.5382 37.0487 13.0908 36.4741 11.7035C35.5213 9.40329 34.1248 7.31331 32.3643 5.55284C30.6039 3.79238 28.5139 2.3959 26.2137 1.44314C24.8264 0.868493 23.379 0.462051 21.9025 0.229954C20.2898 -0.0235313 18.9586 1.32336 18.9586 2.95581C18.9586 4.58825 20.2985 5.87833 21.8892 6.24501C22.5921 6.40702 23.2819 6.62742 23.9515 6.90475C25.5344 7.56043 26.9727 8.52146 28.1842 9.73298C29.3957 10.9445 30.3568 12.3828 31.0124 13.9657C31.2898 14.6353 31.5102 15.3251 31.6722 16.028C32.0389 17.6187 33.3289 18.9586 34.9614 18.9586Z" fill="#006FBA" />
+            </svg>
+          </div>
         </div>
-        <div class="icon now">
+        <div class="icon done">
           <svg viewBox="1.0863 1.0863 37.917 37.917" fill="none">
             <circle cx="20.0445" cy="20.0448" r="18.9586" fill="#07AA4D" stroke="#07AA4D" stroke-width="2.17234" />
             <path d="M11.6187 22.2555L17.9857 26.3644L28.4707 13.7253" stroke="white" stroke-width="3.25851" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </div>
         <span class="status idle wait">Waiting</span>
-        <span class="status ok now">Confirmed</span>
+        <span class="status busy">Confirming…</span>
+        <span class="status ok done">Confirmed</span>
       </div>
 
       <div class="step s3">
         <span class="label">Expiration Date</span>
         <span class="halo"></span>
-        <div class="icon wait">
+        <div class="icon wait"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
+        <div class="icon busy">
+          <div class="spinner">
+            <svg viewBox="0 0 37.917 37.917" fill="none">
+              <path opacity="0.3" d="M37.9172 18.9586C37.9172 29.4291 29.4291 37.9172 18.9586 37.9172C8.48805 37.9172 0 29.4291 0 18.9586C0 8.48805 8.48805 0 18.9586 0C29.4291 0 37.9172 8.48805 37.9172 18.9586ZM5.91161 18.9586C5.91161 26.1642 11.7529 32.0056 18.9586 32.0056C26.1642 32.0056 32.0056 26.1642 32.0056 18.9586C32.0056 11.7529 26.1642 5.91161 18.9586 5.91161C11.7529 5.91161 5.91161 11.7529 5.91161 18.9586Z" fill="#006FBA" />
+              <path d="M34.9614 18.9586C36.5938 18.9586 37.9407 17.6274 37.6872 16.0147C37.4551 14.5382 37.0487 13.0908 36.4741 11.7035C35.5213 9.40329 34.1248 7.31331 32.3643 5.55284C30.6039 3.79238 28.5139 2.3959 26.2137 1.44314C24.8264 0.868493 23.379 0.462051 21.9025 0.229954C20.2898 -0.0235313 18.9586 1.32336 18.9586 2.95581C18.9586 4.58825 20.2985 5.87833 21.8892 6.24501C22.5921 6.40702 23.2819 6.62742 23.9515 6.90475C25.5344 7.56043 26.9727 8.52146 28.1842 9.73298C29.3957 10.9445 30.3568 12.3828 31.0124 13.9657C31.2898 14.6353 31.5102 15.3251 31.6722 16.028C32.0389 17.6187 33.3289 18.9586 34.9614 18.9586Z" fill="#006FBA" />
+            </svg>
+          </div>
+        </div>
+        <div class="icon done">
           <svg viewBox="1.0863 1.0863 37.917 37.917" fill="none">
-            <circle cx="20.0445" cy="20.0448" r="18.9586" fill="#E4ECED" stroke="#E4ECED" stroke-width="2.17234" />
-            <circle cx="11.1037" cy="20.5835" r="2.90842" fill="#A1BCC9" />
-            <circle cx="20.5832" cy="20.5835" r="2.90842" fill="#A1BCC9" />
-            <circle cx="30.0622" cy="20.5835" r="2.90842" fill="#A1BCC9" />
+            <circle cx="20.0445" cy="20.0448" r="18.9586" fill="#07AA4D" stroke="#07AA4D" stroke-width="2.17234" />
+            <path d="M11.6187 22.2555L17.9857 26.3644L28.4707 13.7253" stroke="white" stroke-width="3.25851" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </div>
-        <div class="icon now"><div class="spinner">
-          <svg viewBox="0 0 37.917 37.917" fill="none">
-            <path opacity="0.3" d="M37.9172 18.9586C37.9172 29.4291 29.4291 37.9172 18.9586 37.9172C8.48805 37.9172 0 29.4291 0 18.9586C0 8.48805 8.48805 0 18.9586 0C29.4291 0 37.9172 8.48805 37.9172 18.9586ZM5.91161 18.9586C5.91161 26.1642 11.7529 32.0056 18.9586 32.0056C26.1642 32.0056 32.0056 26.1642 32.0056 18.9586C32.0056 11.7529 26.1642 5.91161 18.9586 5.91161C11.7529 5.91161 5.91161 11.7529 5.91161 18.9586Z" fill="#006FBA" />
-            <path d="M34.9614 18.9586C36.5938 18.9586 37.9407 17.6274 37.6872 16.0147C37.4551 14.5382 37.0487 13.0908 36.4741 11.7035C35.5213 9.40329 34.1248 7.31331 32.3643 5.55284C30.6039 3.79238 28.5139 2.3959 26.2137 1.44314C24.8264 0.868493 23.379 0.462051 21.9025 0.229954C20.2898 -0.0235313 18.9586 1.32336 18.9586 2.95581C18.9586 4.58825 20.2985 5.87833 21.8892 6.24501C22.5921 6.40702 23.2819 6.62742 23.9515 6.90475C25.5344 7.56043 26.9727 8.52146 28.1842 9.73298C29.3957 10.9445 30.3568 12.3828 31.0124 13.9657C31.2898 14.6353 31.5102 15.3251 31.6722 16.028C32.0389 17.6187 33.3289 18.9586 34.9614 18.9586Z" fill="#006FBA" />
-          </svg>
-        </div></div>
         <span class="status idle wait">Waiting</span>
-        <span class="status busy now">Confirming</span>
+        <span class="status busy">Confirming…</span>
+        <span class="status ok done">Confirmed</span>
       </div>
 
       <div class="step s4">
         <span class="label">CCV</span>
         <span class="halo"></span>
-        <div class="icon wait">
+        <div class="icon wait"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
+        <div class="icon busy">
+          <div class="spinner">
+            <svg viewBox="0 0 37.917 37.917" fill="none">
+              <path opacity="0.3" d="M37.9172 18.9586C37.9172 29.4291 29.4291 37.9172 18.9586 37.9172C8.48805 37.9172 0 29.4291 0 18.9586C0 8.48805 8.48805 0 18.9586 0C29.4291 0 37.9172 8.48805 37.9172 18.9586ZM5.91161 18.9586C5.91161 26.1642 11.7529 32.0056 18.9586 32.0056C26.1642 32.0056 32.0056 26.1642 32.0056 18.9586C32.0056 11.7529 26.1642 5.91161 18.9586 5.91161C11.7529 5.91161 5.91161 11.7529 5.91161 18.9586Z" fill="#006FBA" />
+              <path d="M34.9614 18.9586C36.5938 18.9586 37.9407 17.6274 37.6872 16.0147C37.4551 14.5382 37.0487 13.0908 36.4741 11.7035C35.5213 9.40329 34.1248 7.31331 32.3643 5.55284C30.6039 3.79238 28.5139 2.3959 26.2137 1.44314C24.8264 0.868493 23.379 0.462051 21.9025 0.229954C20.2898 -0.0235313 18.9586 1.32336 18.9586 2.95581C18.9586 4.58825 20.2985 5.87833 21.8892 6.24501C22.5921 6.40702 23.2819 6.62742 23.9515 6.90475C25.5344 7.56043 26.9727 8.52146 28.1842 9.73298C29.3957 10.9445 30.3568 12.3828 31.0124 13.9657C31.2898 14.6353 31.5102 15.3251 31.6722 16.028C32.0389 17.6187 33.3289 18.9586 34.9614 18.9586Z" fill="#006FBA" />
+            </svg>
+          </div>
+        </div>
+        <div class="icon done">
           <svg viewBox="1.0863 1.0863 37.917 37.917" fill="none">
-            <circle cx="20.0445" cy="20.0448" r="18.9586" fill="#E4ECED" stroke="#E4ECED" stroke-width="2.17234" />
-            <circle cx="11.1037" cy="20.5835" r="2.90842" fill="#A1BCC9" />
-            <circle cx="20.5832" cy="20.5835" r="2.90842" fill="#A1BCC9" />
-            <circle cx="30.0622" cy="20.5835" r="2.90842" fill="#A1BCC9" />
+            <circle cx="20.0445" cy="20.0448" r="18.9586" fill="#07AA4D" stroke="#07AA4D" stroke-width="2.17234" />
+            <path d="M11.6187 22.2555L17.9857 26.3644L28.4707 13.7253" stroke="white" stroke-width="3.25851" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </div>
-        <span class="status idle">Waiting</span>
+        <span class="status idle wait">Waiting</span>
+        <span class="status busy">Confirming…</span>
+        <span class="status ok done">Confirmed</span>
       </div>
 
       <div class="step s5">
         <span class="label">Processing Payment</span>
         <span class="halo"></span>
-        <div class="icon wait">
+        <div class="icon wait"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
+        <div class="icon busy">
+          <div class="spinner">
+            <svg viewBox="0 0 37.917 37.917" fill="none">
+              <path opacity="0.3" d="M37.9172 18.9586C37.9172 29.4291 29.4291 37.9172 18.9586 37.9172C8.48805 37.9172 0 29.4291 0 18.9586C0 8.48805 8.48805 0 18.9586 0C29.4291 0 37.9172 8.48805 37.9172 18.9586ZM5.91161 18.9586C5.91161 26.1642 11.7529 32.0056 18.9586 32.0056C26.1642 32.0056 32.0056 26.1642 32.0056 18.9586C32.0056 11.7529 26.1642 5.91161 18.9586 5.91161C11.7529 5.91161 5.91161 11.7529 5.91161 18.9586Z" fill="#006FBA" />
+              <path d="M34.9614 18.9586C36.5938 18.9586 37.9407 17.6274 37.6872 16.0147C37.4551 14.5382 37.0487 13.0908 36.4741 11.7035C35.5213 9.40329 34.1248 7.31331 32.3643 5.55284C30.6039 3.79238 28.5139 2.3959 26.2137 1.44314C24.8264 0.868493 23.379 0.462051 21.9025 0.229954C20.2898 -0.0235313 18.9586 1.32336 18.9586 2.95581C18.9586 4.58825 20.2985 5.87833 21.8892 6.24501C22.5921 6.40702 23.2819 6.62742 23.9515 6.90475C25.5344 7.56043 26.9727 8.52146 28.1842 9.73298C29.3957 10.9445 30.3568 12.3828 31.0124 13.9657C31.2898 14.6353 31.5102 15.3251 31.6722 16.028C32.0389 17.6187 33.3289 18.9586 34.9614 18.9586Z" fill="#006FBA" />
+            </svg>
+          </div>
+        </div>
+        <div class="icon done">
           <svg viewBox="1.0863 1.0863 37.917 37.917" fill="none">
-            <circle cx="20.0445" cy="20.0448" r="18.9586" fill="#E4ECED" stroke="#E4ECED" stroke-width="2.17234" />
-            <circle cx="11.1037" cy="20.5835" r="2.90842" fill="#A1BCC9" />
-            <circle cx="20.5832" cy="20.5835" r="2.90842" fill="#A1BCC9" />
-            <circle cx="30.0622" cy="20.5835" r="2.90842" fill="#A1BCC9" />
+            <circle cx="20.0445" cy="20.0448" r="18.9586" fill="#07AA4D" stroke="#07AA4D" stroke-width="2.17234" />
+            <path d="M11.6187 22.2555L17.9857 26.3644L28.4707 13.7253" stroke="white" stroke-width="3.25851" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </div>
-        <span class="status idle">Waiting</span>
+        <span class="status idle wait">Waiting</span>
+        <span class="status busy">Processing…</span>
+        <span class="status ok done">Complete</span>
       </div>
     </div>
 
@@ -119,6 +146,16 @@
       <div class="glass"></div>
       <div class="screen">
         <img src="https://res.cloudinary.com/dxat7whi/image/upload/v1791139319/payments-phone-screen.jpg" alt="" width="494" height="1084" />
+        <div class="confirmed">
+          <div class="big-check">
+            <svg viewBox="1.0863 1.0863 37.917 37.917" fill="none">
+              <circle cx="20.0445" cy="20.0448" r="18.9586" fill="#07AA4D" stroke="#07AA4D" stroke-width="2.17234" />
+              <path d="M11.6187 22.2555L17.9857 26.3644L28.4707 13.7253" stroke="white" stroke-width="3.25851" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <span class="title">Payment confirmed</span>
+          <span class="sub">Card ending in 3129</span>
+        </div>
       </div>
       <div class="progress"><span class="bar"></span></div>
       <span class="clock">9:40</span>

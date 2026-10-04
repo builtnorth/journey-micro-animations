@@ -1,23 +1,24 @@
 /*
- * Featured image: payments. An agent's call window and the customer's phone
- * fade in together, then the call steps resolve top to bottom as the
- * customer pays: Connected ticks, the line runs down, Credit Card Number is
- * confirmed and Expiration Date starts confirming, while the phone's
- * progress bar fills to step 2 of 4. Then it holds. The one loop is the
- * "Confirming" spinner (live state; runs with the block's Loop on).
+ * Featured image: payments. An agent's call window beside the customer's
+ * phone. The call steps run through in order: each waits (bouncing dots),
+ * works (spinner) and confirms (green tick), the line runs down to the next
+ * and the phone's progress bar steps forward. When the payment completes,
+ * the phone shows "Payment confirmed" and it holds. No entrance animation
+ * and no loops: it all plays in one pass, with the block's Loop on or off.
  *
- * Pure CSS. The build is one 10s pass whose first and last frames are the
- * finished graphic, so play-once and reduced motion end on it; the -0.45s
+ * Pure CSS. The pass is one --cycle whose first and last frames are the
+ * finished graphic, so play-once and reduced motion end on it; the --start
  * delay skips its reset.
  *
  * Laid out on the Figma frame's 1216 × 1132 grid (set the block's design
  * width to 1216); --u is one grid pixel, so the graphic scales as a whole.
  * Icons are the Figma exports; the avatar and the phone screen are images
- * hosted on Cloudinary.
+ * hosted on Cloudinary. The "Payment confirmed" screen isn't in Figma: it is
+ * drawn here in the app's style.
  */
 .fip {
-  --cycle: 10s;
-  --start: -0.45s;
+  --cycle: 12s;
+  --start: -0.5s;
   --u: calc(100cqw / 1216);
   --ink: #254e70;
   container-type: inline-size;
@@ -84,7 +85,12 @@
 
 /* Steps: rows 113.75 apart; each row's parts are placed from its label. */
 .track { left: calc(431.31 * var(--u)); top: calc(472.59 * var(--u)); width: calc(4.74 * var(--u)); height: calc(445.53 * var(--u)); background: #e4eced; }
-.track.fill { height: calc(210.914 * var(--u)); background: #07aa4d; transform-origin: top; }
+/* Green segments from each step's icon to the next (under the halos). */
+.seg { left: calc(431.31 * var(--u)); width: calc(4.74 * var(--u)); height: calc(113.75 * var(--u)); background: #07aa4d; transform-origin: top; }
+.g1 { top: calc(460.75 * var(--u)); }
+.g2 { top: calc(574.5 * var(--u)); }
+.g3 { top: calc(688.25 * var(--u)); }
+.g4 { top: calc(802 * var(--u)); }
 .step { left: calc(42.66 * var(--u)); width: calc(573.5 * var(--u)); height: calc(34 * var(--u)); }
 .s1 { top: calc(443.75 * var(--u)); }
 .s2 { top: calc(557.5 * var(--u)); }
@@ -100,6 +106,12 @@
 .halo { left: calc(364.45 * var(--u)); top: calc(-9.07 * var(--u)); width: calc(52.14 * var(--u)); height: calc(52.14 * var(--u)); border-radius: 50%; background: #fff; }
 .icon { left: calc(372.06 * var(--u)); top: calc(-1.96 * var(--u)); width: calc(37.917 * var(--u)); height: calc(37.917 * var(--u)); }
 .spinner { width: 100%; height: 100%; }
+/* Waiting: Figma's grey disc with three dots, as boxes so the dots can move. */
+.icon.wait { border-radius: 50%; background: #e4eced; box-shadow: 0 0 0 calc(1.086 * var(--u)) #e4eced; }
+.dot { position: absolute; top: calc(16.59 * var(--u)); width: calc(5.817 * var(--u)); height: calc(5.817 * var(--u)); border-radius: 50%; background: #a1bcc9; font-size: var(--u); }
+.d1 { left: calc(7.11 * var(--u)); }
+.d2 { left: calc(16.59 * var(--u)); }
+.d3 { left: calc(26.07 * var(--u)); }
 
 /* ---- Phone ---- */
 .phone::before {
@@ -125,8 +137,19 @@
   background: #5e665e;
 }
 .screen img { position: absolute; left: calc(3.14 * var(--u)); top: 0; width: calc(494 * var(--u)); height: calc(1084.42 * var(--u)); max-width: none; }
+/* "Payment confirmed": covers the app below its header, in the app's style. */
+.confirmed {
+  position: absolute; left: calc(3.14 * var(--u)); top: calc(226.15 * var(--u));
+  width: calc(494 * var(--u)); height: calc(858.27 * var(--u));
+  background: #fff; color: #000; text-align: center;
+}
+.big-check { position: absolute; left: calc(191 * var(--u)); top: calc(170 * var(--u)); width: calc(112 * var(--u)); height: calc(112 * var(--u)); }
+.big-check svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.title, .sub { position: absolute; left: 0; right: 0; white-space: nowrap; }
+.title { top: calc(322 * var(--u)); font-size: calc(37.68 * var(--u)); line-height: calc(52.745 * var(--u)); font-weight: 600; }
+.sub { top: calc(388 * var(--u)); font-size: calc(21.96 * var(--u)); line-height: calc(32.94 * var(--u)); color: #4b5563; }
 .progress { left: calc(717.825 * var(--u)); top: calc(243.76 * var(--u)); width: calc(452.23 * var(--u)); height: calc(5.515 * var(--u)); border-radius: calc(16 * var(--u)); background: #d1d5db; overflow: hidden; }
-.bar { display: block; width: 39.63%; height: 100%; border-radius: calc(16 * var(--u)); background: #10b981; transform-origin: left; }
+.bar { display: block; width: 100%; height: 100%; border-radius: calc(16 * var(--u)); background: #10b981; transform-origin: left; }
 .clock { right: calc(440.58 * var(--u)); top: calc(48.46 * var(--u)); font-size: calc(20.075 * var(--u)); line-height: calc(24.03 * var(--u)); letter-spacing: 0.05em; color: #fff; }
 .status-icons { left: calc(1055.08 * var(--u)); top: calc(50.84 * var(--u)); width: calc(95.354 * var(--u)); height: calc(16.239 * var(--u)); }
 .island { left: calc(861.36 * var(--u)); top: calc(36.6 * var(--u)); width: calc(158.732 * var(--u)); height: calc(47.471 * var(--u)); border-radius: calc(89 * var(--u)); background: #111; box-shadow: 0 calc(-1.48 * var(--u)) 0 rgba(224, 216, 255, 0.25); }
@@ -152,68 +175,389 @@
 }
 
 /*
- * Timeline (one 10s pass). 0–4%: the finished graphic fades and resets.
- * Window and phone fade in together 4.5–12%. Connected 13–16%, the green
- * line runs down 16–24%, Confirmed 24–27%, Confirming 30–33%; the phone's
- * progress bar fills 14–27%. Hold to 100%. Each step swaps its "Waiting"
- * icon and text for the new state; the spinner turns from then on.
+ * Timeline (one 12s pass, no loops). 0–4%: the finished graphic resets to
+ * the start: every step Waiting, its dots bouncing. Each step then works for
+ * 0.9s (spinner, blue "…ing") and ticks green, the green line runs down to the
+ * next, and the phone's progress bar steps forward: rows start at
+ * 0.9s, 2.2s, 3.5s, 4.8s, 6.1s. The phone shows "Payment confirmed" at
+ * 7.5s and it holds to the end.
  */
-.window, .phone { animation: fade-in var(--cycle) ease-out var(--start) both; }
-.s1 .now  { animation: now-1 var(--cycle) ease-out var(--start) both; }
-.s1 .wait { animation: wait-1 var(--cycle) ease-out var(--start) both; }
-.s2 .now  { animation: now-2 var(--cycle) ease-out var(--start) both; }
-.s2 .wait { animation: wait-2 var(--cycle) ease-out var(--start) both; }
-.s3 .now  { animation: now-3 var(--cycle) ease-out var(--start) both; }
-.s3 .wait { animation: wait-3 var(--cycle) ease-out var(--start) both; }
-.track.fill { animation: line-down var(--cycle) ease-in-out var(--start) both; }
-.bar        { animation: progress var(--cycle) ease-in-out var(--start) both; }
-.spinner    { animation: spin 1s linear infinite; }
+.s1 .wait { animation: wait-1 var(--cycle) linear var(--start) both; }
+.s1 .busy { animation: busy-1 var(--cycle) linear var(--start) both; }
+.s1 .done { animation: done-1 var(--cycle) ease-out var(--start) both; }
+.s1 .spinner { animation: spin-1 var(--cycle) linear var(--start) both; }
+.s2 .wait { animation: wait-2 var(--cycle) linear var(--start) both; }
+.s2 .busy { animation: busy-2 var(--cycle) linear var(--start) both; }
+.s2 .done { animation: done-2 var(--cycle) ease-out var(--start) both; }
+.s2 .spinner { animation: spin-2 var(--cycle) linear var(--start) both; }
+.s2 .d1 { animation: dot-2-1 var(--cycle) ease-in-out var(--start) both; }
+.s2 .d2 { animation: dot-2-2 var(--cycle) ease-in-out var(--start) both; }
+.s2 .d3 { animation: dot-2-3 var(--cycle) ease-in-out var(--start) both; }
+.s3 .wait { animation: wait-3 var(--cycle) linear var(--start) both; }
+.s3 .busy { animation: busy-3 var(--cycle) linear var(--start) both; }
+.s3 .done { animation: done-3 var(--cycle) ease-out var(--start) both; }
+.s3 .spinner { animation: spin-3 var(--cycle) linear var(--start) both; }
+.s3 .d1 { animation: dot-3-1 var(--cycle) ease-in-out var(--start) both; }
+.s3 .d2 { animation: dot-3-2 var(--cycle) ease-in-out var(--start) both; }
+.s3 .d3 { animation: dot-3-3 var(--cycle) ease-in-out var(--start) both; }
+.s4 .wait { animation: wait-4 var(--cycle) linear var(--start) both; }
+.s4 .busy { animation: busy-4 var(--cycle) linear var(--start) both; }
+.s4 .done { animation: done-4 var(--cycle) ease-out var(--start) both; }
+.s4 .spinner { animation: spin-4 var(--cycle) linear var(--start) both; }
+.s4 .d1 { animation: dot-4-1 var(--cycle) ease-in-out var(--start) both; }
+.s4 .d2 { animation: dot-4-2 var(--cycle) ease-in-out var(--start) both; }
+.s4 .d3 { animation: dot-4-3 var(--cycle) ease-in-out var(--start) both; }
+.s5 .wait { animation: wait-5 var(--cycle) linear var(--start) both; }
+.s5 .busy { animation: busy-5 var(--cycle) linear var(--start) both; }
+.s5 .done { animation: done-5 var(--cycle) ease-out var(--start) both; }
+.s5 .spinner { animation: spin-5 var(--cycle) linear var(--start) both; }
+.s5 .d1 { animation: dot-5-1 var(--cycle) ease-in-out var(--start) both; }
+.s5 .d2 { animation: dot-5-2 var(--cycle) ease-in-out var(--start) both; }
+.s5 .d3 { animation: dot-5-3 var(--cycle) ease-in-out var(--start) both; }
+.seg.g1 { animation: seg-1 var(--cycle) ease-in-out var(--start) both; }
+.seg.g2 { animation: seg-2 var(--cycle) ease-in-out var(--start) both; }
+.seg.g3 { animation: seg-3 var(--cycle) ease-in-out var(--start) both; }
+.seg.g4 { animation: seg-4 var(--cycle) ease-in-out var(--start) both; }
+.bar { animation: progress var(--cycle) ease-in-out var(--start) both; }
+.confirmed { animation: confirmed var(--cycle) ease-out var(--start) both; }
+.big-check { animation: big-check var(--cycle) ease-out var(--start) both; }
 
-@keyframes fade-in {
-  0% { opacity: 1; scale: 1; }
-  4%, 4.5% { opacity: 0; scale: 0.97; }
-  12%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes now-1 {
-  0% { opacity: 1; scale: 1; }
-  4%, 13% { opacity: 0; scale: 0.6; }
-  16%, 100% { opacity: 1; scale: 1; }
-}
 @keyframes wait-1 {
   0% { opacity: 0; }
-  4%, 13% { opacity: 1; }
-  15%, 100% { opacity: 0; }
+  4%, 7.5% { opacity: 1; }
+  8.75%, 100% { opacity: 0; }
 }
-@keyframes now-2 {
+@keyframes busy-1 {
+  0%, 4% { opacity: 0; }
+  7.5% { opacity: 0; }
+  8.75%, 15% { opacity: 1; }
+  16.25%, 100% { opacity: 0; }
+}
+@keyframes done-1 {
   0% { opacity: 1; scale: 1; }
-  4%, 24% { opacity: 0; scale: 0.6; }
-  27%, 100% { opacity: 1; scale: 1; }
+  4%, 15% { opacity: 0; scale: 0.6; }
+  17.08%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes spin-1 {
+  0%, 4% { rotate: 0deg; }
+  7.5% { rotate: 0deg; }
+  16.25%, 100% { rotate: 600deg; }
 }
 @keyframes wait-2 {
   0% { opacity: 0; }
-  4%, 24% { opacity: 1; }
-  26%, 100% { opacity: 0; }
+  4%, 18.33% { opacity: 1; }
+  19.58%, 100% { opacity: 0; }
 }
-@keyframes now-3 {
+@keyframes busy-2 {
+  0%, 4% { opacity: 0; }
+  18.33% { opacity: 0; }
+  19.58%, 25.83% { opacity: 1; }
+  27.08%, 100% { opacity: 0; }
+}
+@keyframes done-2 {
   0% { opacity: 1; scale: 1; }
-  4%, 30% { opacity: 0; scale: 0.6; }
-  33%, 100% { opacity: 1; scale: 1; }
+  4%, 25.83% { opacity: 0; scale: 0.6; }
+  27.92%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes spin-2 {
+  0%, 4% { rotate: 0deg; }
+  18.33% { rotate: 0deg; }
+  27.08%, 100% { rotate: 600deg; }
+}
+@keyframes dot-2-1 {
+  0%, 4% { translate: 0 0; }
+  4.58% { translate: 0 0; }
+  6.25% { translate: 0 -3.5em; }
+  7.92% { translate: 0 0; }
+  12.08% { translate: 0 0; }
+  13.75% { translate: 0 -3.5em; }
+  15.42% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+@keyframes dot-2-2 {
+  0%, 4% { translate: 0 0; }
+  5.83% { translate: 0 0; }
+  7.5% { translate: 0 -3.5em; }
+  9.17% { translate: 0 0; }
+  13.33% { translate: 0 0; }
+  15% { translate: 0 -3.5em; }
+  16.67% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+@keyframes dot-2-3 {
+  0%, 4% { translate: 0 0; }
+  7.08% { translate: 0 0; }
+  8.75% { translate: 0 -3.5em; }
+  10.42% { translate: 0 0; }
+  14.58% { translate: 0 0; }
+  16.25% { translate: 0 -3.5em; }
+  17.92% { translate: 0 0; }
+  100% { translate: 0 0; }
 }
 @keyframes wait-3 {
   0% { opacity: 0; }
-  4%, 30% { opacity: 1; }
-  32%, 100% { opacity: 0; }
+  4%, 29.17% { opacity: 1; }
+  30.42%, 100% { opacity: 0; }
 }
-@keyframes line-down {
+@keyframes busy-3 {
+  0%, 4% { opacity: 0; }
+  29.17% { opacity: 0; }
+  30.42%, 36.67% { opacity: 1; }
+  37.92%, 100% { opacity: 0; }
+}
+@keyframes done-3 {
+  0% { opacity: 1; scale: 1; }
+  4%, 36.67% { opacity: 0; scale: 0.6; }
+  38.75%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes spin-3 {
+  0%, 4% { rotate: 0deg; }
+  29.17% { rotate: 0deg; }
+  37.92%, 100% { rotate: 600deg; }
+}
+@keyframes dot-3-1 {
+  0%, 4% { translate: 0 0; }
+  4.58% { translate: 0 0; }
+  6.25% { translate: 0 -3.5em; }
+  7.92% { translate: 0 0; }
+  12.08% { translate: 0 0; }
+  13.75% { translate: 0 -3.5em; }
+  15.42% { translate: 0 0; }
+  19.58% { translate: 0 0; }
+  21.25% { translate: 0 -3.5em; }
+  22.92% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+@keyframes dot-3-2 {
+  0%, 4% { translate: 0 0; }
+  5.83% { translate: 0 0; }
+  7.5% { translate: 0 -3.5em; }
+  9.17% { translate: 0 0; }
+  13.33% { translate: 0 0; }
+  15% { translate: 0 -3.5em; }
+  16.67% { translate: 0 0; }
+  20.83% { translate: 0 0; }
+  22.5% { translate: 0 -3.5em; }
+  24.17% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+@keyframes dot-3-3 {
+  0%, 4% { translate: 0 0; }
+  7.08% { translate: 0 0; }
+  8.75% { translate: 0 -3.5em; }
+  10.42% { translate: 0 0; }
+  14.58% { translate: 0 0; }
+  16.25% { translate: 0 -3.5em; }
+  17.92% { translate: 0 0; }
+  22.08% { translate: 0 0; }
+  23.75% { translate: 0 -3.5em; }
+  25.42% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+@keyframes wait-4 {
+  0% { opacity: 0; }
+  4%, 40% { opacity: 1; }
+  41.25%, 100% { opacity: 0; }
+}
+@keyframes busy-4 {
+  0%, 4% { opacity: 0; }
+  40% { opacity: 0; }
+  41.25%, 47.5% { opacity: 1; }
+  48.75%, 100% { opacity: 0; }
+}
+@keyframes done-4 {
+  0% { opacity: 1; scale: 1; }
+  4%, 47.5% { opacity: 0; scale: 0.6; }
+  49.58%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes spin-4 {
+  0%, 4% { rotate: 0deg; }
+  40% { rotate: 0deg; }
+  48.75%, 100% { rotate: 600deg; }
+}
+@keyframes dot-4-1 {
+  0%, 4% { translate: 0 0; }
+  4.58% { translate: 0 0; }
+  6.25% { translate: 0 -3.5em; }
+  7.92% { translate: 0 0; }
+  12.08% { translate: 0 0; }
+  13.75% { translate: 0 -3.5em; }
+  15.42% { translate: 0 0; }
+  19.58% { translate: 0 0; }
+  21.25% { translate: 0 -3.5em; }
+  22.92% { translate: 0 0; }
+  27.08% { translate: 0 0; }
+  28.75% { translate: 0 -3.5em; }
+  30.42% { translate: 0 0; }
+  34.58% { translate: 0 0; }
+  36.25% { translate: 0 -3.5em; }
+  37.92% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+@keyframes dot-4-2 {
+  0%, 4% { translate: 0 0; }
+  5.83% { translate: 0 0; }
+  7.5% { translate: 0 -3.5em; }
+  9.17% { translate: 0 0; }
+  13.33% { translate: 0 0; }
+  15% { translate: 0 -3.5em; }
+  16.67% { translate: 0 0; }
+  20.83% { translate: 0 0; }
+  22.5% { translate: 0 -3.5em; }
+  24.17% { translate: 0 0; }
+  28.33% { translate: 0 0; }
+  30% { translate: 0 -3.5em; }
+  31.67% { translate: 0 0; }
+  35.83% { translate: 0 0; }
+  37.5% { translate: 0 -3.5em; }
+  39.17% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+@keyframes dot-4-3 {
+  0%, 4% { translate: 0 0; }
+  7.08% { translate: 0 0; }
+  8.75% { translate: 0 -3.5em; }
+  10.42% { translate: 0 0; }
+  14.58% { translate: 0 0; }
+  16.25% { translate: 0 -3.5em; }
+  17.92% { translate: 0 0; }
+  22.08% { translate: 0 0; }
+  23.75% { translate: 0 -3.5em; }
+  25.42% { translate: 0 0; }
+  29.58% { translate: 0 0; }
+  31.25% { translate: 0 -3.5em; }
+  32.92% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+@keyframes wait-5 {
+  0% { opacity: 0; }
+  4%, 50.83% { opacity: 1; }
+  52.08%, 100% { opacity: 0; }
+}
+@keyframes busy-5 {
+  0%, 4% { opacity: 0; }
+  50.83% { opacity: 0; }
+  52.08%, 58.33% { opacity: 1; }
+  59.58%, 100% { opacity: 0; }
+}
+@keyframes done-5 {
+  0% { opacity: 1; scale: 1; }
+  4%, 58.33% { opacity: 0; scale: 0.6; }
+  60.42%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes spin-5 {
+  0%, 4% { rotate: 0deg; }
+  50.83% { rotate: 0deg; }
+  59.58%, 100% { rotate: 600deg; }
+}
+@keyframes dot-5-1 {
+  0%, 4% { translate: 0 0; }
+  4.58% { translate: 0 0; }
+  6.25% { translate: 0 -3.5em; }
+  7.92% { translate: 0 0; }
+  12.08% { translate: 0 0; }
+  13.75% { translate: 0 -3.5em; }
+  15.42% { translate: 0 0; }
+  19.58% { translate: 0 0; }
+  21.25% { translate: 0 -3.5em; }
+  22.92% { translate: 0 0; }
+  27.08% { translate: 0 0; }
+  28.75% { translate: 0 -3.5em; }
+  30.42% { translate: 0 0; }
+  34.58% { translate: 0 0; }
+  36.25% { translate: 0 -3.5em; }
+  37.92% { translate: 0 0; }
+  42.08% { translate: 0 0; }
+  43.75% { translate: 0 -3.5em; }
+  45.42% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+@keyframes dot-5-2 {
+  0%, 4% { translate: 0 0; }
+  5.83% { translate: 0 0; }
+  7.5% { translate: 0 -3.5em; }
+  9.17% { translate: 0 0; }
+  13.33% { translate: 0 0; }
+  15% { translate: 0 -3.5em; }
+  16.67% { translate: 0 0; }
+  20.83% { translate: 0 0; }
+  22.5% { translate: 0 -3.5em; }
+  24.17% { translate: 0 0; }
+  28.33% { translate: 0 0; }
+  30% { translate: 0 -3.5em; }
+  31.67% { translate: 0 0; }
+  35.83% { translate: 0 0; }
+  37.5% { translate: 0 -3.5em; }
+  39.17% { translate: 0 0; }
+  43.33% { translate: 0 0; }
+  45% { translate: 0 -3.5em; }
+  46.67% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+@keyframes dot-5-3 {
+  0%, 4% { translate: 0 0; }
+  7.08% { translate: 0 0; }
+  8.75% { translate: 0 -3.5em; }
+  10.42% { translate: 0 0; }
+  14.58% { translate: 0 0; }
+  16.25% { translate: 0 -3.5em; }
+  17.92% { translate: 0 0; }
+  22.08% { translate: 0 0; }
+  23.75% { translate: 0 -3.5em; }
+  25.42% { translate: 0 0; }
+  29.58% { translate: 0 0; }
+  31.25% { translate: 0 -3.5em; }
+  32.92% { translate: 0 0; }
+  37.08% { translate: 0 0; }
+  38.75% { translate: 0 -3.5em; }
+  40.42% { translate: 0 0; }
+  44.58% { translate: 0 0; }
+  46.25% { translate: 0 -3.5em; }
+  47.92% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+@keyframes seg-1 {
   0% { scale: 1 1; }
-  4%, 16% { scale: 1 0; }
-  24%, 100% { scale: 1 1; }
+  4%, 17.08% { scale: 1 0; }
+  20%, 100% { scale: 1 1; }
+}
+@keyframes seg-2 {
+  0% { scale: 1 1; }
+  4%, 27.92% { scale: 1 0; }
+  30.83%, 100% { scale: 1 1; }
+}
+@keyframes seg-3 {
+  0% { scale: 1 1; }
+  4%, 38.75% { scale: 1 0; }
+  41.67%, 100% { scale: 1 1; }
+}
+@keyframes seg-4 {
+  0% { scale: 1 1; }
+  4%, 49.58% { scale: 1 0; }
+  52.5%, 100% { scale: 1 1; }
 }
 @keyframes progress {
   0% { scale: 1 1; }
-  4%, 14% { scale: 0 1; }
-  27%, 100% { scale: 1 1; }
+  4% { scale: 0.06 1; }
+  15% { scale: 0.06 1; }
+  18.33% { scale: 0.2 1; }
+  25.83% { scale: 0.2 1; }
+  29.17% { scale: 0.3963 1; }
+  36.67% { scale: 0.3963 1; }
+  40% { scale: 0.6 1; }
+  47.5% { scale: 0.6 1; }
+  50.83% { scale: 0.8 1; }
+  58.33% { scale: 0.8 1; }
+  61.67% { scale: 1.0 1; }
+  100% { scale: 1 1; }
 }
-
-/* Live: the "Confirming" spinner; rests at its first frame. */
-@keyframes spin { to { rotate: 360deg; } }
+@keyframes confirmed {
+  0% { opacity: 1; }
+  4%, 62.5% { opacity: 0; }
+  65.83%, 100% { opacity: 1; }
+}
+@keyframes big-check {
+  0% { opacity: 1; scale: 1; }
+  4%, 64.17% { opacity: 0; scale: 0.5; }
+  67.5%, 100% { opacity: 1; scale: 1; }
+}

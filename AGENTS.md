@@ -27,6 +27,11 @@ The default is the build, then stillness.
   actions.
 - **At most one ambient loop**, and only when it shows something real, such as
   data flowing along a connector. Keep it slow and quiet. Don't add a second one.
+- **When the story is a flow inside a UI** (steps confirming, a screen
+  changing), the UI is simply there from the start, with no entrance; the
+  motion is the flow itself. Run it all the way to its outcome and end
+  on that (e.g. every step confirmed and a "Payment confirmed" screen),
+  with each item waiting (dots), working (spinner) and done (tick) in turn.
 - **Entrances are simple:** opacity plus scale (or a short move), eased
   out, with no overshoot or bounce. The subject and what frames it come in
   together first. Rings and connectors around it then expand from its centre
@@ -50,6 +55,11 @@ The default is the build, then stillness.
   They run on the site only when the block's **Loop** setting is on (which
   also adds the pause button); Loop off plays every animation once. The
   editor preview ignores this, so check loops on the front end.
+- **Put live motion inside the build pass when it belongs to a moment**
+  (dots while a step waits, a spinner while it works): bake it into the
+  cycle's keyframes so it plays in full with the block's Loop off too.
+  Only state that keeps changing after the build (a call timer) needs
+  `infinite`.
 - A looping value has to loop without a visible jump. A timer reel ends on a
   repeat of its first entry and runs on `steps()`.
 - **Only transform whole boxes.** Don't scale, rotate or move shapes
