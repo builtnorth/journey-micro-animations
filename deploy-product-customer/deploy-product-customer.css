@@ -25,7 +25,7 @@
   width: 100%;
   max-width: 786px;
   margin-inline: auto;
-  font-family: var(--wp--preset--font-family--primary, "Kanit"), sans-serif;
+  font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
   color: var(--navy);
   -webkit-font-smoothing: antialiased;
 }
@@ -51,8 +51,10 @@
   box-shadow: inset 0 0 0 calc(2 * var(--u)) #fff, 0 0 calc(16 * var(--u)) var(--shadow);
 }
 .card.dark { flex-direction: column; justify-content: center; gap: calc(16 * var(--u)); background: var(--navy); color: #fff; }
-.card.light { gap: calc(24 * var(--u)); padding: 0 calc(24 * var(--u)) 0 calc(16 * var(--u)); }
+.card.light { width: auto; min-width: calc(var(--w) * var(--u)); gap: calc(24 * var(--u)); padding: 0 calc(24 * var(--u)) 0 calc(16 * var(--u)); }
 .card.light.pass, .card.light.otp { padding: 0 calc(16 * var(--u)) 0 calc(24 * var(--u)); }
+/* Light cards fit their label (the font varies by site), at least the frame's width; right-hand ones grow leftward. */
+.card.pass, .card.otp { left: auto; right: calc((786 - var(--x) - var(--w)) * var(--u)); }
 .label { font-size: calc(24 * var(--u)); font-weight: 400; letter-spacing: 0; line-height: 1.25; white-space: nowrap; }
 .icon { display: block; flex: none; overflow: visible; }
 .esig .icon { filter: drop-shadow(0 0 calc(8.56 * var(--u)) var(--shadow)); }
@@ -95,7 +97,6 @@
   border-radius: calc(48.19 * var(--u));
   background: linear-gradient(138.68deg, #006fba 2.16%, #07aa4d 68.64%);
   color: #fcfcfc;
-  font-family: -apple-system, "SF Pro Display", system-ui, sans-serif;
   letter-spacing: 0.05em;
   line-height: 1.2;
 }
