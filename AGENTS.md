@@ -2,7 +2,10 @@
 
 Each folder is one graphic for the Coded Graphic block (`polaris/coded-graphic`)
 in WordPress: `<name>.html` (markup), `<name>.css` (stylesheet) and any image
-files it uses. Read these rules before adding or changing a graphic.
+files it uses. Read these rules before adding or changing a graphic, and
+use the `micro-animation` skill (`.claude/skills/micro-animation/`) for the
+procedure and the scripts: `lint.py` checks a graphic against the rules
+below and must pass before committing.
 
 ## Motion: keep it intentional
 
@@ -74,6 +77,14 @@ these limits:
 
 - **Markup:** HTML and inline SVG only. No scripts, links (`<a>`), buttons,
   forms, `style` attributes or event handlers.
+- **SVG allowlist** (from `Navas\Utility\Helpers\EscapeSvg`, wp_kses):
+  `svg g path circle rect polygon polyline line ellipse title desc` with
+  presentation attributes only (`d`, `points`, `cx`…, `fill`, `fill-rule`,
+  `stroke`, `stroke-width`, `stroke-linecap/linejoin` (path), `opacity`,
+  `transform`; `viewBox`, `class` on `<svg>`). `class` on inner shapes
+  survives on the site in practice. Not allowed: `pathLength`,
+  `stroke-dasharray`, `fill-opacity`, `stroke-opacity`, `<text>`, `<use>`,
+  filters. Style these with CSS instead; `lint.py` warns on the rest.
 - **No `url()` anywhere:** not in CSS, and not in SVG attributes either.
   That rules out `mask="url(#…)"`, `clip-path="url(#…)"`,
   `filter="url(#…)"`, gradient or pattern fills, `<use href>`, and the
