@@ -116,11 +116,15 @@
   border: calc(4.45 * var(--u)) solid #342e3c; border-radius: calc(89.008 * var(--u));
   background: #111;
 }
+/* The screen clips the app (a plain rectangle) to the phone's rounded glass. */
 .screen {
   left: calc(692.25 * var(--u)); top: calc(23.25 * var(--u));
-  width: calc(499.93 * var(--u)); height: calc(1084.42 * var(--u)); max-width: none;
+  width: calc(499.93 * var(--u)); height: calc(1084.42 * var(--u));
   border-radius: calc(75.657 * var(--u));
+  overflow: hidden;
+  background: #5e665e;
 }
+.screen img { position: absolute; left: calc(3.14 * var(--u)); top: 0; width: calc(494 * var(--u)); height: calc(1084.42 * var(--u)); max-width: none; }
 .progress { left: calc(717.825 * var(--u)); top: calc(243.76 * var(--u)); width: calc(452.23 * var(--u)); height: calc(5.515 * var(--u)); border-radius: calc(16 * var(--u)); background: #d1d5db; overflow: hidden; }
 .bar { display: block; width: 39.63%; height: 100%; border-radius: calc(16 * var(--u)); background: #10b981; transform-origin: left; }
 .clock { right: calc(440.58 * var(--u)); top: calc(48.46 * var(--u)); font-size: calc(20.075 * var(--u)); line-height: calc(24.03 * var(--u)); letter-spacing: 0.05em; color: #fff; }

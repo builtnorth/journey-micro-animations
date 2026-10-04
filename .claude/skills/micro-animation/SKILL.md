@@ -75,7 +75,14 @@ python3 .claude/skills/micro-animation/scripts/prepare_photo.py SOURCE OUT \
   composite them into one rectangle first. Only a cut-out whose outline
   overlaps other layers gets a PNG with bled edges (the default).
 - To export a whole rendered area (an app screen), use `download_assets`
-  with `defaultScale: 2`, then run it through `prepare_photo.py --opaque`.
+  with `defaultScale: 2` on the innermost content frame (the app, not the
+  phone's screen frame), then run it through `prepare_photo.py --opaque`.
+  Figma still bakes a clipping parent's rounded corners into the export
+  (painted near-white): fill those corners with the neighbouring colours
+  so the file is a clean rectangle, and recreate the clip in CSS (a
+  wrapper `<div>` with `border-radius` and `overflow: hidden`). Likewise a
+  source photo that is itself a circle cut-out: bleed its edges into the
+  corners. Open the files and check before sending them.
 - It prints the CSS placement and the `<img width height>`.
 - Send the file to the user (SendUserFile) to upload to Cloudinary. Until
   they reply, use
