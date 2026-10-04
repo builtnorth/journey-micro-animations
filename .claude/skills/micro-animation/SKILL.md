@@ -69,8 +69,13 @@ python3 .claude/skills/micro-animation/scripts/prepare_photo.py SOURCE OUT \
   --fill=<image node x,y,w,h> [--mask="<polygon in frame px>"] [--opaque --bg="#hex"]
 ```
 
-- Opaque JPG (`--opaque`) unless the design needs transparency (a cut-out
-  in front of other layers); then a PNG with bled edges (the default).
+- A plain rectangular JPG (`--opaque`) covering the image's box: no rounded
+  corners, circle crops, rings or shadows baked in; CSS does those. If Figma
+  stacks several images inside one shape (a cut-out on a background photo),
+  composite them into one rectangle first. Only a cut-out whose outline
+  overlaps other layers gets a PNG with bled edges (the default).
+- To export a whole rendered area (an app screen), use `download_assets`
+  with `defaultScale: 2`, then run it through `prepare_photo.py --opaque`.
 - It prints the CSS placement and the `<img width height>`.
 - Send the file to the user (SendUserFile) to upload to Cloudinary. Until
   they reply, use
@@ -84,11 +89,14 @@ python3 .claude/skills/micro-animation/scripts/prepare_photo.py SOURCE OUT \
 S=.claude/skills/micro-animation/scripts
 python3 $S/lint.py <name>                                   # must be 0 errors
 node $S/render.js <name> <scratch>/r --img=<cloudinary src>=<local file>
-curl -sSL -o <scratch>/figma.png "<get_screenshot url>"     # contentsOnly: true
+curl -sSL -o <scratch>/figma.png "<get_screenshot url>"     # contentsOnly: true, 1:1 (see below)
 python3 $S/compare.py diff <scratch>/r/rest.png <scratch>/figma.png --out=<scratch>/r/diff.png
 python3 $S/compare.py strip <scratch>/r
 ```
 
+- Get the Figma render at 1:1: call `get_screenshot` once, then again with
+  `maxDimension` = the `original_width` it reports (shadows can make it
+  wider than the frame; `compare.py` finds the offset).
 - Look at `rest.png`, `diff.png` and `strip.png` (Read them). A mean
   difference around 1–2 is anti-aliasing and resampling; text set in a
   different font from Figma's also shows up, which is expected. Solid

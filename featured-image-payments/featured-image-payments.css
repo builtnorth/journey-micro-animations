@@ -1,0 +1,215 @@
+/*
+ * Featured image: payments. An agent's call window and the customer's phone
+ * fade in together, then the call steps resolve top to bottom as the
+ * customer pays: Connected ticks, the line runs down, Credit Card Number is
+ * confirmed and Expiration Date starts confirming, while the phone's
+ * progress bar fills to step 2 of 4. Then it holds. The one loop is the
+ * "Confirming" spinner (live state; runs with the block's Loop on).
+ *
+ * Pure CSS. The build is one 10s pass whose first and last frames are the
+ * finished graphic, so play-once and reduced motion end on it; the -0.45s
+ * delay skips its reset.
+ *
+ * Laid out on the Figma frame's 1216 × 1132 grid (set the block's design
+ * width to 1216); --u is one grid pixel, so the graphic scales as a whole.
+ * Icons are the Figma exports; the avatar and the phone screen are images
+ * hosted on Cloudinary.
+ */
+.fip {
+  --cycle: 10s;
+  --start: -0.45s;
+  --u: calc(100cqw / 1216);
+  --ink: #254e70;
+  container-type: inline-size;
+  width: 100%;
+  max-width: 1216px;
+  margin-inline: auto;
+  font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+.fip *, .fip *::before, .fip *::after { box-sizing: border-box; }
+
+.stage { position: relative; width: 100%; aspect-ratio: 1216 / 1132; overflow: hidden; }
+
+/* Everything is placed on the frame grid inside two full-frame groups. */
+.window, .phone { position: absolute; inset: 0; }
+.window > *, .phone > *, .step > * { position: absolute; display: block; }
+.icon svg, .lights svg, .status-icons svg, .camera svg, .antenna svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+/* ---- Agent window ---- */
+.window::before {
+  content: "";
+  position: absolute;
+  left: 0; top: calc(138.45 * var(--u));
+  width: calc(708.578 * var(--u)); height: calc(855.507 * var(--u));
+  border-radius: calc(28.438 * var(--u));
+  background: #fff;
+  box-shadow: 0 0 calc(37.917 * var(--u)) rgba(15, 43, 77, 0.1);
+}
+.head, .titlebar {
+  left: 0; top: calc(138.45 * var(--u)); width: calc(708.578 * var(--u));
+  border-style: solid; border-color: #fff;
+  border-radius: calc(28.438 * var(--u)) calc(28.438 * var(--u)) 0 0;
+  opacity: 0.75;
+}
+.head {
+  height: calc(241.722 * var(--u)); border-width: calc(4.74 * var(--u));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 8.333%, rgba(161, 188, 201, 0.2) 100%), #e4eced;
+}
+.titlebar {
+  height: calc(59.246 * var(--u)); border-width: calc(2.37 * var(--u));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 8.333%, rgba(161, 188, 201, 0.3) 100%), #e4eced;
+}
+.divider { left: calc(4.74 * var(--u)); top: calc(196.505 * var(--u)); width: calc(827.069 * var(--u)); height: calc(2.37 * var(--u)); background: #a1bcc9; opacity: 0.25; }
+.lights { left: calc(33.18 * var(--u)); top: calc(164.52 * var(--u)); width: calc(73.465 * var(--u)); height: calc(16.589 * var(--u)); }
+
+.avatar {
+  left: calc(40.29 * var(--u)); top: calc(230.87 * var(--u));
+  width: calc(111.38 * var(--u)); height: calc(111.38 * var(--u)); max-width: none;
+  border: calc(2.37 * var(--u)) solid #fff; border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 calc(14.22 * var(--u)) rgba(0, 0, 0, 0.06);
+}
+.name, .ref, .label, .status, .cancel, .clock { white-space: nowrap; letter-spacing: 0.04em; }
+.name { left: calc(180.11 * var(--u)); top: calc(250.19 * var(--u)); font-size: calc(33.178 * var(--u)); line-height: calc(40 * var(--u)); }
+.ref  { left: calc(180.11 * var(--u)); top: calc(294.93 * var(--u)); font-size: calc(23.698 * var(--u)); line-height: calc(28 * var(--u)); }
+.cancel {
+  right: calc(602.21 * var(--u)); top: calc(263.08 * var(--u));
+  min-width: calc(112.92 * var(--u)); height: calc(46.96 * var(--u));
+  padding: 0 calc(18.959 * var(--u));
+  border: calc(2.37 * var(--u)) solid #e6513f; border-radius: 999px;
+  color: #e6513f; font-size: calc(23.698 * var(--u)); line-height: calc(42.22 * var(--u)); text-align: center;
+}
+
+/* Steps: rows 113.75 apart; each row's parts are placed from its label. */
+.track { left: calc(431.31 * var(--u)); top: calc(472.59 * var(--u)); width: calc(4.74 * var(--u)); height: calc(445.53 * var(--u)); background: #e4eced; }
+.track.fill { height: calc(210.914 * var(--u)); background: #07aa4d; transform-origin: top; }
+.step { left: calc(42.66 * var(--u)); width: calc(573.5 * var(--u)); height: calc(34 * var(--u)); }
+.s1 { top: calc(443.75 * var(--u)); }
+.s2 { top: calc(557.5 * var(--u)); }
+.s3 { top: calc(671.25 * var(--u)); }
+.s4 { top: calc(785 * var(--u)); }
+.s5 { top: calc(898.75 * var(--u)); }
+.label, .status { top: 0; font-size: calc(28.438 * var(--u)); line-height: calc(34 * var(--u)); }
+.label  { left: 0; }
+.status { left: calc(428.94 * var(--u)); }
+.status.ok   { color: #07aa4d; }
+.status.busy { color: #006fba; }
+.status.idle { color: #a1bcc9; }
+.halo { left: calc(364.45 * var(--u)); top: calc(-9.07 * var(--u)); width: calc(52.14 * var(--u)); height: calc(52.14 * var(--u)); border-radius: 50%; background: #fff; }
+.icon { left: calc(372.06 * var(--u)); top: calc(-1.96 * var(--u)); width: calc(37.917 * var(--u)); height: calc(37.917 * var(--u)); }
+.spinner { width: 100%; height: 100%; }
+
+/* ---- Phone ---- */
+.phone::before {
+  content: "";
+  position: absolute;
+  left: calc(668.51 * var(--u)); top: calc(1 * var(--u));
+  width: calc(545.918 * var(--u)); height: calc(1130.406 * var(--u));
+  border-radius: calc(94.942 * var(--u));
+  background: linear-gradient(180deg, rgba(185, 172, 172, 0.5) 0%, rgba(247, 240, 240, 0.5) 18.14%, rgba(247, 240, 240, 0.5) 83.012%, rgba(83, 77, 77, 0.5) 100%), #090808;
+}
+.glass {
+  left: calc(674.45 * var(--u)); top: calc(6.93 * var(--u));
+  width: calc(534.05 * var(--u)); height: calc(1118.538 * var(--u));
+  border: calc(4.45 * var(--u)) solid #342e3c; border-radius: calc(89.008 * var(--u));
+  background: #111;
+}
+.screen {
+  left: calc(692.25 * var(--u)); top: calc(23.25 * var(--u));
+  width: calc(499.93 * var(--u)); height: calc(1084.42 * var(--u)); max-width: none;
+  border-radius: calc(75.657 * var(--u));
+}
+.progress { left: calc(717.825 * var(--u)); top: calc(243.76 * var(--u)); width: calc(452.23 * var(--u)); height: calc(5.515 * var(--u)); border-radius: calc(16 * var(--u)); background: #d1d5db; overflow: hidden; }
+.bar { display: block; width: 39.63%; height: 100%; border-radius: calc(16 * var(--u)); background: #10b981; transform-origin: left; }
+.clock { right: calc(440.58 * var(--u)); top: calc(48.46 * var(--u)); font-size: calc(20.075 * var(--u)); line-height: calc(24.03 * var(--u)); letter-spacing: 0.05em; color: #fff; }
+.status-icons { left: calc(1055.08 * var(--u)); top: calc(50.84 * var(--u)); width: calc(95.354 * var(--u)); height: calc(16.239 * var(--u)); }
+.island { left: calc(861.36 * var(--u)); top: calc(36.6 * var(--u)); width: calc(158.732 * var(--u)); height: calc(47.471 * var(--u)); border-radius: calc(89 * var(--u)); background: #111; box-shadow: 0 calc(-1.48 * var(--u)) 0 rgba(224, 216, 255, 0.25); }
+.island::before { content: ""; position: absolute; left: calc(10.39 * var(--u)); top: calc(10.39 * var(--u)); width: calc(81.591 * var(--u)); height: calc(26.703 * var(--u)); border-radius: calc(89 * var(--u)); background: rgba(34, 34, 34, 0.6); }
+.camera { left: calc(990.43 * var(--u)); top: calc(49.95 * var(--u)); width: calc(20.769 * var(--u)); height: calc(20.769 * var(--u)); }
+.home-bar { left: calc(852.46 * var(--u)); top: calc(1091.35 * var(--u)); width: calc(179.5 * var(--u)); height: calc(7.417 * var(--u)); border-radius: calc(148 * var(--u)); background: #08172f; }
+.antenna { left: calc(668.51 * var(--u)); top: calc(1 * var(--u)); width: calc(545.176 * var(--u)); height: calc(1129.665 * var(--u)); }
+.btn {
+  left: calc(664.06 * var(--u)); width: calc(4.45 * var(--u));
+  border-left: calc(1.483 * var(--u)) solid #9d9494;
+  border-radius: calc(1.483 * var(--u)) 0 0 calc(1.483 * var(--u));
+  background: #918a8c;
+  box-shadow: inset calc(-1.483 * var(--u)) 0 calc(2.967 * var(--u)) rgba(0, 0, 0, 0.5);
+}
+.mute     { top: calc(217.59 * var(--u)); height: calc(43.021 * var(--u)); }
+.vol-up   { top: calc(300.66 * var(--u)); height: calc(84.558 * var(--u)); }
+.vol-down { top: calc(410.44 * var(--u)); height: calc(84.558 * var(--u)); }
+.wake {
+  left: calc(1214.43 * var(--u)); top: calc(360 * var(--u)); height: calc(134.996 * var(--u));
+  border-left: 0; border-right: calc(1.483 * var(--u)) solid #9d9494;
+  border-radius: 0 calc(1.483 * var(--u)) calc(1.483 * var(--u)) 0;
+  box-shadow: inset calc(1.483 * var(--u)) 0 calc(2.967 * var(--u)) rgba(0, 0, 0, 0.5);
+}
+
+/*
+ * Timeline (one 10s pass). 0–4%: the finished graphic fades and resets.
+ * Window and phone fade in together 4.5–12%. Connected 13–16%, the green
+ * line runs down 16–24%, Confirmed 24–27%, Confirming 30–33%; the phone's
+ * progress bar fills 14–27%. Hold to 100%. Each step swaps its "Waiting"
+ * icon and text for the new state; the spinner turns from then on.
+ */
+.window, .phone { animation: fade-in var(--cycle) ease-out var(--start) both; }
+.s1 .now  { animation: now-1 var(--cycle) ease-out var(--start) both; }
+.s1 .wait { animation: wait-1 var(--cycle) ease-out var(--start) both; }
+.s2 .now  { animation: now-2 var(--cycle) ease-out var(--start) both; }
+.s2 .wait { animation: wait-2 var(--cycle) ease-out var(--start) both; }
+.s3 .now  { animation: now-3 var(--cycle) ease-out var(--start) both; }
+.s3 .wait { animation: wait-3 var(--cycle) ease-out var(--start) both; }
+.track.fill { animation: line-down var(--cycle) ease-in-out var(--start) both; }
+.bar        { animation: progress var(--cycle) ease-in-out var(--start) both; }
+.spinner    { animation: spin 1s linear infinite; }
+
+@keyframes fade-in {
+  0% { opacity: 1; scale: 1; }
+  4%, 4.5% { opacity: 0; scale: 0.97; }
+  12%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes now-1 {
+  0% { opacity: 1; scale: 1; }
+  4%, 13% { opacity: 0; scale: 0.6; }
+  16%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes wait-1 {
+  0% { opacity: 0; }
+  4%, 13% { opacity: 1; }
+  15%, 100% { opacity: 0; }
+}
+@keyframes now-2 {
+  0% { opacity: 1; scale: 1; }
+  4%, 24% { opacity: 0; scale: 0.6; }
+  27%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes wait-2 {
+  0% { opacity: 0; }
+  4%, 24% { opacity: 1; }
+  26%, 100% { opacity: 0; }
+}
+@keyframes now-3 {
+  0% { opacity: 1; scale: 1; }
+  4%, 30% { opacity: 0; scale: 0.6; }
+  33%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes wait-3 {
+  0% { opacity: 0; }
+  4%, 30% { opacity: 1; }
+  32%, 100% { opacity: 0; }
+}
+@keyframes line-down {
+  0% { scale: 1 1; }
+  4%, 16% { scale: 1 0; }
+  24%, 100% { scale: 1 1; }
+}
+@keyframes progress {
+  0% { scale: 1 1; }
+  4%, 14% { scale: 0 1; }
+  27%, 100% { scale: 1 1; }
+}
+
+/* Live: the "Confirming" spinner; rests at its first frame. */
+@keyframes spin { to { rotate: 360deg; } }

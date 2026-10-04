@@ -103,14 +103,19 @@ these limits:
   leaves a relative `<file>` that can't load or import.) Never commit the
   image or invent a URL.
   Set `width`/`height` on the `<img>` to the 1x size.
+- **Images are plain rectangles.** Export the photo or screen as a
+  rectangular JPG covering its box (compositing any layers Figma stacks
+  inside it), with nothing baked in: no rounded corners, circle crops,
+  rings, borders or shadows. Do all of that in CSS (`border-radius`,
+  `border`, `box-shadow`, `object-fit: cover`).
 - **Images must be opaque, unless they are cut-outs.** WordPress converts
   imported images to AVIF, which turns transparent edges into a dark, noisy
   fringe. Export photos as JPG (or flatten them onto a solid colour; shapes
   like circles are cut in CSS), and link a JPG. For a PNG already on
   Cloudinary, add `b_white/` (or the background colour) to the URL's
   transformations and change the extension to `.jpg`.
-  When the design needs transparency (a cut-out subject in front of other
-  layers), export a PNG: crop it to the visible area, bake in Figma's mask
+  Only when the design truly needs transparency (a cut-out subject whose
+  outline overlaps other layers, like the get-demo agent), export a PNG: crop it to the visible area, bake in Figma's mask
   shape, and **bleed the edge colours into every transparent pixel** (their
   RGB must not be black), so the AVIF conversion has nothing dark to pull
   into the edges. Pillow and numpy can be pip-installed for this.

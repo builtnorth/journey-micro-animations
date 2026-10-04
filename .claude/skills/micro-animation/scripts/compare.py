@@ -4,9 +4,10 @@
   python3 compare.py diff  <rest.png> <figma.png> [--out=diff.png]
   python3 compare.py strip <outdir> [--out=strip.png]
 
-diff   figma.png is get_screenshot of the same node (contentsOnly: true),
-       downloaded with curl. It may include shadow bleed; the best offset
-       (within 24px) is found automatically. Prints the mean difference and
+diff   figma.png is get_screenshot of the same node (contentsOnly: true) at
+       1:1: call it once, then again with maxDimension = the original_width
+       it reports (shadow bleed makes it wider than the frame). The offset
+       of the frame inside it is found automatically. Prints the mean difference and
        writes a 3x-amplified difference image: anti-aliasing shows as thin
        outlines; anything solid is a real mismatch.
 strip  puts <outdir>/t*.png side by side in time order.
@@ -34,30 +35,24 @@ def load(p, size=None):
 
 def diff(rest, figma, out):
     r = load(rest)
-    f_img = Image.open(figma)
-    # Same scale as the render: the frame width is the render width.
-    fw, fh = f_img.size
-    best = None
-    for pad in range(0, 33, 2):                         # shadow bleed on each side
-        if fw - 2 * pad <= 0:
-            break
-        s = r.shape[1] / (fw - 2 * pad)
-        f = load(figma, (round(fw * s), round(fh * s)))
-        for dy in range(-24, 25, 2):
-            y0 = round(pad * s) + dy
-            if y0 < 0 or y0 + r.shape[0] > f.shape[0]:
-                continue
-            x0 = round(pad * s)
-            d = np.abs(f[y0:y0 + r.shape[0], x0:x0 + r.shape[1]] - r).mean()
-            if best is None or d < best[0]:
-                best = (d, f, x0, y0)
-    if best is None:
-        sys.exit('figma image is smaller than the render; check the node')
-    _, f, x0, y0 = best
-    d = np.abs(f[y0:y0 + r.shape[0], x0:x0 + r.shape[1]] - r).max(axis=2)
+    f = load(figma)
+    rh, rw = r.shape[:2]
+    fh, fw = f.shape[:2]
+    if fw < rw or fh < rh:
+        sys.exit(f'figma image ({fw}x{fh}) is smaller than the render ({rw}x{rh}): request it at '
+                 'maxDimension = its original size (1:1), not the frame width')
+    # The frame may carry shadow bleed on any side: find the offset, coarse then fine.
+    def score(x, y, step=1):
+        return np.abs(f[y:y + rh:step, x:x + rw:step] - r[::step, ::step]).mean()
+    coarse = min(((score(x, y, 4), x, y) for x in range(0, fw - rw + 1, 2) for y in range(0, fh - rh + 1, 2)))
+    _, cx, cy = coarse
+    best = min(((score(x, y), x, y) for x in range(max(0, cx - 2), min(fw - rw, cx + 2) + 1)
+                for y in range(max(0, cy - 2), min(fh - rh, cy + 2) + 1)))
+    _, x0, y0 = best
+    d = np.abs(f[y0:y0 + rh, x0:x0 + rw] - r).max(axis=2)
     Image.fromarray(np.clip(d * 3, 0, 255).astype(np.uint8)).save(out)
-    print(f'mean difference {d.mean():.2f} (0-255; about 1-2 is anti-aliasing and photo resampling), '
-          f'pixels off by >40: {int((d > 40).sum())} -> {out}')
+    print(f'offset in figma image: ({x0}, {y0}); mean difference {d.mean():.2f} (0-255; about 1-2 is '
+          f'anti-aliasing and photo resampling), pixels off by >40: {int((d > 40).sum())} -> {out}')
 
 
 def strip(outdir, out):
