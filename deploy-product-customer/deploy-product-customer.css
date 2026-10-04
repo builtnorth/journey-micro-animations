@@ -2,14 +2,15 @@
  * Deploy product to customer. The customer appears on her call, the dashed
  * connectors draw out from her and the channel cards come in by ring:
  * Payments, then eForms / OTP, IVR/IVA / eSignatures / Passkeys, and last
- * AI / Live Agent. Then it holds, with two live loops: the call timer
- * counts up and the connectors flow out from the customer. Icons, cards and
+ * AI / Live Agent. Then it holds, while the call timer counts up and the
+ * connectors flow out from the customer. Icons, cards and
  * the phone stay still.
  *
- * Pure CSS. The build is one 10s pass whose first and last frames are the
- * finished graphic, so play-once and reduced motion end on it; the -0.45s
- * delay skips its reset. The loops are infinite: they run when the block's
- * Loop setting is on (Loop off plays every animation once).
+ * Pure CSS, one --cycle whose first and last frames are the finished
+ * graphic. Every animation is infinite and the block's Loop setting decides:
+ * on, the whole sequence repeats (the 0–4% reset eases back to the start);
+ * off, it plays once and ends on the finished graphic, as does reduced
+ * motion. The --start delay skips the reset on the first pass.
  *
  * Laid out on the Figma frame's 786 × 598 grid (set the block's design
  * width to 786); --u is one grid pixel, so the graphic scales as a whole.
@@ -121,28 +122,28 @@
  * connector arrives: Payments 17–23%, eForms / OTP 18–24%, IVR/IVA /
  * eSignatures / Passkeys 27–33%, AI / Live Agent 36–42%. Hold 42–100%.
  *
- * The build plays once. Only the live parts loop (turn on the block's Loop
- * setting, which also adds the pause button): the call timer counts up a
- * second at a time from 2:47, and the connectors flow out from the customer.
+ * Alongside the build, on their own clocks: the call timer counts up a
+ * second at a time from 2:47 (a 60s reel), and the connectors flow out from
+ * the customer.
  */
 .reel { animation: tick 60s steps(60) infinite; }
-.lines { animation: lines var(--cycle) ease var(--start) both; }
-.lines .r1.up { animation: draw-1-up var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
-.lines .r2.left { animation: draw-2-left var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
-.lines .r2.right { animation: draw-2-right var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
-.lines .r3.up { animation: draw-3-up var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
-.lines .r3.sw { animation: draw-3-sw var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
-.lines .r3.se { animation: draw-3-se var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
-.lines .r4.sw { animation: draw-4-sw var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
-.lines .r4.se { animation: draw-4-se var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
+.lines { animation: lines var(--cycle) ease var(--start) infinite both; }
+.lines .r1.up { animation: draw-1-up var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r2.left { animation: draw-2-left var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r2.right { animation: draw-2-right var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r3.up { animation: draw-3-up var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r3.sw { animation: draw-3-sw var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r3.se { animation: draw-3-se var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r4.sw { animation: draw-4-sw var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.lines .r4.se { animation: draw-4-se var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
 
-.avatar { animation: avatar var(--cycle) ease-out var(--start) both; }
+.avatar { animation: avatar var(--cycle) ease-out var(--start) infinite both; }
 
-.pay            { animation: in-1 var(--cycle) ease-out var(--start) both; }
-.eforms, .otp   { animation: in-2 var(--cycle) ease-out var(--start) both; }
+.pay            { animation: in-1 var(--cycle) ease-out var(--start) infinite both; }
+.eforms, .otp   { animation: in-2 var(--cycle) ease-out var(--start) infinite both; }
 .ivr, .esig,
-.pass           { animation: in-3 var(--cycle) ease-out var(--start) both; }
-.ai, .live      { animation: in-4 var(--cycle) ease-out var(--start) both; }
+.pass           { animation: in-3 var(--cycle) ease-out var(--start) infinite both; }
+.ai, .live      { animation: in-4 var(--cycle) ease-out var(--start) infinite both; }
 
 @keyframes lines {
   0% { opacity: 1; }

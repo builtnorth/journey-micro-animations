@@ -3,12 +3,14 @@
  * phone. The call steps run through in order: each waits (bouncing dots),
  * works (spinner) and confirms (green tick), the line runs down to the next
  * and the phone's progress bar steps forward. When the payment completes,
- * the step list gives way to "Payment confirmed" and it holds. No entrance animation
- * and no loops: it all plays in one pass, with the block's Loop on or off.
+ * the step list gives way to "Payment confirmed" and it holds. No entrance
+ * animation: the window and phone are there from the start.
  *
- * Pure CSS. The pass is one --cycle whose first and last frames are the
- * finished graphic, so play-once and reduced motion end on it; the --start
- * delay skips its reset.
+ * Pure CSS, one --cycle whose first and last frames are the finished
+ * graphic. Every animation is infinite and the block's Loop setting decides:
+ * on, the whole sequence repeats (the 0–4% reset eases back to the start);
+ * off, it plays once and ends on the finished graphic, as does reduced
+ * motion. The --start delay skips the reset on the first pass.
  *
  * Laid out on the Figma frame's 1216 × 1132 grid (set the block's design
  * width to 1216); --u is one grid pixel, so the graphic scales as a whole.
@@ -176,55 +178,55 @@
 }
 
 /*
- * Timeline (one 12s pass, no loops). 0–4%: the finished graphic resets to
+ * Timeline (one 12s cycle). 0–4%: the finished graphic resets to
  * the start: every step Waiting, its dots bouncing. Each step then works for
  * 0.9s (spinner, blue "…ing") and ticks green, the green line runs down to the
  * next, and the phone's progress bar steps forward: rows start at
  * 0.9s, 2.2s, 3.5s, 4.8s, 6.1s. The window shows "Payment confirmed" at
  * 7.5s and it holds to the end.
  */
-.s1 .wait { animation: wait-1 var(--cycle) linear var(--start) both; }
-.s1 .busy { animation: busy-1 var(--cycle) linear var(--start) both; }
-.s1 .done { animation: done-1 var(--cycle) ease-out var(--start) both; }
-.s1 .spinner { animation: spin-1 var(--cycle) linear var(--start) both; }
-.s2 .wait { animation: wait-2 var(--cycle) linear var(--start) both; }
-.s2 .busy { animation: busy-2 var(--cycle) linear var(--start) both; }
-.s2 .done { animation: done-2 var(--cycle) ease-out var(--start) both; }
-.s2 .spinner { animation: spin-2 var(--cycle) linear var(--start) both; }
-.s2 .d1 { animation: dot-2-1 var(--cycle) ease-in-out var(--start) both; }
-.s2 .d2 { animation: dot-2-2 var(--cycle) ease-in-out var(--start) both; }
-.s2 .d3 { animation: dot-2-3 var(--cycle) ease-in-out var(--start) both; }
-.s3 .wait { animation: wait-3 var(--cycle) linear var(--start) both; }
-.s3 .busy { animation: busy-3 var(--cycle) linear var(--start) both; }
-.s3 .done { animation: done-3 var(--cycle) ease-out var(--start) both; }
-.s3 .spinner { animation: spin-3 var(--cycle) linear var(--start) both; }
-.s3 .d1 { animation: dot-3-1 var(--cycle) ease-in-out var(--start) both; }
-.s3 .d2 { animation: dot-3-2 var(--cycle) ease-in-out var(--start) both; }
-.s3 .d3 { animation: dot-3-3 var(--cycle) ease-in-out var(--start) both; }
-.s4 .wait { animation: wait-4 var(--cycle) linear var(--start) both; }
-.s4 .busy { animation: busy-4 var(--cycle) linear var(--start) both; }
-.s4 .done { animation: done-4 var(--cycle) ease-out var(--start) both; }
-.s4 .spinner { animation: spin-4 var(--cycle) linear var(--start) both; }
-.s4 .d1 { animation: dot-4-1 var(--cycle) ease-in-out var(--start) both; }
-.s4 .d2 { animation: dot-4-2 var(--cycle) ease-in-out var(--start) both; }
-.s4 .d3 { animation: dot-4-3 var(--cycle) ease-in-out var(--start) both; }
-.s5 .wait { animation: wait-5 var(--cycle) linear var(--start) both; }
-.s5 .busy { animation: busy-5 var(--cycle) linear var(--start) both; }
-.s5 .done { animation: done-5 var(--cycle) ease-out var(--start) both; }
-.s5 .spinner { animation: spin-5 var(--cycle) linear var(--start) both; }
-.s5 .d1 { animation: dot-5-1 var(--cycle) ease-in-out var(--start) both; }
-.s5 .d2 { animation: dot-5-2 var(--cycle) ease-in-out var(--start) both; }
-.s5 .d3 { animation: dot-5-3 var(--cycle) ease-in-out var(--start) both; }
-.seg.g1 { animation: seg-1 var(--cycle) ease-in-out var(--start) both; }
-.seg.g2 { animation: seg-2 var(--cycle) ease-in-out var(--start) both; }
-.seg.g3 { animation: seg-3 var(--cycle) ease-in-out var(--start) both; }
-.seg.g4 { animation: seg-4 var(--cycle) ease-in-out var(--start) both; }
-.bar { animation: progress var(--cycle) ease-in-out var(--start) both; }
-.confirmed { animation: confirmed var(--cycle) ease-out var(--start) both; }
-.big-check { animation: big-check var(--cycle) ease-out var(--start) both; }
+.s1 .wait { animation: wait-1 var(--cycle) linear var(--start) infinite both; }
+.s1 .busy { animation: busy-1 var(--cycle) linear var(--start) infinite both; }
+.s1 .done { animation: done-1 var(--cycle) ease-out var(--start) infinite both; }
+.s1 .spinner { animation: spin-1 var(--cycle) linear var(--start) infinite both; }
+.s2 .wait { animation: wait-2 var(--cycle) linear var(--start) infinite both; }
+.s2 .busy { animation: busy-2 var(--cycle) linear var(--start) infinite both; }
+.s2 .done { animation: done-2 var(--cycle) ease-out var(--start) infinite both; }
+.s2 .spinner { animation: spin-2 var(--cycle) linear var(--start) infinite both; }
+.s2 .d1 { animation: dot-2-1 var(--cycle) ease-in-out var(--start) infinite both; }
+.s2 .d2 { animation: dot-2-2 var(--cycle) ease-in-out var(--start) infinite both; }
+.s2 .d3 { animation: dot-2-3 var(--cycle) ease-in-out var(--start) infinite both; }
+.s3 .wait { animation: wait-3 var(--cycle) linear var(--start) infinite both; }
+.s3 .busy { animation: busy-3 var(--cycle) linear var(--start) infinite both; }
+.s3 .done { animation: done-3 var(--cycle) ease-out var(--start) infinite both; }
+.s3 .spinner { animation: spin-3 var(--cycle) linear var(--start) infinite both; }
+.s3 .d1 { animation: dot-3-1 var(--cycle) ease-in-out var(--start) infinite both; }
+.s3 .d2 { animation: dot-3-2 var(--cycle) ease-in-out var(--start) infinite both; }
+.s3 .d3 { animation: dot-3-3 var(--cycle) ease-in-out var(--start) infinite both; }
+.s4 .wait { animation: wait-4 var(--cycle) linear var(--start) infinite both; }
+.s4 .busy { animation: busy-4 var(--cycle) linear var(--start) infinite both; }
+.s4 .done { animation: done-4 var(--cycle) ease-out var(--start) infinite both; }
+.s4 .spinner { animation: spin-4 var(--cycle) linear var(--start) infinite both; }
+.s4 .d1 { animation: dot-4-1 var(--cycle) ease-in-out var(--start) infinite both; }
+.s4 .d2 { animation: dot-4-2 var(--cycle) ease-in-out var(--start) infinite both; }
+.s4 .d3 { animation: dot-4-3 var(--cycle) ease-in-out var(--start) infinite both; }
+.s5 .wait { animation: wait-5 var(--cycle) linear var(--start) infinite both; }
+.s5 .busy { animation: busy-5 var(--cycle) linear var(--start) infinite both; }
+.s5 .done { animation: done-5 var(--cycle) ease-out var(--start) infinite both; }
+.s5 .spinner { animation: spin-5 var(--cycle) linear var(--start) infinite both; }
+.s5 .d1 { animation: dot-5-1 var(--cycle) ease-in-out var(--start) infinite both; }
+.s5 .d2 { animation: dot-5-2 var(--cycle) ease-in-out var(--start) infinite both; }
+.s5 .d3 { animation: dot-5-3 var(--cycle) ease-in-out var(--start) infinite both; }
+.seg.g1 { animation: seg-1 var(--cycle) ease-in-out var(--start) infinite both; }
+.seg.g2 { animation: seg-2 var(--cycle) ease-in-out var(--start) infinite both; }
+.seg.g3 { animation: seg-3 var(--cycle) ease-in-out var(--start) infinite both; }
+.seg.g4 { animation: seg-4 var(--cycle) ease-in-out var(--start) infinite both; }
+.bar { animation: progress var(--cycle) ease-in-out var(--start) infinite both; }
+.confirmed { animation: confirmed var(--cycle) ease-out var(--start) infinite both; }
+.big-check { animation: big-check var(--cycle) ease-out var(--start) infinite both; }
 
 @keyframes wait-1 {
-  0% { opacity: 0; }
+  0%, 2% { opacity: 0; }
   4%, 7.5% { opacity: 1; }
   8.75%, 100% { opacity: 0; }
 }
@@ -236,7 +238,7 @@
 }
 @keyframes done-1 {
   0% { opacity: 1; scale: 1; }
-  4%, 15% { opacity: 0; scale: 0.6; }
+  2%, 15% { opacity: 0; scale: 0.6; }
   17.08%, 100% { opacity: 1; scale: 1; }
 }
 @keyframes spin-1 {
@@ -245,7 +247,7 @@
   16.25%, 100% { rotate: 600deg; }
 }
 @keyframes wait-2 {
-  0% { opacity: 0; }
+  0%, 2% { opacity: 0; }
   4%, 18.33% { opacity: 1; }
   19.58%, 100% { opacity: 0; }
 }
@@ -257,7 +259,7 @@
 }
 @keyframes done-2 {
   0% { opacity: 1; scale: 1; }
-  4%, 25.83% { opacity: 0; scale: 0.6; }
+  2%, 25.83% { opacity: 0; scale: 0.6; }
   27.92%, 100% { opacity: 1; scale: 1; }
 }
 @keyframes spin-2 {
@@ -296,7 +298,7 @@
   100% { translate: 0 0; }
 }
 @keyframes wait-3 {
-  0% { opacity: 0; }
+  0%, 2% { opacity: 0; }
   4%, 29.17% { opacity: 1; }
   30.42%, 100% { opacity: 0; }
 }
@@ -308,7 +310,7 @@
 }
 @keyframes done-3 {
   0% { opacity: 1; scale: 1; }
-  4%, 36.67% { opacity: 0; scale: 0.6; }
+  2%, 36.67% { opacity: 0; scale: 0.6; }
   38.75%, 100% { opacity: 1; scale: 1; }
 }
 @keyframes spin-3 {
@@ -356,7 +358,7 @@
   100% { translate: 0 0; }
 }
 @keyframes wait-4 {
-  0% { opacity: 0; }
+  0%, 2% { opacity: 0; }
   4%, 40% { opacity: 1; }
   41.25%, 100% { opacity: 0; }
 }
@@ -368,7 +370,7 @@
 }
 @keyframes done-4 {
   0% { opacity: 1; scale: 1; }
-  4%, 47.5% { opacity: 0; scale: 0.6; }
+  2%, 47.5% { opacity: 0; scale: 0.6; }
   49.58%, 100% { opacity: 1; scale: 1; }
 }
 @keyframes spin-4 {
@@ -431,7 +433,7 @@
   100% { translate: 0 0; }
 }
 @keyframes wait-5 {
-  0% { opacity: 0; }
+  0%, 2% { opacity: 0; }
   4%, 50.83% { opacity: 1; }
   52.08%, 100% { opacity: 0; }
 }
@@ -443,7 +445,7 @@
 }
 @keyframes done-5 {
   0% { opacity: 1; scale: 1; }
-  4%, 58.33% { opacity: 0; scale: 0.6; }
+  2%, 58.33% { opacity: 0; scale: 0.6; }
   60.42%, 100% { opacity: 1; scale: 1; }
 }
 @keyframes spin-5 {
@@ -554,11 +556,11 @@
 }
 @keyframes confirmed {
   0% { opacity: 1; }
-  4%, 62.5% { opacity: 0; }
+  2%, 62.5% { opacity: 0; }
   65.83%, 100% { opacity: 1; }
 }
 @keyframes big-check {
   0% { opacity: 1; scale: 1; }
-  4%, 64.17% { opacity: 0; scale: 0.5; }
+  2%, 64.17% { opacity: 0; scale: 0.5; }
   67.5%, 100% { opacity: 1; scale: 1; }
 }

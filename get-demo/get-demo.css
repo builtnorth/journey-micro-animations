@@ -1,12 +1,13 @@
 /*
  * Get a demo. The agent and her panel fade in together, the three rings
  * expand out from her one after another, then the badges grow in one by one
- * in a shuffled order. Then it holds. Nothing loops: nothing in the scene is
- * live.
+ * in a shuffled order. Then it holds.
  *
- * Pure CSS. The build is one 10s pass whose first and last frames are the
- * finished graphic, so play-once and reduced motion end on it; the -0.45s
- * delay skips its reset.
+ * Pure CSS, one --cycle whose first and last frames are the finished
+ * graphic. Every animation is infinite and the block's Loop setting decides:
+ * on, the whole sequence repeats (the 0–4% reset eases back to the start);
+ * off, it plays once and ends on the finished graphic, as does reduced
+ * motion. The --start delay skips the reset on the first pass.
  *
  * Laid out on the Figma frame's 1000 × 992 grid (set the block's design
  * width to 1000); --u is one grid pixel, so the graphic scales as a whole.
@@ -69,18 +70,18 @@
  * Payments, Time, eSignatures, Speed, Passkeys, AI, Developers), 24–39.5%.
  * Hold to 100%.
  */
-.panel, .agent { animation: fade-in var(--cycle) ease-out var(--start) both; }
-.ring.r1 { animation: ring-1 var(--cycle) ease-out var(--start) both; }
-.ring.r2 { animation: ring-2 var(--cycle) ease-out var(--start) both; }
-.ring.r3 { animation: ring-3 var(--cycle) ease-out var(--start) both; }
-.badge.check { animation: badge-check var(--cycle) ease-out var(--start) both; }
-.badge.payments { animation: badge-payments var(--cycle) ease-out var(--start) both; }
-.badge.timer { animation: badge-timer var(--cycle) ease-out var(--start) both; }
-.badge.esig { animation: badge-esig var(--cycle) ease-out var(--start) both; }
-.badge.lightning { animation: badge-lightning var(--cycle) ease-out var(--start) both; }
-.badge.passkeys { animation: badge-passkeys var(--cycle) ease-out var(--start) both; }
-.badge.ai { animation: badge-ai var(--cycle) ease-out var(--start) both; }
-.badge.code { animation: badge-code var(--cycle) ease-out var(--start) both; }
+.panel, .agent { animation: fade-in var(--cycle) ease-out var(--start) infinite both; }
+.ring.r1 { animation: ring-1 var(--cycle) ease-out var(--start) infinite both; }
+.ring.r2 { animation: ring-2 var(--cycle) ease-out var(--start) infinite both; }
+.ring.r3 { animation: ring-3 var(--cycle) ease-out var(--start) infinite both; }
+.badge.check { animation: badge-check var(--cycle) ease-out var(--start) infinite both; }
+.badge.payments { animation: badge-payments var(--cycle) ease-out var(--start) infinite both; }
+.badge.timer { animation: badge-timer var(--cycle) ease-out var(--start) infinite both; }
+.badge.esig { animation: badge-esig var(--cycle) ease-out var(--start) infinite both; }
+.badge.lightning { animation: badge-lightning var(--cycle) ease-out var(--start) infinite both; }
+.badge.passkeys { animation: badge-passkeys var(--cycle) ease-out var(--start) infinite both; }
+.badge.ai { animation: badge-ai var(--cycle) ease-out var(--start) infinite both; }
+.badge.code { animation: badge-code var(--cycle) ease-out var(--start) infinite both; }
 
 @keyframes fade-in {
   0% { opacity: 1; }

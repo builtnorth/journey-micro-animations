@@ -54,11 +54,11 @@ layer (e.g. `Graphic / get-demo-graphic` → `get-demo`).
   wrapper `<g>`s, `<defs>`, filters and anything `lint.py` flags.
 - Text: real text, sized in `--u`; containers use `min-width` at the Figma
   width so another font can't overflow them.
-- Keyframes: one `--cycle` (10s is fine) with a `--start: -0.45s` delay;
-  each keyframe set starts and ends on the finished state, with a short
-  reset at 0–4% (copy the pattern from an existing graphic). Literal
-  keyframe names, no `var()` inside keyframes, no `infinite` except live
-  loops.
+- Keyframes: one `--cycle` (10–12s) with a `--start` delay just past the
+  reset (e.g. `-0.5s`); every animation `infinite` (the block's Loop
+  setting decides whether it repeats); each keyframe set starts and ends on
+  the finished state, with a short reset at 0–4% (copy the pattern from an
+  existing graphic). Literal keyframe names, no `var()` inside keyframes.
 
 ## 4. Images (Cloudinary)
 

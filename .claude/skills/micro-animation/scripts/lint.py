@@ -136,8 +136,10 @@ def lint(folder: Path):
         names = [p.strip().split()[0] for a in anims for p in a.split(',')]
         for a in anims:
             for part in a.split(','):
-                if 'infinite' in part:
+                if 'infinite' in part and 'var(--cycle)' not in part:
                     looping.add(part.strip().split()[0])
+                if 'var(--cycle)' in part and 'infinite' not in part:
+                    E(f'{name}.css: `{sel}` runs {part.strip().split()[0]} on the cycle without `infinite`: the block\'s Loop setting can\'t repeat it')
         for n in names:
             if n not in keyframes and not n.startswith('var('):
                 E(f'{name}.css: `{sel}` uses @keyframes {n}, which is not defined')
@@ -151,7 +153,7 @@ def lint(folder: Path):
             if sub_classes & svg_classes and re.search(r'\b(left|top)\s*:\s*calc', body):
                 E(f'{name}.css: `{one.strip()}` positions an <svg> itself (rings drew at full width on the site); put it in a positioned <div>')
     for n in sorted(looping):
-        W(f'{name}.css: @keyframes {n} loops forever: only live state may loop, and it runs only with the block\'s Loop on')
+        W(f'{name}.css: @keyframes {n} runs on its own clock: keep it to live state (it repeats only with the block\'s Loop on)')
 
     return errors, warns
 

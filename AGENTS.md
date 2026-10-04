@@ -46,20 +46,20 @@ The default is the build, then stillness.
 
 ## Timing
 
-- **The build plays once.** One `--cycle` (10s is fine) for the build, with
-  no `infinite`, whose **first and last keyframes are the finished graphic**,
-  so play-once and reduced motion (the block jumps to the end) show it.
-  A `--start` negative delay skips the short reset (0 to 4%) at the start.
-- **Only live loops are `infinite`** (a call timer, a flow along
-  connectors), each on its own short duration, independent of the build.
-  They run on the site only when the block's **Loop** setting is on (which
-  also adds the pause button); Loop off plays every animation once. The
-  editor preview ignores this, so check loops on the front end.
-- **Put live motion inside the build pass when it belongs to a moment**
-  (dots while a step waits, a spinner while it works): bake it into the
-  cycle's keyframes so it plays in full with the block's Loop off too.
-  Only state that keeps changing after the build (a call timer) needs
-  `infinite`.
+- **Every animation is `infinite`; the block's Loop setting decides.**
+  Loop on: the whole sequence repeats (with a pause button). Loop off:
+  every animation plays once and stops. So the build runs on one `--cycle`
+  (10–12s is fine) with `infinite`, whose **first and last keyframes are
+  the finished graphic**: play-once and reduced motion (the block jumps to
+  the end) show it, and on a loop the short 0–4% reset eases from the
+  finished graphic back to the start. A `--start` negative delay (past 4%)
+  skips that reset on the first pass. The editor preview ignores Loop, so
+  check both settings on the front end.
+- **Put live motion inside the cycle when it belongs to a moment** (dots
+  while a step waits, a spinner while it works): bake it into the cycle's
+  keyframes so it plays in full with Loop off too. Only state that runs on
+  its own clock (a call timer, a flow along connectors) gets its own short
+  `infinite` animation.
 - A looping value has to loop without a visible jump. A timer reel ends on a
   repeat of its first entry and runs on `steps()`.
 - **Only transform whole boxes.** Don't scale, rotate or move shapes
