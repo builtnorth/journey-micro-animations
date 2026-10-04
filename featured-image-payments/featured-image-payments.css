@@ -3,7 +3,7 @@
  * phone. The call steps run through in order: each waits (bouncing dots),
  * works (spinner) and confirms (green tick), the line runs down to the next
  * and the phone's progress bar steps forward. When the payment completes,
- * the phone shows "Payment confirmed" and it holds. No entrance animation
+ * the step list gives way to "Payment confirmed" and it holds. No entrance animation
  * and no loops: it all plays in one pass, with the block's Loop on or off.
  *
  * Pure CSS. The pass is one --cycle whose first and last frames are the
@@ -14,7 +14,7 @@
  * width to 1216); --u is one grid pixel, so the graphic scales as a whole.
  * Icons are the Figma exports; the avatar and the phone screen are images
  * hosted on Cloudinary. The "Payment confirmed" screen isn't in Figma: it is
- * drawn here in the app's style.
+ * drawn here in the window's style.
  */
 .fip {
   --cycle: 12s;
@@ -113,6 +113,18 @@
 .d2 { left: calc(16.59 * var(--u)); }
 .d3 { left: calc(26.07 * var(--u)); }
 
+/* "Payment confirmed": replaces the step list once every step is done. */
+.confirmed {
+  left: 0; top: calc(380.17 * var(--u));
+  width: calc(708.578 * var(--u)); height: calc(613.787 * var(--u));
+  border-radius: 0 0 calc(28.438 * var(--u)) calc(28.438 * var(--u));
+  background: #fff;
+}
+.big-check, .title { position: absolute; }
+.big-check { left: calc(298.29 * var(--u)); top: calc(204 * var(--u)); width: calc(112 * var(--u)); height: calc(112 * var(--u)); }
+.big-check svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.title { left: 0; right: 0; top: calc(344 * var(--u)); text-align: center; white-space: nowrap; font-size: calc(37.917 * var(--u)); line-height: calc(46 * var(--u)); letter-spacing: 0.04em; color: #07aa4d; }
+
 /* ---- Phone ---- */
 .phone::before {
   content: "";
@@ -137,17 +149,6 @@
   background: #5e665e;
 }
 .screen img { position: absolute; left: calc(3.14 * var(--u)); top: 0; width: calc(494 * var(--u)); height: calc(1084.42 * var(--u)); max-width: none; }
-/* "Payment confirmed": covers the app below its header, in the app's style. */
-.confirmed {
-  position: absolute; left: calc(3.14 * var(--u)); top: calc(226.15 * var(--u));
-  width: calc(494 * var(--u)); height: calc(858.27 * var(--u));
-  background: #fff; color: #000; text-align: center;
-}
-.big-check { position: absolute; left: calc(191 * var(--u)); top: calc(170 * var(--u)); width: calc(112 * var(--u)); height: calc(112 * var(--u)); }
-.big-check svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.title, .sub { position: absolute; left: 0; right: 0; white-space: nowrap; }
-.title { top: calc(322 * var(--u)); font-size: calc(37.68 * var(--u)); line-height: calc(52.745 * var(--u)); font-weight: 600; }
-.sub { top: calc(388 * var(--u)); font-size: calc(21.96 * var(--u)); line-height: calc(32.94 * var(--u)); color: #4b5563; }
 .progress { left: calc(717.825 * var(--u)); top: calc(243.76 * var(--u)); width: calc(452.23 * var(--u)); height: calc(5.515 * var(--u)); border-radius: calc(16 * var(--u)); background: #d1d5db; overflow: hidden; }
 .bar { display: block; width: 100%; height: 100%; border-radius: calc(16 * var(--u)); background: #10b981; transform-origin: left; }
 .clock { right: calc(440.58 * var(--u)); top: calc(48.46 * var(--u)); font-size: calc(20.075 * var(--u)); line-height: calc(24.03 * var(--u)); letter-spacing: 0.05em; color: #fff; }
@@ -179,7 +180,7 @@
  * the start: every step Waiting, its dots bouncing. Each step then works for
  * 0.9s (spinner, blue "…ing") and ticks green, the green line runs down to the
  * next, and the phone's progress bar steps forward: rows start at
- * 0.9s, 2.2s, 3.5s, 4.8s, 6.1s. The phone shows "Payment confirmed" at
+ * 0.9s, 2.2s, 3.5s, 4.8s, 6.1s. The window shows "Payment confirmed" at
  * 7.5s and it holds to the end.
  */
 .s1 .wait { animation: wait-1 var(--cycle) linear var(--start) both; }
