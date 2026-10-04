@@ -10,11 +10,11 @@ Each animation has its own folder:
 Images are not kept here: they are hosted on Cloudinary and linked by URL,
 and WordPress imports them into the media library.
 
-Every animation runs on one `--cycle` whose first and last frames are the finished
-graphic, so it loops without a jump and play-once / reduced motion end on it.
+Every animation builds once on one `--cycle` whose first and last frames are the
+finished graphic, so play-once and reduced motion end on it; only live parts loop.
 See [AGENTS.md](AGENTS.md) for the motion rules and what the block allows.
 
 | Folder | Description |
 | --- | --- |
 | `deploy-product-customer/` | Customer on a call, connected to AI, IVR/IVA, Live Agent, Payments, eSignatures, Passkeys, eForms and OTP (design width 786) |
-| `get-demo/` | Agent with headset inside three rings of product badges (design width 1000; photo: `get-demo-agent.png`, awaiting its Cloudinary link) |
+| `get-demo/` | Agent with headset inside three rings of product badges (design width 1000) |
