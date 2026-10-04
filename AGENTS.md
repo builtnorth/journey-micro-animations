@@ -24,9 +24,13 @@ The default is the build, then stillness.
   actions.
 - **At most one ambient loop**, and only when it shows something real, such as
   data flowing along a connector. Keep it slow and quiet. Don't add a second one.
-- **Entrances are simple:** opacity plus at most a small scale (0.94 to 1) or
-  a short move, eased out, with no overshoot or bounce. Stagger by group in
-  story order, not one item at a time.
+- **Entrances are simple:** opacity plus scale (or a short move), eased
+  out, with no overshoot or bounce. The subject and what frames it come in
+  together first. Rings and connectors around it then expand from its centre
+  (scale about 0.6 to 1) or draw out from it, one after another. Small
+  repeated items (badges, icon circles) grow in last (scale about 0.5 to 1),
+  one at a time in a shuffled order, about 150ms apart. Bigger elements
+  stagger by group, not one at a time.
 - **Connectors match the frame.** Draw lines and rings whole, as Figma has
   them (full dashed arcs running behind the cards), not cut into pieces
   between cards.
