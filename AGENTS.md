@@ -72,9 +72,12 @@ these limits:
   you (`https://res.cloudinary.com/dxat7whi/image/upload/…`); WordPress
   imports it into the media library. When a graphic needs an image: export
   it from Figma (photos at 2x, PNG or JPG), send the file to the user to
-  upload, and use the link they send back. Until then, use a clear
-  placeholder such as `src="CLOUDINARY_URL:<file name>"` and
-  say the graphic is waiting on it. Never commit the image or invent a URL.
+  upload, and use the link they send back. Until then, use
+  `src="https://res.cloudinary.com/dxat7whi/image/upload/PENDING/<file name>"`
+  and say the graphic is waiting on it. (Not a made-up scheme like
+  `CLOUDINARY_URL:<file>`: WordPress strips unknown schemes and silently
+  leaves a relative `<file>` that can't load or import.) Never commit the
+  image or invent a URL.
   Set `width`/`height` on the `<img>` to the 1x size.
 - **Images must be opaque, unless they are cut-outs.** WordPress converts
   imported images to AVIF, which turns transparent edges into a dark, noisy
