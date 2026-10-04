@@ -106,7 +106,10 @@
 .status-icons { width: calc(60.73 * var(--u)); height: calc(10.33 * var(--u)); }
 .call { position: absolute; top: calc(102 * var(--u)); left: 0; right: calc(10 * var(--u)); display: flex; flex-direction: column; align-items: center; gap: calc(12.3 * var(--u)); }
 .number { font-size: calc(30.19 * var(--u)); }
-.timer { font-size: calc(15.09 * var(--u)); }
+.timer { font-size: calc(15.09 * var(--u)); font-variant-numeric: tabular-nums; }
+/* Seconds reel: 47 (the finished frame) first, then 38–46. */
+.secs { display: inline-block; height: 1.2em; overflow: hidden; vertical-align: top; }
+.reel, .reel span { display: block; }
 
 /* Customer. */
 .avatar { position: absolute; left: calc(356 * var(--u)); top: calc(351 * var(--u)); width: calc(110 * var(--u)); height: calc(110 * var(--u)); border-radius: 50%; object-fit: cover; background: #e9e9ec; box-shadow: 0 0 0 calc(1.9 * var(--u)) #fff, 0 0 calc(15.17 * var(--u)) var(--shadow); }
@@ -117,7 +120,10 @@
  * 13–18%, middle ring (and on up to IVR/IVA) 22–27%, outer ring 31–36%. Each card fades in once its
  * connector arrives: Payments 17–23%, eForms / OTP 18–24%, IVR/IVA /
  * eSignatures / Passkeys 27–33%, AI / Live Agent 36–42%. Hold 42–100%.
+ * The call timer runs throughout: 2:38 when the build starts, one second
+ * per 10% of the cycle (a real second), to 2:47 at 94.5%, held to the end.
  */
+.reel { animation: tick var(--cycle) step-end var(--start) infinite both; }
 .lines { animation: lines var(--cycle) ease var(--start) infinite both; }
 .lines .r1.up { animation: draw-1-up var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
 .lines .r2.left { animation: draw-2-left var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
@@ -205,6 +211,20 @@
   0% { opacity: 1; scale: 1; }
   4%, 36% { opacity: 0; scale: 0.94; }
   42%, 100% { opacity: 1; scale: 1; }
+}
+
+@keyframes tick {
+  0% { translate: 0 0; }
+  4.5% { translate: 0 -1.2em; }
+  14.5% { translate: 0 -2.4em; }
+  24.5% { translate: 0 -3.6em; }
+  34.5% { translate: 0 -4.8em; }
+  44.5% { translate: 0 -6.0em; }
+  54.5% { translate: 0 -7.2em; }
+  64.5% { translate: 0 -8.4em; }
+  74.5% { translate: 0 -9.6em; }
+  84.5% { translate: 0 -10.8em; }
+  94.5%, 100% { translate: 0 0; }
 }
 
 /* Ambient: data flowing out along the connectors; rests at its first frame. */

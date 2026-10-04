@@ -18,6 +18,10 @@ The default is the build, then stillness.
   wobbling cards, no ripples, glows, shimmer or idle "life" on photos,
   devices or backgrounds. Icons, cards, photos and devices stay still once
   they are in.
+- **Animate what is live in the scene.** State that really changes in the
+  moment moves as it would in real life: a call timer counts up a second at
+  a time, a progress value climbs. This is not the same as giving icons
+  actions.
 - **At most one ambient loop**, and only when it shows something real, such as
   data flowing along a connector. Keep it slow and quiet. Don't add a second one.
 - **Entrances are simple:** opacity plus at most a small scale (0.94 to 1) or
@@ -59,9 +63,13 @@ these limits:
   `<defs>` they point to. Use CSS instead: `clip-path: inset()` for reveals,
   `filter: drop-shadow()` for shadows, CSS gradients on HTML elements.
 - **No `id` attributes.** Figma exports add them; strip them.
-- **No `data:` URIs.** Images are files in the graphic's folder, referenced
-  by file name (`<img src="customer.jpg">`); the block imports them into the
-  media library. Export photos at 2x, with `width`/`height` set to the 1x size.
+- **No `data:` URIs.** Images are files committed to the graphic's folder,
+  and the `<img src>` is the file's full raw GitHub URL, so WordPress can
+  fetch and import it into the media library:
+  `https://raw.githubusercontent.com/builtnorth/journey-micro-animations/<default branch>/<folder>/<file>`.
+  Use the default branch (currently `claude/confident-goodall-excjjt`), push
+  the file before using the graphic, and update the links if that branch
+  changes. Export photos at 2x, with `width`/`height` set to the 1x size.
 - **CSS** is scoped to the block automatically. Theme preset variables
   (`var(--wp--preset--…)`) are fine.
 - **Fonts:** set them once on the graphic's root with
