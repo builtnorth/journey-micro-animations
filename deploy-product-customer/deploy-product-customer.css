@@ -2,13 +2,14 @@
  * Deploy product to customer. The customer appears on her call, the dashed
  * connectors draw out from her and the channel cards come in by ring:
  * Payments, then eForms / OTP, IVR/IVA / eSignatures / Passkeys, and last
- * AI / Live Agent. Then it holds. The only motion after the build is a slow
- * flow along the connectors, out from the customer. Icons, cards and the
- * phone stay still.
+ * AI / Live Agent. Then it holds, with two live loops: the call timer
+ * counts up and the connectors flow out from the customer. Icons, cards and
+ * the phone stay still.
  *
- * Pure CSS, one 10s cycle whose first and last frames are the finished
- * graphic, so it loops without a jump and play-once / reduced motion end on
- * it. The -0.45s delay starts the first pass after the reset.
+ * Pure CSS. The build is one 10s pass whose first and last frames are the
+ * finished graphic, so play-once and reduced motion end on it; the -0.45s
+ * delay skips its reset. The loops are infinite: they run when the block's
+ * Loop setting is on (Loop off plays every animation once).
  *
  * Laid out on the Figma frame's 786 × 598 grid (set the block's design
  * width to 786); --u is one grid pixel, so the graphic scales as a whole.
@@ -106,9 +107,8 @@
 .status-icons { width: calc(60.73 * var(--u)); height: calc(10.33 * var(--u)); }
 .call { position: absolute; top: calc(102 * var(--u)); left: 0; right: calc(10 * var(--u)); display: flex; flex-direction: column; align-items: center; gap: calc(12.3 * var(--u)); }
 .number { font-size: calc(30.19 * var(--u)); }
-.timer { font-size: calc(15.09 * var(--u)); font-variant-numeric: tabular-nums; }
-/* Seconds reel: 47 (the finished frame) first, then 38–46. */
-.secs { display: inline-block; height: 1.2em; overflow: hidden; vertical-align: top; }
+.timer { height: 1.2em; overflow: hidden; font-size: calc(15.09 * var(--u)); font-variant-numeric: tabular-nums; }
+/* Call timer reel: 2:47 to 3:46 a second at a time, then 2:47 again. */
 .reel, .reel span { display: block; }
 
 /* Customer. */
@@ -120,27 +120,29 @@
  * 13–18%, middle ring (and on up to IVR/IVA) 22–27%, outer ring 31–36%. Each card fades in once its
  * connector arrives: Payments 17–23%, eForms / OTP 18–24%, IVR/IVA /
  * eSignatures / Passkeys 27–33%, AI / Live Agent 36–42%. Hold 42–100%.
- * The call timer runs throughout: 2:38 when the build starts, one second
- * per 10% of the cycle (a real second), to 2:47 at 94.5%, held to the end.
+ *
+ * The build plays once. Only the live parts loop (turn on the block's Loop
+ * setting, which also adds the pause button): the call timer counts up a
+ * second at a time from 2:47, and the connectors flow out from the customer.
  */
-.reel { animation: tick var(--cycle) step-end var(--start) infinite both; }
-.lines { animation: lines var(--cycle) ease var(--start) infinite both; }
-.lines .r1.up { animation: draw-1-up var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r2.left { animation: draw-2-left var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r2.right { animation: draw-2-right var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r3.up { animation: draw-3-up var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r3.sw { animation: draw-3-sw var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r3.se { animation: draw-3-se var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r4.sw { animation: draw-4-sw var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r4.se { animation: draw-4-se var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.reel { animation: tick 60s steps(60) infinite; }
+.lines { animation: lines var(--cycle) ease var(--start) both; }
+.lines .r1.up { animation: draw-1-up var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
+.lines .r2.left { animation: draw-2-left var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
+.lines .r2.right { animation: draw-2-right var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
+.lines .r3.up { animation: draw-3-up var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
+.lines .r3.sw { animation: draw-3-sw var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
+.lines .r3.se { animation: draw-3-se var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
+.lines .r4.sw { animation: draw-4-sw var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
+.lines .r4.se { animation: draw-4-se var(--cycle) ease-out var(--start) both, flow 1.2s linear infinite; }
 
-.avatar { animation: avatar var(--cycle) ease-out var(--start) infinite both; }
+.avatar { animation: avatar var(--cycle) ease-out var(--start) both; }
 
-.pay            { animation: in-1 var(--cycle) ease-out var(--start) infinite both; }
-.eforms, .otp   { animation: in-2 var(--cycle) ease-out var(--start) infinite both; }
+.pay            { animation: in-1 var(--cycle) ease-out var(--start) both; }
+.eforms, .otp   { animation: in-2 var(--cycle) ease-out var(--start) both; }
 .ivr, .esig,
-.pass           { animation: in-3 var(--cycle) ease-out var(--start) infinite both; }
-.ai, .live      { animation: in-4 var(--cycle) ease-out var(--start) infinite both; }
+.pass           { animation: in-3 var(--cycle) ease-out var(--start) both; }
+.ai, .live      { animation: in-4 var(--cycle) ease-out var(--start) both; }
 
 @keyframes lines {
   0% { opacity: 1; }
@@ -213,19 +215,7 @@
   42%, 100% { opacity: 1; scale: 1; }
 }
 
-@keyframes tick {
-  0% { translate: 0 0; }
-  4.5% { translate: 0 -1.2em; }
-  14.5% { translate: 0 -2.4em; }
-  24.5% { translate: 0 -3.6em; }
-  34.5% { translate: 0 -4.8em; }
-  44.5% { translate: 0 -6.0em; }
-  54.5% { translate: 0 -7.2em; }
-  64.5% { translate: 0 -8.4em; }
-  74.5% { translate: 0 -9.6em; }
-  84.5% { translate: 0 -10.8em; }
-  94.5%, 100% { translate: 0 0; }
-}
+@keyframes tick { to { translate: 0 -72em; } }
 
 /* Ambient: data flowing out along the connectors; rests at its first frame. */
 @keyframes flow { to { stroke-dashoffset: -8; } }

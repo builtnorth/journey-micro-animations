@@ -34,13 +34,17 @@ The default is the build, then stillness.
 
 ## Timing
 
-- One `--cycle` per graphic (10s is fine) whose **first and last keyframes
-  are the finished graphic**, so it loops without a jump, and play-once and
-  reduced motion (the block jumps to the end) show the finished graphic.
-  A `--start` negative delay skips the reset at the start of the first play.
-- The cycle is: a short reset (0 to 4%), the build, then a long hold.
-- Use `infinite` on cycle animations; the block's Loop setting decides
-  whether they repeat (off = every animation plays once).
+- **The build plays once.** One `--cycle` (10s is fine) for the build, with
+  no `infinite`, whose **first and last keyframes are the finished graphic**,
+  so play-once and reduced motion (the block jumps to the end) show it.
+  A `--start` negative delay skips the short reset (0 to 4%) at the start.
+- **Only live loops are `infinite`** (a call timer, a flow along
+  connectors), each on its own short duration, independent of the build.
+  They run on the site only when the block's **Loop** setting is on (which
+  also adds the pause button); Loop off plays every animation once. The
+  editor preview ignores this, so check loops on the front end.
+- A looping value has to loop without a visible jump. A timer reel ends on a
+  repeat of its first entry and runs on `steps()`.
 - **Write keyframe names literally** in `animation` / `animation-name`. The
   block scopes the CSS and renames every `@keyframes`, so a name held in a
   custom property (`animation: var(--draw) …`) never matches and the
