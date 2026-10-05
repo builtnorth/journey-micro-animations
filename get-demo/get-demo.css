@@ -1,21 +1,18 @@
 /*
- * Get a demo. The agent and her panel fade in together, the three rings
- * expand out from her one after another, then the badges grow in one by one
- * in a shuffled order. Then it holds.
+ * Get a demo. Builds once: the agent and her panel fade in together, the
+ * three rings grow out from her centre one after another, fading in as they
+ * grow, then the badges grow in one by one in a shuffled order.
  *
- * Pure CSS, one --cycle whose first and last frames are the finished
- * graphic. Every animation is infinite and the block's Loop setting decides:
- * on, the whole sequence repeats (the 0–4% reset eases back to the start);
- * off, it plays once and ends on the finished graphic, as does reduced
- * motion. The --start delay skips the reset on the first pass.
+ * Then, with the block's Loop on, each ring's badges slowly orbit her,
+ * the rings turning in alternate directions, and each badge turns back
+ * against its ring so its icon stays upright. With Loop off the build plays
+ * and the badges make one slow turn.
  *
  * Laid out on the Figma frame's 1000 × 992 grid (set the block's design
  * width to 1000); --u is one grid pixel, so the graphic scales as a whole.
  * Icons are the Figma exports; the photo is a cut-out PNG hosted on Cloudinary.
  */
 .gdm {
-  --cycle: 10s;
-  --start: -0.45s;
   --u: calc(100cqw / 1000);
   container-type: inline-size;
   width: 100%;
@@ -47,7 +44,13 @@
   object-fit: fill;
 }
 
-.badge { position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); width: calc(var(--s) * var(--u)); height: calc(var(--s) * var(--u)); }
+/* Each ring's badges sit in an orbit box the size of the ring, centred on
+   it, so turning the box carries them round the ring. */
+.orbit { position: absolute; left: calc(var(--ox) * var(--u)); top: calc(var(--oy) * var(--u)); width: calc(var(--os) * var(--u)); height: calc(var(--os) * var(--u)); }
+.o1 { --ox: 276.759; --oy: 307.111; --os: 396.204; }
+.o2 { --ox: 167.411; --oy: 196.873; --os: 615.197; }
+.o3 { --ox: 70.514;  --oy: 94.642;  --os: 805.446; }
+.badge { position: absolute; left: calc((var(--x) - var(--ox)) * var(--u)); top: calc((var(--y) - var(--oy)) * var(--u)); width: calc(var(--s) * var(--u)); height: calc(var(--s) * var(--u)); }
 .badge { transform-origin: center; }
 .ring svg, .badge svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .badge.blue { --s: 85.345; }
@@ -63,83 +66,50 @@
 .check     { --x: 542.278; --y: 836.074; }
 
 /*
- * Timeline (one 10s pass). 0–4%: the finished graphic fades and resets.
- * Panel and agent fade in together 4.5–12%. The rings expand from her
- * centre, staggered: inner 12–20%, middle 15–23%, outer 18–26%. The badges
- * then grow in one at a time, 1.5% apart in a shuffled order (Done,
- * Payments, Time, eSignatures, Speed, Passkeys, AI, Developers), 24–39.5%.
- * Hold to 100%.
+ * Build (once): panel and agent 0–0.7s. Rings grow from the centre (scale
+ * 0.15 to 1, fading in over the first 40%), 1.4s each with a soft ease out:
+ * inner 0.4s, middle 0.65s, outer 0.9s. Badges grow in one at a time,
+ * 150ms apart in a shuffled order (Done, Payments, Time, eSignatures,
+ * Speed, Passkeys, AI, Developers), from 1.6s.
+ *
+ * Orbit (from 2.8s, with Loop on): inner ring 70s a turn clockwise, middle
+ * 90s anticlockwise, outer 120s clockwise; each badge counter-turns at its
+ * ring's speed.
  */
-.panel, .agent { animation: fade-in var(--cycle) ease-out var(--start) infinite both; }
-.ring.r1 { animation: ring-1 var(--cycle) ease-out var(--start) infinite both; }
-.ring.r2 { animation: ring-2 var(--cycle) ease-out var(--start) infinite both; }
-.ring.r3 { animation: ring-3 var(--cycle) ease-out var(--start) infinite both; }
-.badge.check { animation: badge-check var(--cycle) ease-out var(--start) infinite both; }
-.badge.payments { animation: badge-payments var(--cycle) ease-out var(--start) infinite both; }
-.badge.timer { animation: badge-timer var(--cycle) ease-out var(--start) infinite both; }
-.badge.esig { animation: badge-esig var(--cycle) ease-out var(--start) infinite both; }
-.badge.lightning { animation: badge-lightning var(--cycle) ease-out var(--start) infinite both; }
-.badge.passkeys { animation: badge-passkeys var(--cycle) ease-out var(--start) infinite both; }
-.badge.ai { animation: badge-ai var(--cycle) ease-out var(--start) infinite both; }
-.badge.code { animation: badge-code var(--cycle) ease-out var(--start) infinite both; }
+.panel, .agent { animation: fade-in 0.7s ease-out 0s 1 both; }
+.ring.r1 { animation: ring 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s 1 both; }
+.ring.r2 { animation: ring 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.65s 1 both; }
+.ring.r3 { animation: ring 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.9s 1 both; }
+.o1 { animation: turn-cw 70s linear 2.8s infinite; }
+.o2 { animation: turn-ccw 90s linear 2.8s infinite; }
+.o3 { animation: turn-cw 120s linear 2.8s infinite; }
+.badge.check     { animation: badge 0.5s ease-out 1.6s 1 both, turn-ccw 120s linear 2.8s infinite; }
+.badge.payments  { animation: badge 0.5s ease-out 1.75s 1 both, turn-ccw 120s linear 2.8s infinite; }
+.badge.timer     { animation: badge 0.5s ease-out 1.9s 1 both, turn-cw 90s linear 2.8s infinite; }
+.badge.esig      { animation: badge 0.5s ease-out 2.05s 1 both, turn-ccw 120s linear 2.8s infinite; }
+.badge.lightning { animation: badge 0.5s ease-out 2.2s 1 both, turn-ccw 70s linear 2.8s infinite; }
+.badge.passkeys  { animation: badge 0.5s ease-out 2.35s 1 both, turn-ccw 120s linear 2.8s infinite; }
+.badge.ai        { animation: badge 0.5s ease-out 2.5s 1 both, turn-cw 90s linear 2.8s infinite; }
+.badge.code      { animation: badge 0.5s ease-out 2.65s 1 both, turn-ccw 120s linear 2.8s infinite; }
 
 @keyframes fade-in {
-  0% { opacity: 1; }
-  4%, 4.5% { opacity: 0; }
-  12%, 100% { opacity: 1; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-@keyframes ring-1 {
-  0% { opacity: 1; scale: 1; }
-  4%, 12% { opacity: 0; scale: 0.6; }
-  20%, 100% { opacity: 1; scale: 1; }
+@keyframes ring {
+  0% { opacity: 0; scale: 0.15; }
+  40% { opacity: 1; }
+  100% { opacity: 1; scale: 1; }
 }
-@keyframes ring-2 {
-  0% { opacity: 1; scale: 1; }
-  4%, 15% { opacity: 0; scale: 0.6; }
-  23%, 100% { opacity: 1; scale: 1; }
+@keyframes badge {
+  from { opacity: 0; scale: 0.5; }
+  to { opacity: 1; scale: 1; }
 }
-@keyframes ring-3 {
-  0% { opacity: 1; scale: 1; }
-  4%, 18% { opacity: 0; scale: 0.6; }
-  26%, 100% { opacity: 1; scale: 1; }
+@keyframes turn-cw {
+  from { rotate: 0deg; }
+  to { rotate: 360deg; }
 }
-@keyframes badge-check {
-  0% { opacity: 1; scale: 1; }
-  4%, 24% { opacity: 0; scale: 0.5; }
-  29%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes badge-payments {
-  0% { opacity: 1; scale: 1; }
-  4%, 25.5% { opacity: 0; scale: 0.5; }
-  30.5%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes badge-timer {
-  0% { opacity: 1; scale: 1; }
-  4%, 27% { opacity: 0; scale: 0.5; }
-  32%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes badge-esig {
-  0% { opacity: 1; scale: 1; }
-  4%, 28.5% { opacity: 0; scale: 0.5; }
-  33.5%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes badge-lightning {
-  0% { opacity: 1; scale: 1; }
-  4%, 30% { opacity: 0; scale: 0.5; }
-  35%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes badge-passkeys {
-  0% { opacity: 1; scale: 1; }
-  4%, 31.5% { opacity: 0; scale: 0.5; }
-  36.5%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes badge-ai {
-  0% { opacity: 1; scale: 1; }
-  4%, 33% { opacity: 0; scale: 0.5; }
-  38%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes badge-code {
-  0% { opacity: 1; scale: 1; }
-  4%, 34.5% { opacity: 0; scale: 0.5; }
-  39.5%, 100% { opacity: 1; scale: 1; }
+@keyframes turn-ccw {
+  from { rotate: 0deg; }
+  to { rotate: -360deg; }
 }

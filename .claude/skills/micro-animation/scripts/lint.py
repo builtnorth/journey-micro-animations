@@ -36,6 +36,11 @@ HTML_OK = {'div', 'span', 'img', 'p', 'strong', 'em', 'br', 'small'}
 TRANSFORMING = re.compile(r'\b(transform|translate|scale|rotate)\s*:')
 
 
+def split_list(value):
+    """Split a comma list, ignoring commas inside brackets (cubic-bezier(), steps())."""
+    return re.split(r',(?![^()]*\))', value)
+
+
 def lint(folder: Path):
     errors, warns = [], []
     name = folder.name
@@ -134,9 +139,9 @@ def lint(folder: Path):
     for sel, body in rules:
         sel = re.sub(r'/\*.*?\*/', '', sel, flags=re.S).strip()
         anims = re.findall(r'animation\s*:\s*([^;]+)', body)
-        names = [p.strip().split()[0] for a in anims for p in a.split(',')]
+        names = [p.strip().split()[0] for a in anims for p in split_list(a)]
         for a in anims:
-            for part in a.split(','):
+            for part in split_list(a):
                 if 'infinite' in part and 'var(--cycle)' not in part:
                     looping.add(part.strip().split()[0])
                 if 'var(--cycle)' in part and 'infinite' not in part:
