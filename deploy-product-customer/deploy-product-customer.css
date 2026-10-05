@@ -4,7 +4,7 @@
  * Payments, then eForms / OTP, IVR/IVA / eSignatures / Passkeys, and last
  * AI / Live Agent. Then it holds, while the call timer counts up, the
  * connectors flow out from the customer and the bars on the phone's screen
- * breathe very slowly. Icons, cards and the phone stay still.
+ * rise and fall gently, each at its own pace, like a voice. Icons, cards and the phone stay still.
  *
  * The build plays once and stays (its keyframes run on one --build
  * timeline, entered past the reset by the --start delay, so it ends on the
@@ -101,7 +101,33 @@
   letter-spacing: 0.05em;
   line-height: 1.2;
 }
-.wave { position: absolute; top: 0; left: 0; width: 100%; height: auto; aspect-ratio: 462 / 420; color: rgba(0, 0, 0, 0.08); }
+.wave { position: absolute; top: 0; left: 0; width: 100%; aspect-ratio: 462 / 420; color: rgba(0, 0, 0, 0.08); }
+/* The voice bars: each column (a bar, some with a dot above it) is its own
+   box, so it can move; their bottoms run off the screen. */
+.col { position: absolute; width: 2.597%; }
+.col .dot { position: absolute; top: 0; left: 0; width: 100%; aspect-ratio: 1; border-radius: 50%; background: currentColor; }
+.col .bar { position: absolute; top: var(--b, 0%); bottom: 0; left: 0; width: 100%; border-radius: 999px; background: currentColor; }
+.c1 { left: 3.03%; top: 9.524%; height: 90.476%; animation-duration: 1.46s; animation-delay: -1.34s; }
+.c2 { left: 7.792%; top: 16.667%; height: 83.333%; animation-duration: 1.62s; animation-delay: -1.7s; }
+.c3 { left: 12.554%; top: 14.286%; height: 85.714%; animation-duration: 1.57s; animation-delay: -1.66s; }
+.c4 { left: 17.316%; top: 7.619%; height: 92.381%; --b: 7.216%; animation-duration: 0.93s; animation-delay: -0.84s; }
+.c5 { left: 22.078%; top: 7.143%; height: 92.857%; animation-duration: 1.75s; animation-delay: -1.17s; }
+.c6 { left: 26.84%; top: 21.905%; height: 78.095%; --b: 8.537%; animation-duration: 1.71s; animation-delay: -0.2s; }
+.c7 { left: 31.602%; top: 10%; height: 90%; --b: 7.407%; animation-duration: 1.32s; animation-delay: -0.44s; }
+.c8 { left: 36.364%; top: 21.905%; height: 78.095%; --b: 8.537%; animation-duration: 1.39s; animation-delay: -1.03s; }
+.c9 { left: 41.126%; top: 10%; height: 90%; --b: 7.407%; animation-duration: 0.91s; animation-delay: -0.39s; }
+.c10 { left: 45.887%; top: 14.286%; height: 85.714%; animation-duration: 1.15s; animation-delay: -1.65s; }
+.c11 { left: 50.649%; top: 7.143%; height: 92.857%; animation-duration: 1.59s; animation-delay: -0.29s; }
+.c12 { left: 55.411%; top: 10%; height: 90%; --b: 7.407%; animation-duration: 1.62s; animation-delay: -0.25s; }
+.c13 { left: 60.173%; top: 21.905%; height: 78.095%; --b: 8.537%; animation-duration: 1.46s; animation-delay: -0.23s; }
+.c14 { left: 64.935%; top: 14.762%; height: 85.238%; --b: 7.821%; animation-duration: 0.9s; animation-delay: -1.57s; }
+.c15 { left: 69.697%; top: 21.429%; height: 78.571%; animation-duration: 1.09s; animation-delay: -0.39s; }
+.c16 { left: 74.459%; top: 35.714%; height: 64.286%; animation-duration: 1.78s; animation-delay: -1.57s; }
+.c17 { left: 79.221%; top: 14.762%; height: 85.238%; --b: 7.821%; animation-duration: 1.16s; animation-delay: -1.73s; }
+.c18 { left: 83.983%; top: 21.905%; height: 78.095%; --b: 8.537%; animation-duration: 1.39s; animation-delay: -1.22s; }
+.c19 { left: 88.745%; top: 4.762%; height: 95.238%; animation-duration: 1.08s; animation-delay: -1.69s; }
+.c20 { left: 93.506%; top: 7.143%; height: 92.857%; animation-duration: 1.52s; animation-delay: -1.74s; }
+.c21 { left: 97.403%; top: 26.19%; height: 73.81%; animation-duration: 1.7s; animation-delay: -0.54s; }
 .status { position: absolute; top: calc(16 * var(--u)); left: calc(24.3 * var(--u)); right: calc(26.6 * var(--u)); display: flex; align-items: center; justify-content: space-between; }
 .clock { font-size: calc(12.79 * var(--u)); color: #fff; }
 .status-icons { width: calc(60.73 * var(--u)); height: calc(10.33 * var(--u)); }
@@ -123,32 +149,11 @@
  *
  * Alongside the build, on their own clocks: the call timer counts up a
  * second at a time from 2:47 (a 60s reel), the connectors flow out from
- * the customer, and the screen bars fade gently in a slow wave from left to
- * right (each 8s, 0.3s after the one before).
+ * the customer, and each screen bar dips and rises a little (6% of its
+ * height) on its own 0.9–1.8s rhythm, like a voice talking.
  */
 .reel { animation: tick 60s steps(60) infinite; }
-.wave g { animation: breathe 8s ease-in-out infinite; }
-.wave g:nth-child(1) { animation-delay: -6.3s; }
-.wave g:nth-child(2) { animation-delay: -6.0s; }
-.wave g:nth-child(3) { animation-delay: -5.7s; }
-.wave g:nth-child(4) { animation-delay: -5.4s; }
-.wave g:nth-child(5) { animation-delay: -5.1s; }
-.wave g:nth-child(6) { animation-delay: -4.8s; }
-.wave g:nth-child(7) { animation-delay: -4.5s; }
-.wave g:nth-child(8) { animation-delay: -4.2s; }
-.wave g:nth-child(9) { animation-delay: -3.9s; }
-.wave g:nth-child(10) { animation-delay: -3.6s; }
-.wave g:nth-child(11) { animation-delay: -3.3s; }
-.wave g:nth-child(12) { animation-delay: -3.0s; }
-.wave g:nth-child(13) { animation-delay: -2.7s; }
-.wave g:nth-child(14) { animation-delay: -2.4s; }
-.wave g:nth-child(15) { animation-delay: -2.1s; }
-.wave g:nth-child(16) { animation-delay: -1.8s; }
-.wave g:nth-child(17) { animation-delay: -1.5s; }
-.wave g:nth-child(18) { animation-delay: -1.2s; }
-.wave g:nth-child(19) { animation-delay: -0.9s; }
-.wave g:nth-child(20) { animation-delay: -0.6s; }
-.wave g:nth-child(21) { animation-delay: -0.3s; }
+.col { animation-name: talk; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-direction: alternate; }
 .lines { animation: lines var(--build) ease var(--start) 1 both; }
 .lines .r1.up { animation: draw-1-up var(--build) ease-out var(--start) 1 both, flow 1.2s linear infinite; }
 .lines .r2.left { animation: draw-2-left var(--build) ease-out var(--start) 1 both, flow 1.2s linear infinite; }
@@ -238,9 +243,9 @@
   42%, 100% { opacity: 1; scale: 1; }
 }
 
-@keyframes breathe {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+@keyframes talk {
+  from { translate: 0 0; }
+  to { translate: 0 6%; }
 }
 @keyframes tick { to { translate: 0 -72em; } }
 
