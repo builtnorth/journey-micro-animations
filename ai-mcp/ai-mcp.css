@@ -60,10 +60,10 @@
    out and down to the side servers. ---- */
 .spine {
   left: calc(568.72 * var(--u)); top: calc(179.29 * var(--u)); width: calc(3.2 * var(--u)); height: calc(813.73 * var(--u)); font-size: var(--u);
-  background: repeating-linear-gradient(180deg, #07aa4d 0 15.72em, transparent 0 26.2em);
+  background: repeating-linear-gradient(180deg, #07aa4d 0 6em, transparent 0 12em);
 }
 .arcs { left: calc(195.255 * var(--u)); top: calc(801.71 * var(--u)); width: calc(749.516 * var(--u)); height: calc(191.31 * var(--u)); }
-.arc { stroke-dasharray: 15.72 10.48; }
+.arc { stroke-dasharray: 6 6; }
 
 /* ---- MCP and the bars behind it (the right group is the left one
    mirrored, so each bar draws out from MCP's side) ---- */
@@ -110,7 +110,7 @@
 /* ---- Journey and the servers ---- */
 .journey {
   left: calc(484.83 * var(--u)); top: calc(713.91 * var(--u)); width: calc(170.916 * var(--u)); height: calc(170.404 * var(--u));
-  border-radius: 50%; background: linear-gradient(180deg, color-mix(in srgb, var(--wp--preset--color--secondary, #07aa4d) 86%, #fff), var(--wp--preset--color--secondary, #07aa4d)); box-shadow: 0 0 calc(26.207 * var(--u)) rgba(0, 0, 0, 0.1);
+  border-radius: 50%; background: linear-gradient(180deg, #2484c6, #006fba); box-shadow: 0 0 calc(26.207 * var(--u)) rgba(0, 0, 0, 0.1);
 }
 .half { top: calc(47.17 * var(--u)); width: calc(36.656 * var(--u)); height: calc(76.059 * var(--u)); }
 .h1 { left: calc(47.17 * var(--u)); }
@@ -141,8 +141,7 @@
  * 3.4s (sides).
  *
  * Flow (with Loop on): the dashes move one pattern length per loop, so it
- * repeats without a jump: green 26.2 down per 1s, grey 10.48 in per 0.4s
- * (the same speed).
+ * repeats without a jump: green 12 down per 1s, grey 10.48 in per 0.4s.
  */
 .bot { animation: pop 0.5s ease-out 0s 1 both; }
 .d-left { animation: spread-left 0.6s ease-out 0.4s 1 both, flow-right 0.4s linear 0s infinite; }
@@ -200,7 +199,7 @@
 }
 @keyframes flow-down {
   from { background-position: 0 0; }
-  to { background-position: 0 26.2em; }
+  to { background-position: 0 12em; }
 }
 @keyframes flow-right {
   from { background-position: 0 0; }
@@ -211,6 +210,6 @@
   to { background-position: -10.48em 0; }
 }
 @keyframes flow-along {
-  from { stroke-dashoffset: 26.2; }
+  from { stroke-dashoffset: 12; }
   to { stroke-dashoffset: 0; }
 }
