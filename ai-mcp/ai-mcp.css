@@ -27,22 +27,22 @@
 
 .stage { position: relative; width: 100%; aspect-ratio: 1140 / 1132; overflow: hidden; }
 .stage > * { position: absolute; display: block; }
-.glyph, .logo, .half, .dots { position: absolute; }
-.glyph svg, .logo svg, .half svg, .dots svg, .arcs svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.glyph, .logo, .half { position: absolute; }
+.glyph svg, .logo svg, .half svg, .arcs svg { display: block; width: 100%; height: 100%; overflow: visible; }
 
 /* ---- Agent and its tools ---- */
 /* The dotted line runs whole behind the tools and the bot, in two halves
    that meet at the bot. Sizes in em, where 1em is one grid pixel, so the
    flow keyframes stay literal. */
 .dotted {
-  top: calc(175.36 * var(--u)); height: calc(3.931 * var(--u)); font-size: var(--u);
+  top: calc(176.03 * var(--u)); height: calc(2.6 * var(--u)); font-size: var(--u);
   background: repeating-linear-gradient(90deg, #c2ced0 0 5.24em, transparent 0 10.48em);
 }
 .d-left  { left: calc(116.62 * var(--u)); width: calc(453.68 * var(--u)); }
 .d-right { left: calc(570.3 * var(--u)); width: calc(453.08 * var(--u)); }
 .tool {
   left: calc(var(--x) * var(--u)); top: calc(113.05 * var(--u)); width: calc(132.482 * var(--u)); height: calc(132.482 * var(--u));
-  border-radius: 50%; background: #fff; box-shadow: 0 0 calc(41 * var(--u)) rgba(0, 0, 0, 0.1);
+  border-radius: 50%; background: linear-gradient(180deg, #fff, #f2f6f8); box-shadow: 0 0 calc(41 * var(--u)) rgba(0, 0, 0, 0.1);
 }
 .tool .glyph { left: calc(var(--gx) * var(--u)); top: calc(var(--gy) * var(--u)); width: calc(var(--gw) * var(--u)); height: calc(var(--gh) * var(--u)); }
 .wallet { --x: 52.41;  --gx: 34.71; --gy: 34.72; --gw: 63.017; --gh: 65.05; }
@@ -51,7 +51,7 @@
 .code   { --x: 955.65; --gx: 32.23; --gy: 34.71; --gw: 69.515; --gh: 61.799; }
 .bot {
   left: calc(453.65 * var(--u)); top: calc(62.67 * var(--u)); width: calc(233.241 * var(--u)); height: calc(233.241 * var(--u));
-  border-radius: 50%; background: var(--wp--preset--color--contrast, #0f2b4d); box-shadow: 0 0 calc(11.358 * var(--u)) rgba(0, 0, 0, 0.06);
+  border-radius: 50%; background: linear-gradient(180deg, color-mix(in srgb, var(--wp--preset--color--contrast, #0f2b4d) 86%, #fff), var(--wp--preset--color--contrast, #0f2b4d)); box-shadow: 0 0 calc(11.358 * var(--u)) rgba(0, 0, 0, 0.06);
 }
 .bot .glyph { left: calc(57.512 * var(--u)); top: calc(57.512 * var(--u)); width: calc(118.218 * var(--u)); height: calc(118.218 * var(--u)); }
 
@@ -59,7 +59,7 @@
    from the bot's centre to the servers, the branches from Journey's centre
    out and down to the side servers. ---- */
 .spine {
-  left: calc(567.7 * var(--u)); top: calc(179.29 * var(--u)); width: calc(5.241 * var(--u)); height: calc(813.73 * var(--u)); font-size: var(--u);
+  left: calc(568.72 * var(--u)); top: calc(179.29 * var(--u)); width: calc(3.2 * var(--u)); height: calc(813.73 * var(--u)); font-size: var(--u);
   background: repeating-linear-gradient(180deg, #07aa4d 0 15.72em, transparent 0 26.2em);
 }
 .arcs { left: calc(195.255 * var(--u)); top: calc(801.71 * var(--u)); width: calc(749.516 * var(--u)); height: calc(191.31 * var(--u)); }
@@ -101,7 +101,7 @@
 .hub {
   left: calc(348.55 * var(--u)); top: calc(440.05 * var(--u)); min-width: calc(444.207 * var(--u)); height: calc(170.345 * var(--u));
   display: flex; align-items: center; justify-content: center; gap: calc(26.207 * var(--u)); padding: 0 calc(78.621 * var(--u));
-  border-radius: 999px; background: var(--wp--preset--color--primary, #006fba);
+  border-radius: 999px; background: linear-gradient(180deg, color-mix(in srgb, var(--wp--preset--color--primary, #006fba) 86%, #fff), var(--wp--preset--color--primary, #006fba));
   color: var(--wp--preset--color--base, #fcfcfc); font-size: calc(73.379 * var(--u)); font-weight: 500; line-height: 1.25; white-space: nowrap;
 }
 .hub .logo { position: relative; flex: none; width: calc(83.862 * var(--u)); height: calc(83.862 * var(--u)); }
@@ -110,7 +110,7 @@
 /* ---- Journey and the servers ---- */
 .journey {
   left: calc(484.83 * var(--u)); top: calc(713.91 * var(--u)); width: calc(170.916 * var(--u)); height: calc(170.404 * var(--u));
-  border-radius: 50%; background: var(--wp--preset--color--secondary, #07aa4d); box-shadow: 0 0 calc(26.207 * var(--u)) rgba(0, 0, 0, 0.1);
+  border-radius: 50%; background: linear-gradient(180deg, color-mix(in srgb, var(--wp--preset--color--secondary, #07aa4d) 86%, #fff), var(--wp--preset--color--secondary, #07aa4d)); box-shadow: 0 0 calc(26.207 * var(--u)) rgba(0, 0, 0, 0.1);
 }
 .half { top: calc(47.17 * var(--u)); width: calc(36.656 * var(--u)); height: calc(76.059 * var(--u)); }
 .h1 { left: calc(47.17 * var(--u)); }
@@ -118,14 +118,18 @@
 .servers { inset: 0; }
 .server {
   position: absolute; left: calc(var(--x) * var(--u)); top: calc(993.02 * var(--u)); width: calc(319.724 * var(--u)); height: calc(77.31 * var(--u));
-  display: flex; align-items: center; justify-content: space-between; padding: 0 calc(20.966 * var(--u));
-  border-radius: calc(15.724 * var(--u)); background: var(--wp--preset--color--neutral-one, #a1bcc9);
+  display: flex; align-items: center; gap: calc(10 * var(--u)); padding: 0 calc(24 * var(--u)) calc(3 * var(--u));
+  border-radius: calc(15.724 * var(--u)); background: linear-gradient(180deg, #fff, #f4f7f9);
+  box-shadow: inset 0 calc(-4 * var(--u)) 0 #e4ebef, 0 calc(2 * var(--u)) calc(4 * var(--u)) rgba(15, 43, 77, 0.05), 0 calc(16 * var(--u)) calc(30 * var(--u)) calc(-8 * var(--u)) rgba(15, 43, 77, 0.18);
 }
 .s1 { --x: 38; }
 .s2 { --x: 410.138; }
 .s3 { --x: 782.276; }
-.dots { position: relative; width: calc(64.207 * var(--u)); height: calc(14.414 * var(--u)); }
-.pill { width: calc(102.207 * var(--u)); height: calc(10.483 * var(--u)); border-radius: 999px; background: rgba(37, 78, 112, 0.75); }
+/* A server's front: status lights, then a vent grille. */
+.led { flex: none; width: calc(12 * var(--u)); height: calc(12 * var(--u)); border-radius: 50%; background: #cfdbe0; }
+.led.on { background: #07aa4d; }
+.grille { display: flex; gap: calc(7 * var(--u)); margin-left: auto; padding: calc(9 * var(--u)) calc(12 * var(--u)); border-radius: calc(8 * var(--u)); background: #eef3f6; }
+.slot { display: block; width: calc(5 * var(--u)); height: calc(26 * var(--u)); border-radius: 999px; background: #cfdbe0; }
 
 /*
  * Build (once): bot 0–0.5s; dotted line 0.4–1s, out from the bot both
