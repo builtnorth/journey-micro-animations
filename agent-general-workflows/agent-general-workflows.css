@@ -12,7 +12,7 @@
  *
  * Laid out on the Figma frame's 1304 × 1132 grid (set the block's design
  * width to 1304); --u is one grid pixel, so the graphic scales as a whole.
- * Icons are the Figma exports; the photos are hosted on Cloudinary.
+ * Icons are the Figma exports; the photo is hosted on Cloudinary.
  */
 .agw {
   --navy: #0e2b4d;
@@ -46,7 +46,7 @@
 
 /* Channel icons: navy circles down the left, outlined icons on the right. */
 .icon { position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); width: calc(var(--s) * var(--u)); height: calc(var(--s) * var(--u)); }
-.icon svg, .glyph svg, .close svg, .spinner svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.icon svg, .glyph svg, .close svg, .key svg, .spinner svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .wallet { --x: 68; --y: 90;      --s: 108.663; }
 .auth   { --x: 68; --y: 249.112; --s: 108.663; }
 .code   { --x: 68; --y: 408.225; --s: 108.663; }
@@ -95,8 +95,7 @@
 .signin > * { position: absolute; }
 .title { left: calc(18 * var(--u)); top: calc(27.688 * var(--u)); font-size: calc(24.92 * var(--u)); font-weight: 600; line-height: calc(29.073 * var(--u)); white-space: nowrap; }
 .close { left: calc(441.638 * var(--u)); top: calc(24.92 * var(--u)); width: calc(34.611 * var(--u)); height: calc(34.611 * var(--u)); }
-.key { left: calc(218.743 * var(--u)); top: calc(76.144 * var(--u)); width: calc(60.133 * var(--u)); height: calc(61.469 * var(--u)); overflow: hidden; border-radius: calc(13.096 * var(--u)); background: #d9d9d9; }
-.key img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+.key { left: calc(218.743 * var(--u)); top: calc(76.144 * var(--u)); width: calc(60.133 * var(--u)); height: calc(61.469 * var(--u)); }
 .ask { left: calc(33.228 * var(--u)); top: calc(155.058 * var(--u)); width: calc(431.947 * var(--u)); font-size: calc(16.613 * var(--u)); line-height: calc(24.92 * var(--u)); text-align: center; }
 .spinner { left: calc(224.28 * var(--u)); top: calc(238.169 * var(--u)); width: calc(48.456 * var(--u)); height: calc(48.456 * var(--u)); }
 .status { left: 0; right: 0; top: calc(290.777 * var(--u)); font-size: calc(16.613 * var(--u)); line-height: calc(29.073 * var(--u)); text-align: center; }
