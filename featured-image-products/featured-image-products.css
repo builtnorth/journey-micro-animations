@@ -1,9 +1,9 @@
 /*
  * Featured image: products. The photo is simply there. The four product
  * cards come in straight away, one after another, top to bottom
- * (Authentication, Documents, Payments, Flexible Workflows), once; then
- * the grey bars on either side draw out from behind the photo one at a
- * time, both sides together.
+ * (Authentication, Documents, Payments, Flexible Workflows), once; as they
+ * arrive, the grey bars on either side start drawing out from behind the
+ * photo one at a time, both sides together.
  *
  * Only the bars loop, and only with the block's Loop on: every 12s they
  * draw back in towards the photo one by one and out again, like data
@@ -94,14 +94,14 @@
  * Cards (once): one after another from 0.15s, 200ms apart, while the photo
  * is barely in view on its own.
  *
- * Bars, last: one at a time, 100ms apart in a shuffled order (--d, 0–2.2s;
- * the same bar on each side shares it, so both sides move together), from
- * 1.3s, all out by about 4.5s. Each runs a 12s loop offset by its --d:
+ * Bars: one at a time, 100ms apart in a shuffled order (--d, 0–2.2s; the
+ * same bar on each side shares it, so both sides move together), from 0.6s
+ * while the cards are still arriving, all out by about 3.8s. Each runs a 12s loop offset by its --d:
  * drawn out 0–40%, drawn back in towards the photo 40–48%, out again
  * 85–93%. The delay starts each bar inside its drawn-in stretch, so the
  * first pass draws them out in turn.
  */
-.bar { animation: bar var(--loop) ease-in-out calc(var(--d) - 8.9s) infinite both; }
+.bar { animation: bar var(--loop) ease-in-out calc(var(--d) - 9.6s) infinite both; }
 .card { animation: card 0.6s ease-out 0.15s 1 both; }
 .docs { animation-delay: 0.35s; }
 .pay  { animation-delay: 0.55s; }
