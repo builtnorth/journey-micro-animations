@@ -24,7 +24,7 @@
 
 .stage { position: relative; width: 100%; aspect-ratio: 1000 / 992.052; overflow: hidden; }
 
-/* Layers, back to front: panel, the two inner rings, the agent, the outer ring, badges. */
+/* Layers, back to front: panel, the three rings, the agent, badges. */
 .back { position: absolute; inset: 0; width: 100%; height: 100%; }
 
 /* Each ring is its own element, built like a badge (a positioned div around
