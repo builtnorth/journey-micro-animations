@@ -1,0 +1,178 @@
+/*
+ * AI / MCP. Builds once, top to bottom, following the flow: the agent bot
+ * comes in, the dotted line runs out from it to its tools (the inner pair,
+ * then the outer pair), the connector draws down to MCP, the bars draw out
+ * from behind MCP, the connector runs on to the Journey node, and it
+ * branches out to the three servers (the middle one first). Then it holds.
+ *
+ * Only the bars loop, and only with the block's Loop on: every 9s they
+ * draw back in towards MCP one by one and out again, like data passing
+ * through it. With Loop off (and reduced motion) they draw out once and
+ * stay. The build plays once either way.
+ *
+ * Laid out on the Figma frame's 1140 × 1132 grid (set the block's design
+ * width to 1140); --u is one grid pixel, so the graphic scales as a whole.
+ * Icons, bars and connectors are the Figma exports.
+ */
+.mcp {
+  --loop: 9s;
+  --u: calc(100cqw / 1140);
+  container-type: inline-size;
+  width: 100%;
+  max-width: 1140px;
+  margin-inline: auto;
+  font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
+}
+.mcp *, .mcp *::before, .mcp *::after { box-sizing: border-box; }
+.mcp p { margin: 0; }
+
+.stage { position: relative; width: 100%; aspect-ratio: 1140 / 1132; overflow: hidden; }
+.stage > * { position: absolute; display: block; }
+.glyph, .logo, .half, .dots { position: absolute; }
+.glyph svg, .logo svg, .half svg, .dots svg, .arcs svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+/* ---- Agent and its tools ---- */
+.dotted {
+  left: calc(116.62 * var(--u)); top: calc(175.36 * var(--u)); width: calc(906.759 * var(--u)); height: calc(3.931 * var(--u));
+  background: repeating-linear-gradient(90deg, #c2ced0 0 calc(5.24 * var(--u)), transparent 0 calc(10.48 * var(--u)));
+}
+.tool {
+  left: calc(var(--x) * var(--u)); top: calc(113.05 * var(--u)); width: calc(132.482 * var(--u)); height: calc(132.482 * var(--u));
+  border-radius: 50%; background: #fff; box-shadow: 0 0 calc(41 * var(--u)) rgba(0, 0, 0, 0.1);
+}
+.tool .glyph { left: calc(var(--gx) * var(--u)); top: calc(var(--gy) * var(--u)); width: calc(var(--gw) * var(--u)); height: calc(var(--gh) * var(--u)); }
+.wallet { --x: 52.41;  --gx: 34.71; --gy: 34.72; --gw: 63.017; --gh: 65.05; }
+.auth   { --x: 253.03; --gx: 29.75; --gy: 29.76; --gw: 73.579; --gh: 73.579; }
+.doc    { --x: 755.03; --gx: 34.71; --gy: 32.23; --gw: 62.813; --gh: 67.002; }
+.code   { --x: 955.65; --gx: 32.23; --gy: 34.71; --gw: 69.515; --gh: 61.799; }
+.bot {
+  left: calc(453.65 * var(--u)); top: calc(62.67 * var(--u)); width: calc(233.241 * var(--u)); height: calc(233.241 * var(--u));
+  border-radius: 50%; background: var(--wp--preset--color--contrast, #0f2b4d); box-shadow: 0 0 calc(11.358 * var(--u)) rgba(0, 0, 0, 0.06);
+}
+.bot .glyph { left: calc(57.512 * var(--u)); top: calc(57.512 * var(--u)); width: calc(118.218 * var(--u)); height: calc(118.218 * var(--u)); }
+
+/* ---- Connectors ---- */
+.link { left: calc(567.7 * var(--u)); width: calc(5.241 * var(--u)); background: #07aa4d; }
+.l1 { top: calc(309.02 * var(--u)); height: calc(120.552 * var(--u)); }
+.l2 { top: calc(618.26 * var(--u)); height: calc(86.483 * var(--u)); }
+.l3 { top: calc(896.05 * var(--u)); height: calc(86.483 * var(--u)); }
+.arcs { left: calc(195.255 * var(--u)); top: calc(801.71 * var(--u)); width: calc(749.516 * var(--u)); height: calc(172.966 * var(--u)); }
+.arc { stroke-dasharray: 410; }
+
+/* ---- MCP and the bars behind it (the right group is the left one
+   mirrored, so each bar draws out from MCP's side) ---- */
+.streak { top: calc(471.48 * var(--u)); width: calc(378.69 * var(--u)); height: calc(123.325 * var(--u)); }
+.streak.left  { left: calc(188.67 * var(--u)); }
+.streak.right { left: calc(572.6 * var(--u)); scale: -1 1; }
+.bar {
+  position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u));
+  width: calc(var(--w) * var(--u)); height: calc(var(--h, 8.23) * var(--u));
+  border-radius: 999px; background: #e4eced;
+}
+.b1 { --x: 65.86; --y: 82.16; --w: 168.76; --d: 0.61s; }
+.b2 { --x: 0; --y: 82.16; --w: 57.63; --d: 0s; }
+.b3 { --x: 144.07; --y: 98.63; --w: 115.25; --d: 0.65s; }
+.b4 { --x: 82.32; --y: 115.09; --w: 218.16; --d: 0.37s; }
+.b5 { --x: 242.86; --y: 82.16; --w: 57.63; --d: 0.78s; }
+.b6 { --x: 267.55; --y: 98.63; --w: 111.14; --d: 0.12s; }
+.b7 { --x: 102.9; --y: 98.63; --w: 32.93; --d: 0.2s; }
+.b8 { --x: 259.32; --y: 32.93; --w: 74.09; --d: 0.9s; }
+.b9 { --x: 41.16; --y: 65.86; --w: 82.32; --d: 0.41s; }
+.b10 { --x: 131.72; --y: 65.86; --w: 197.58; --d: 0.33s; }
+.b11 { --x: 24.7; --y: 49.39; --w: 139.95; --d: 0.16s; }
+.b12 { --x: 189.34; --y: 49.39; --w: 37.05; --d: 0.74s; }
+.b13 { --x: 209.93; --y: 16.24; --w: 152.3; --d: 0.29s; }
+.b14 { --x: 152.3; --y: 16.24; --w: 49.39; --d: 0.53s; }
+.b15 { --x: 12.21; --y: 16.24; --w: 131.77; --h: 8.19; --d: 0.57s; }
+.b16 { --x: 49.4; --y: 32.93; --w: 201.69; --d: 0.7s; }
+.b17 { --x: 107.02; --y: 0; --w: 115.25; --d: 0.08s; }
+.b18 { --x: 230.51; --y: 0; --w: 115.25; --d: 0.82s; }
+.b19 { --x: 65.86; --y: 115.09; --w: 8.23; --d: 0.86s; }
+.b20 { --x: 308.71; --y: 115.09; --w: 8.23; --d: 0.45s; }
+.b21 { --x: 234.62; --y: 49.24; --w: 8.23; --d: 0.04s; }
+.b22 { --x: 172.88; --y: 49.24; --w: 8.23; --d: 0.25s; }
+.b23 { --x: 8.23; --y: 49.24; --w: 8.23; --d: 0.49s; }
+.hub {
+  left: calc(348.55 * var(--u)); top: calc(440.05 * var(--u)); min-width: calc(444.207 * var(--u)); height: calc(170.345 * var(--u));
+  display: flex; align-items: center; justify-content: center; gap: calc(26.207 * var(--u)); padding: 0 calc(78.621 * var(--u));
+  border-radius: 999px; background: var(--wp--preset--color--primary, #006fba);
+  color: var(--wp--preset--color--base, #fcfcfc); font-size: calc(73.379 * var(--u)); font-weight: 500; line-height: 1.25; white-space: nowrap;
+}
+.hub .logo { position: relative; flex: none; width: calc(83.862 * var(--u)); height: calc(83.862 * var(--u)); }
+.hub .logo svg { position: absolute; left: calc(5.593 * var(--u)); top: calc(1.831 * var(--u)); width: calc(72.284 * var(--u)); height: calc(80.404 * var(--u)); }
+
+/* ---- Journey and the servers ---- */
+.journey {
+  left: calc(484.83 * var(--u)); top: calc(713.91 * var(--u)); width: calc(170.916 * var(--u)); height: calc(170.404 * var(--u));
+  border-radius: 50%; background: var(--wp--preset--color--secondary, #07aa4d); box-shadow: 0 0 calc(26.207 * var(--u)) rgba(0, 0, 0, 0.1);
+}
+.half { top: calc(47.17 * var(--u)); width: calc(36.656 * var(--u)); height: calc(76.059 * var(--u)); }
+.h1 { left: calc(47.17 * var(--u)); }
+.h2 { left: calc(87.09 * var(--u)); }
+.servers { inset: 0; }
+.server {
+  position: absolute; left: calc(var(--x) * var(--u)); top: calc(993.02 * var(--u)); width: calc(319.724 * var(--u)); height: calc(77.31 * var(--u));
+  display: flex; align-items: center; justify-content: space-between; padding: 0 calc(20.966 * var(--u));
+  border-radius: calc(15.724 * var(--u)); background: var(--wp--preset--color--neutral-one, #a1bcc9);
+}
+.s1 { --x: 38; }
+.s2 { --x: 410.138; }
+.s3 { --x: 782.276; }
+.dots { position: relative; width: calc(64.207 * var(--u)); height: calc(14.414 * var(--u)); }
+.pill { width: calc(102.207 * var(--u)); height: calc(10.483 * var(--u)); border-radius: 999px; background: rgba(37, 78, 112, 0.75); }
+
+/*
+ * Build (once): bot 0–0.5s; dotted line 0.4–1s, out from the bot both
+ * ways; tools 0.7s (inner pair) and 0.95s (outer pair); connector to MCP
+ * 1.3s; MCP 1.55s; connector to Journey 2s; Journey 2.3s; the branches and
+ * the middle connector 2.7s; servers 2.95s (middle) and 3.35s (sides).
+ *
+ * Bars: one 9s loop per bar, offset by its --d (0–0.9s, shuffled; the same
+ * bar on each side shares it, so both sides move together). Drawn out
+ * 0–45%, drawn back in towards MCP 45–53%, out again 85–95%. The delay
+ * starts each bar inside its drawn-in stretch, so the first pass draws
+ * them out one by one from 1.9s, as MCP arrives.
+ */
+.bot { animation: pop 0.5s ease-out 0s 1 both; }
+.dotted { animation: spread 0.6s ease-out 0.4s 1 both; }
+.tool { animation: grow 0.4s ease-out 0.7s 1 both; }
+.wallet, .code { animation-delay: 0.95s; }
+.l1, .l2, .l3 { animation: drop 0.35s ease-in-out 1.3s 1 both; }
+.l2 { animation-delay: 2s; }
+.l3 { animation-delay: 2.7s; }
+.hub { animation: pop 0.45s ease-out 1.55s 1 both; }
+.journey { animation: pop 0.45s ease-out 2.3s 1 both; }
+.arc { animation: draw 0.7s ease-in-out 2.7s 1 both; }
+.server { animation: rise 0.45s ease-out 3.35s 1 both; }
+.s2 { animation-delay: 2.95s; }
+.bar { animation: bar var(--loop) ease-in-out calc(var(--d) - 5.75s) infinite both; }
+
+@keyframes pop {
+  from { opacity: 0; scale: 0.9; }
+  to { opacity: 1; scale: 1; }
+}
+@keyframes grow {
+  from { opacity: 0; scale: 0.5; }
+  to { opacity: 1; scale: 1; }
+}
+@keyframes rise {
+  from { opacity: 0; translate: 0 15%; }
+  to { opacity: 1; translate: 0 0; }
+}
+@keyframes spread {
+  from { clip-path: inset(0 50% 0 50%); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes drop {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes draw {
+  from { stroke-dashoffset: 410; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes bar {
+  0%, 45% { clip-path: inset(0 0 0 0 round 999px); }
+  53%, 85% { clip-path: inset(0 0 0 100% round 999px); }
+  95%, 100% { clip-path: inset(0 0 0 0 round 999px); }
+}
