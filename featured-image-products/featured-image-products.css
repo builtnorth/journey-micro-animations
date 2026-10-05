@@ -1,22 +1,21 @@
 /*
- * Featured image: products. The photo comes in first, the streaks draw out
- * from behind it on either side, then the four product cards come in one
- * after another, top to bottom (Authentication, Documents, Payments,
- * Flexible Workflows). Then it holds. Nothing moves once it is in.
+ * Featured image: products. The photo is simply there. The grey bars on
+ * either side draw out from behind it one at a time, in a shuffled order,
+ * both sides together; then the four product cards come in one after
+ * another, top to bottom (Authentication, Documents, Payments, Flexible
+ * Workflows), once.
  *
- * Pure CSS, one --cycle whose first and last frames are the finished
- * graphic. Every animation is infinite and the block's Loop setting decides:
- * on, the whole sequence repeats (the 0–4% reset eases back to the start);
- * off, it plays once and ends on the finished graphic, as does reduced
- * motion. The --start delay skips the reset on the first pass.
+ * Only the bars loop, and only with the block's Loop on: every 9s they
+ * draw back in towards the photo one by one and out again, like data
+ * flowing out of it. With Loop off (and reduced motion) they play once and
+ * end drawn out. The cards play once either way and stay.
  *
  * Laid out on the Figma frame's 1216 × 1132 grid (set the block's design
  * width to 1216); --u is one grid pixel, so the graphic scales as a whole.
- * Icons and streaks are the Figma exports; the photo is hosted on Cloudinary.
+ * Icons and bars are from the Figma exports; the photo is hosted on Cloudinary.
  */
 .fip {
-  --cycle: 10s;
-  --start: -0.45s;
+  --loop: 9s;
   --u: calc(100cqw / 1216);
   container-type: inline-size;
   width: 100%;
@@ -29,12 +28,41 @@
 
 .stage { position: relative; width: 100%; aspect-ratio: 1216 / 1132; overflow: hidden; }
 .stage > * { position: absolute; }
-.streak svg, .glyph svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.glyph svg { display: block; width: 100%; height: 100%; overflow: visible; }
 
-/* Streaks behind the photo, drawn out from it. */
+/* Bars behind the photo, in two groups as Figma has them; the right group
+   is the left one mirrored, so each bar draws out from the photo's side. */
 .streak { width: calc(561.001 * var(--u)); height: calc(182.697 * var(--u)); }
-.streak.right { left: calc(597 * var(--u)); top: calc(351.15 * var(--u)); }
+.streak.right { left: calc(597 * var(--u)); top: calc(351.15 * var(--u)); scale: -1 1; }
 .streak.left  { left: calc(71 * var(--u));  top: calc(571 * var(--u)); }
+.bar {
+  position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u));
+  width: calc(var(--w) * var(--u)); height: calc(var(--h, 12.2) * var(--u));
+  border-radius: 999px; background: #e4eced;
+}
+.b1 { --x: 97.57; --y: 121.72; --w: 250.01; --d: 0.71s; }
+.b2 { --x: 0; --y: 121.72; --w: 85.37; --d: 1.04s; }
+.b3 { --x: 213.43; --y: 146.11; --w: 170.74; --d: 0.98s; }
+.b4 { --x: 121.96; --y: 170.5; --w: 323.19; --d: 0.87s; }
+.b5 { --x: 359.77; --y: 121.72; --w: 85.37; --d: 1.15s; }
+.b6 { --x: 396.36; --y: 146.11; --w: 164.64; --d: 0s; }
+.b7 { --x: 59.27; --y: 146.34; --w: 141.79; --h: 11.82; --d: 0.44s; }
+.b8 { --x: 384.17; --y: 48.78; --w: 109.76; --d: 0.22s; }
+.b9 { --x: 60.98; --y: 97.56; --w: 121.96; --d: 0.65s; }
+.b10 { --x: 195.13; --y: 97.56; --w: 292.7; --d: 0.76s; }
+.b11 { --x: 36.59; --y: 73.17; --w: 207.33; --d: 1.2s; }
+.b12 { --x: 280.5; --y: 73.17; --w: 54.88; --d: 0.82s; }
+.b13 { --x: 310.99; --y: 24.05; --w: 225.62; --d: 1.09s; }
+.b14 { --x: 225.62; --y: 24.05; --w: 73.17; --d: 0.55s; }
+.b15 { --x: 18.09; --y: 24.06; --w: 195.2; --h: 12.14; --d: 0.27s; }
+.b16 { --x: 73.17; --y: 48.78; --w: 298.79; --d: 0.16s; }
+.b17 { --x: 158.54; --y: 0; --w: 170.74; --d: 0.6s; }
+.b18 { --x: 341.48; --y: 0; --w: 170.74; --d: 0.93s; }
+.b19 { --x: 97.57; --y: 170.5; --w: 12.2; --d: 0.05s; }
+.b20 { --x: 457.34; --y: 170.5; --w: 12.2; --d: 0.49s; }
+.b21 { --x: 347.57; --y: 72.94; --w: 12.2; --d: 0.38s; }
+.b22 { --x: 256.11; --y: 72.94; --w: 12.2; --d: 0.11s; }
+.b23 { --x: 12.19; --y: 72.94; --w: 12.2; --d: 0.33s; }
 
 .photo {
   left: calc(212.3 * var(--u)); top: calc(200.34 * var(--u));
@@ -51,7 +79,7 @@
   border-radius: calc(25.02 * var(--u)); background: var(--wp--preset--color--neutral-four, #fff);
   filter: drop-shadow(0 0 calc(22.227 * var(--u)) rgba(0, 0, 0, 0.1));
   color: var(--wp--preset--color--contrast, #0f2b4d);
-  font-size: calc(36.099 * var(--u)); font-weight: 600; line-height: 1.25; white-space: nowrap;
+  font-size: calc(36.099 * var(--u)); font-weight: 500; line-height: 1.25; white-space: nowrap;
 }
 .glyph { flex: none; width: calc(88.75 * var(--u)); height: calc(88.75 * var(--u)); }
 .auth { left: calc(437.91 * var(--u)); top: calc(147 * var(--u)); min-width: calc(486.606 * var(--u)); }
@@ -63,53 +91,25 @@
 .flow { left: calc(56.72 * var(--u)); top: calc(854.92 * var(--u)); min-width: calc(558.993 * var(--u)); }
 
 /*
- * Timeline (one 10s cycle). 0–4%: the finished graphic fades and resets.
- * The photo comes in 4.5–12%. The streaks draw out from behind it, right
- * 11–19% then left 14–22%. The cards then come in one after another, top
- * to bottom, 3% apart from 21% (each 6% long). Hold to 100%.
+ * Bars: one 9s loop per bar, offset by its --d (0–1.2s, shuffled; the same
+ * bar on each side shares it, so both sides move together). Drawn out
+ * 0–45%, drawn back in towards the photo 45–53%, out again 70–80%. The
+ * delay starts each bar inside its drawn-in stretch, so the first pass
+ * draws them out one by one from 0.3s, all out by 2.4s.
+ * Cards: once, 300ms apart from 2s, as the last bars arrive.
  */
-.photo { animation: photo var(--cycle) ease-out var(--start) infinite both; }
-.streak.right { animation: streak-right var(--cycle) ease-out var(--start) infinite both; }
-.streak.left { animation: streak-left var(--cycle) ease-out var(--start) infinite both; }
-.auth { animation: card-1 var(--cycle) ease-out var(--start) infinite both; }
-.docs { animation: card-2 var(--cycle) ease-out var(--start) infinite both; }
-.pay  { animation: card-3 var(--cycle) ease-out var(--start) infinite both; }
-.flow { animation: card-4 var(--cycle) ease-out var(--start) infinite both; }
+.bar { animation: bar var(--loop) ease-in-out calc(var(--d) - 6s) infinite both; }
+.card { animation: card 0.6s ease-out 2s 1 both; }
+.docs { animation-delay: 2.3s; }
+.pay  { animation-delay: 2.6s; }
+.flow { animation-delay: 2.9s; }
 
-@keyframes photo {
-  0% { opacity: 1; scale: 1; }
-  4%, 4.5% { opacity: 0; scale: 0.96; }
-  12%, 100% { opacity: 1; scale: 1; }
+@keyframes bar {
+  0%, 45% { clip-path: inset(0 0 0 0 round 999px); }
+  53%, 70% { clip-path: inset(0 0 0 100% round 999px); }
+  80%, 100% { clip-path: inset(0 0 0 0 round 999px); }
 }
-@keyframes streak-right {
-  0% { opacity: 1; clip-path: inset(0 0 0 0); }
-  4% { opacity: 0; clip-path: inset(0 0 0 0); }
-  4.5%, 11% { opacity: 1; clip-path: inset(0 100% 0 0); }
-  19%, 100% { opacity: 1; clip-path: inset(0 0 0 0); }
-}
-@keyframes streak-left {
-  0% { opacity: 1; clip-path: inset(0 0 0 0); }
-  4% { opacity: 0; clip-path: inset(0 0 0 0); }
-  4.5%, 14% { opacity: 1; clip-path: inset(0 0 0 100%); }
-  22%, 100% { opacity: 1; clip-path: inset(0 0 0 0); }
-}
-@keyframes card-1 {
-  0% { opacity: 1; scale: 1; }
-  4%, 21% { opacity: 0; scale: 0.94; }
-  27%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes card-2 {
-  0% { opacity: 1; scale: 1; }
-  4%, 24% { opacity: 0; scale: 0.94; }
-  30%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes card-3 {
-  0% { opacity: 1; scale: 1; }
-  4%, 27% { opacity: 0; scale: 0.94; }
-  33%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes card-4 {
-  0% { opacity: 1; scale: 1; }
-  4%, 30% { opacity: 0; scale: 0.94; }
-  36%, 100% { opacity: 1; scale: 1; }
+@keyframes card {
+  from { opacity: 0; scale: 0.94; }
+  to { opacity: 1; scale: 1; }
 }
