@@ -1,0 +1,165 @@
+/*
+ * Agent general workflows. The agent's photo is simply there; the workflow
+ * cards come in one after another (Password Reset, the passkey Sign In,
+ * DTMF), then the channel icons grow in one at a time in a shuffled order.
+ * Then it holds. The photo, cards and icons stay still once they are in.
+ *
+ * Pure CSS, one --cycle whose first and last frames are the finished
+ * graphic. Every animation is infinite and the block's Loop setting decides:
+ * on, the whole sequence repeats (the 0–4% reset eases back to the start);
+ * off, it plays once and ends on the finished graphic, as does reduced
+ * motion. The --start delay skips the reset on the first pass.
+ *
+ * Laid out on the Figma frame's 1304 × 1132 grid (set the block's design
+ * width to 1304); --u is one grid pixel, so the graphic scales as a whole.
+ * Icons are the Figma exports; the photos are hosted on Cloudinary.
+ */
+.agw {
+  --navy: #0e2b4d;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --cycle: 10s;
+  --start: -0.45s;
+  --u: calc(100cqw / 1304);
+  container-type: inline-size;
+  width: 100%;
+  max-width: 1304px;
+  margin-inline: auto;
+  font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.agw *, .agw *::before, .agw *::after { box-sizing: border-box; }
+.agw p { margin: 0; }
+
+.stage { position: relative; width: 100%; aspect-ratio: 1304 / 1132; overflow: hidden; }
+
+/* The agent: still, no entrance. */
+.agent {
+  position: absolute;
+  left: calc(257.254 * var(--u));
+  top: calc(1 * var(--u));
+  width: calc(686.493 * var(--u));
+  height: calc(1131 * var(--u));
+  max-width: none;
+  border-radius: calc(60 * var(--u));
+  object-fit: cover;
+}
+
+/* Channel icons: navy circles down the left, outlined icons on the right. */
+.icon { position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); width: calc(var(--s) * var(--u)); height: calc(var(--s) * var(--u)); }
+.icon svg, .glyph svg, .close svg, .spinner svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.wallet { --x: 68; --y: 90;      --s: 108.663; }
+.auth   { --x: 68; --y: 249.112; --s: 108.663; }
+.code   { --x: 68; --y: 408.225; --s: 108.663; }
+.doc    { --x: 68; --y: 567.337; --s: 108.663; }
+.voice  { --x: 1024;    --y: 134;     --s: 84.9; }
+.chat   { --x: 1024.317; --y: 315.267; --s: 84.266; }
+
+/* Workflow cards: they fit their label (the font varies by site), at least
+   the frame's width. Password Reset grows leftward, DTMF rightward. */
+.card {
+  position: absolute;
+  top: calc(var(--y) * var(--u));
+  min-width: calc(var(--w) * var(--u));
+  height: calc(var(--h) * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(30 * var(--u));
+  padding: 0 calc(45 * var(--u));
+  border-radius: calc(23.043 * var(--u));
+  background: #fff;
+  box-shadow: 0 0 calc(40 * var(--u)) var(--shadow);
+  color: var(--navy);
+}
+.label { font-weight: 500; line-height: calc(53.25 * var(--u)); letter-spacing: 0; white-space: nowrap; }
+.glyph { flex: none; }
+.reset { right: calc(67.449 * var(--u)); --y: 490.721; --w: 500.551; --h: 151.551; }
+.reset .glyph { width: calc(83.551 * var(--u)); height: calc(83.551 * var(--u)); }
+.reset .label { font-size: calc(36.91 * var(--u)); }
+.dtmf  { left: calc(71.671 * var(--u)); --y: 818.548; --w: 305.659; --h: 123.896; }
+.dtmf .glyph { width: calc(53.659 * var(--u)); height: calc(55.896 * var(--u)); }
+.dtmf .label { font-size: calc(43.914 * var(--u)); }
+
+/* Passkey sign-in sheet: positions inside it are frame px less its origin (738, 705). */
+.signin {
+  position: absolute;
+  left: calc(738 * var(--u));
+  top: calc(705 * var(--u));
+  width: calc(498 * var(--u));
+  height: calc(351 * var(--u));
+  border-radius: calc(16.613 * var(--u));
+  background: #dee1e1;
+  box-shadow: 0 0 0 calc(4 * var(--u)) #fff, 0 0 calc(40 * var(--u)) calc(4 * var(--u)) var(--shadow);
+  color: #000;
+  letter-spacing: calc(-0.415 * var(--u));
+}
+.signin > * { position: absolute; }
+.title { left: calc(18 * var(--u)); top: calc(27.688 * var(--u)); font-size: calc(24.92 * var(--u)); font-weight: 600; line-height: calc(29.073 * var(--u)); white-space: nowrap; }
+.close { left: calc(441.638 * var(--u)); top: calc(24.92 * var(--u)); width: calc(34.611 * var(--u)); height: calc(34.611 * var(--u)); }
+.key { left: calc(218.743 * var(--u)); top: calc(76.144 * var(--u)); width: calc(60.133 * var(--u)); height: calc(61.469 * var(--u)); overflow: hidden; border-radius: calc(13.096 * var(--u)); background: #d9d9d9; }
+.key img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+.ask { left: calc(33.228 * var(--u)); top: calc(155.058 * var(--u)); width: calc(431.947 * var(--u)); font-size: calc(16.613 * var(--u)); line-height: calc(24.92 * var(--u)); text-align: center; }
+.spinner { left: calc(224.28 * var(--u)); top: calc(238.169 * var(--u)); width: calc(48.456 * var(--u)); height: calc(48.456 * var(--u)); }
+.status { left: 0; right: 0; top: calc(290.777 * var(--u)); font-size: calc(16.613 * var(--u)); line-height: calc(29.073 * var(--u)); text-align: center; }
+
+/*
+ * Timeline (one 10s cycle). 0–4%: the finished cards and icons fade and
+ * reset. Cards by group: Password Reset 6–12%, Sign In 9–15%, DTMF 12–18%.
+ * Icons one at a time, 150ms apart in a shuffled order: authentication 18%,
+ * voice 19.5%, document 21%, wallet 22.5%, chat 24%, code 25.5% (each 5%
+ * long). Hold to 100%.
+ */
+.reset  { animation: card-1 var(--cycle) ease-out var(--start) infinite both; }
+.signin { animation: card-2 var(--cycle) ease-out var(--start) infinite both; }
+.dtmf   { animation: card-3 var(--cycle) ease-out var(--start) infinite both; }
+.auth   { animation: icon-1 var(--cycle) ease-out var(--start) infinite both; }
+.voice  { animation: icon-2 var(--cycle) ease-out var(--start) infinite both; }
+.doc    { animation: icon-3 var(--cycle) ease-out var(--start) infinite both; }
+.wallet { animation: icon-4 var(--cycle) ease-out var(--start) infinite both; }
+.chat   { animation: icon-5 var(--cycle) ease-out var(--start) infinite both; }
+.code   { animation: icon-6 var(--cycle) ease-out var(--start) infinite both; }
+
+@keyframes card-1 {
+  0% { opacity: 1; scale: 1; }
+  4%, 6% { opacity: 0; scale: 0.94; }
+  12%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes card-2 {
+  0% { opacity: 1; scale: 1; }
+  4%, 9% { opacity: 0; scale: 0.94; }
+  15%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes card-3 {
+  0% { opacity: 1; scale: 1; }
+  4%, 12% { opacity: 0; scale: 0.94; }
+  18%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes icon-1 {
+  0% { opacity: 1; scale: 1; }
+  4%, 18% { opacity: 0; scale: 0.5; }
+  23%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes icon-2 {
+  0% { opacity: 1; scale: 1; }
+  4%, 19.5% { opacity: 0; scale: 0.5; }
+  24.5%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes icon-3 {
+  0% { opacity: 1; scale: 1; }
+  4%, 21% { opacity: 0; scale: 0.5; }
+  26%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes icon-4 {
+  0% { opacity: 1; scale: 1; }
+  4%, 22.5% { opacity: 0; scale: 0.5; }
+  27.5%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes icon-5 {
+  0% { opacity: 1; scale: 1; }
+  4%, 24% { opacity: 0; scale: 0.5; }
+  29%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes icon-6 {
+  0% { opacity: 1; scale: 1; }
+  4%, 25.5% { opacity: 0; scale: 0.5; }
+  30.5%, 100% { opacity: 1; scale: 1; }
+}
