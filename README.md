@@ -24,4 +24,4 @@ lint, photo prep and render scripts).
 | `password-reset-flow/` | Password reset request, SMS and Face ID arriving in step with the agent window confirming each step, ending on "Success" (design width 1624) |
 | `agent-general-workflows/` | Agent photo with the channel icons growing in down the left then the right, then the Password Reset, passkey Sign In and DTMF cards coming in one after another (design width 1304) |
 | `featured-image-products/` | Photo of a man holding a phone; the bars on either side draw out from behind it one by one, then the Authentication, Documents, Payments and Flexible Workflows cards come in once. With Loop on, only the bars keep drawing in and out (design width 1216) |
-| `ai-mcp/` | Agent bot with its tools, MCP and the Journey node branching to three servers, built once top to bottom; with Loop on, only the bars behind MCP keep drawing in and out (design width 1140) |
+| `ai-mcp/` | Agent bot with its tools, MCP and the Journey node branching to three servers, built once top to bottom; with Loop on, data flows along the connectors (dots in to the bot, green dashes down to the servers) (design width 1140) |

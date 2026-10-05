@@ -1,21 +1,20 @@
 /*
  * AI / MCP. Builds once, top to bottom, following the flow: the agent bot
  * comes in, the dotted line runs out from it to its tools (the inner pair,
- * then the outer pair), the connector draws down to MCP, the bars draw out
- * from behind MCP, the connector runs on to the Journey node, and it
- * branches out to the three servers (the middle one first). Then it holds.
+ * then the outer pair), the green line draws down to MCP, the bars draw out
+ * from behind it, the line runs on to the Journey node, and it branches out
+ * to the three servers (the middle one first).
  *
- * Only the bars loop, and only with the block's Loop on: every 9s they
- * draw back in towards MCP one by one and out again, like data passing
- * through it. With Loop off (and reduced motion) they draw out once and
- * stay. The build plays once either way.
+ * The data lines are what loop, with the block's Loop on: the dots run in
+ * along the top line to the bot, and the green dashes run down from it
+ * through MCP and Journey to the servers. With Loop off (and reduced
+ * motion) they stay still. The build plays once either way.
  *
  * Laid out on the Figma frame's 1140 × 1132 grid (set the block's design
  * width to 1140); --u is one grid pixel, so the graphic scales as a whole.
  * Icons, bars and connectors are the Figma exports.
  */
 .mcp {
-  --loop: 9s;
   --u: calc(100cqw / 1140);
   container-type: inline-size;
   width: 100%;
@@ -32,10 +31,15 @@
 .glyph svg, .logo svg, .half svg, .dots svg, .arcs svg { display: block; width: 100%; height: 100%; overflow: visible; }
 
 /* ---- Agent and its tools ---- */
+/* The dotted line runs whole behind the tools and the bot, in two halves
+   that meet at the bot. Sizes in em, where 1em is one grid pixel, so the
+   flow keyframes stay literal. */
 .dotted {
-  left: calc(116.62 * var(--u)); top: calc(175.36 * var(--u)); width: calc(906.759 * var(--u)); height: calc(3.931 * var(--u));
-  background: repeating-linear-gradient(90deg, #c2ced0 0 calc(5.24 * var(--u)), transparent 0 calc(10.48 * var(--u)));
+  top: calc(175.36 * var(--u)); height: calc(3.931 * var(--u)); font-size: var(--u);
+  background: repeating-linear-gradient(90deg, #c2ced0 0 5.24em, transparent 0 10.48em);
 }
+.d-left  { left: calc(116.62 * var(--u)); width: calc(453.68 * var(--u)); }
+.d-right { left: calc(570.3 * var(--u)); width: calc(453.08 * var(--u)); }
 .tool {
   left: calc(var(--x) * var(--u)); top: calc(113.05 * var(--u)); width: calc(132.482 * var(--u)); height: calc(132.482 * var(--u));
   border-radius: 50%; background: #fff; box-shadow: 0 0 calc(41 * var(--u)) rgba(0, 0, 0, 0.1);
@@ -51,13 +55,15 @@
 }
 .bot .glyph { left: calc(57.512 * var(--u)); top: calc(57.512 * var(--u)); width: calc(118.218 * var(--u)); height: calc(118.218 * var(--u)); }
 
-/* ---- Connectors ---- */
-.link { left: calc(567.7 * var(--u)); width: calc(5.241 * var(--u)); background: #07aa4d; }
-.l1 { top: calc(309.02 * var(--u)); height: calc(120.552 * var(--u)); }
-.l2 { top: calc(618.26 * var(--u)); height: calc(86.483 * var(--u)); }
-.l3 { top: calc(896.05 * var(--u)); height: calc(86.483 * var(--u)); }
-.arcs { left: calc(195.255 * var(--u)); top: calc(801.71 * var(--u)); width: calc(749.516 * var(--u)); height: calc(172.966 * var(--u)); }
-.arc { stroke-dasharray: 410; }
+/* ---- Green data lines: dashed, and whole behind each item: the spine runs
+   from the bot's centre to the servers, the branches from Journey's centre
+   out and down to the side servers. ---- */
+.spine {
+  left: calc(567.7 * var(--u)); top: calc(179.29 * var(--u)); width: calc(5.241 * var(--u)); height: calc(813.73 * var(--u)); font-size: var(--u);
+  background: repeating-linear-gradient(180deg, #07aa4d 0 15.72em, transparent 0 26.2em);
+}
+.arcs { left: calc(195.255 * var(--u)); top: calc(801.71 * var(--u)); width: calc(749.516 * var(--u)); height: calc(191.31 * var(--u)); }
+.arc { stroke-dasharray: 15.72 10.48; }
 
 /* ---- MCP and the bars behind it (the right group is the left one
    mirrored, so each bar draws out from MCP's side) ---- */
@@ -123,29 +129,30 @@
 
 /*
  * Build (once): bot 0–0.5s; dotted line 0.4–1s, out from the bot both
- * ways; tools 0.7s (inner pair) and 0.95s (outer pair); connector to MCP
- * 1.3s; MCP 1.55s; connector to Journey 2s; Journey 2.3s; the branches and
- * the middle connector 2.7s; servers 2.95s (middle) and 3.35s (sides).
+ * ways; tools 0.7s (inner pair) and 0.95s (outer pair). The green spine
+ * draws down in stages: to MCP by 1.45s, when MCP comes in; on to Journey
+ * by 2.3s, when it comes in; on to the servers by 3.1s, as the branches
+ * draw out from Journey. The bars draw out from behind MCP one by one from
+ * 1.8s (shuffled by --d, both sides together). Servers 3.05s (middle) and
+ * 3.4s (sides).
  *
- * Bars: one 9s loop per bar, offset by its --d (0–0.9s, shuffled; the same
- * bar on each side shares it, so both sides move together). Drawn out
- * 0–45%, drawn back in towards MCP 45–53%, out again 85–95%. The delay
- * starts each bar inside its drawn-in stretch, so the first pass draws
- * them out one by one from 1.9s, as MCP arrives.
+ * Flow (with Loop on): the dashes move one pattern length per loop, so it
+ * repeats without a jump: green 26.2 down per 1s, grey 10.48 in per 0.4s
+ * (the same speed).
  */
 .bot { animation: pop 0.5s ease-out 0s 1 both; }
-.dotted { animation: spread 0.6s ease-out 0.4s 1 both; }
+.d-left { animation: spread-left 0.6s ease-out 0.4s 1 both, flow-right 0.4s linear 0s infinite; }
+.d-right { animation: spread-right 0.6s ease-out 0.4s 1 both, flow-left 0.4s linear 0s infinite; }
 .tool { animation: grow 0.4s ease-out 0.7s 1 both; }
 .wallet, .code { animation-delay: 0.95s; }
-.l1, .l2, .l3 { animation: drop 0.35s ease-in-out 1.3s 1 both; }
-.l2 { animation-delay: 2s; }
-.l3 { animation-delay: 2.7s; }
-.hub { animation: pop 0.45s ease-out 1.55s 1 both; }
+.spine { animation: spine 2.1s linear 1s 1 both, flow-down 1s linear 0s infinite; }
+.hub { animation: pop 0.45s ease-out 1.45s 1 both; }
+.bar { animation: bar 0.6s ease-out calc(1.8s + var(--d)) 1 both; }
 .journey { animation: pop 0.45s ease-out 2.3s 1 both; }
-.arc { animation: draw 0.7s ease-in-out 2.7s 1 both; }
-.server { animation: rise 0.45s ease-out 3.35s 1 both; }
-.s2 { animation-delay: 2.95s; }
-.bar { animation: bar var(--loop) ease-in-out calc(var(--d) - 5.75s) infinite both; }
+.arcs { animation: branch 0.7s ease-in-out 2.6s 1 both; }
+.arc { animation: flow-along 1s linear 0s infinite; }
+.server { animation: rise 0.45s ease-out 3.4s 1 both; }
+.s2 { animation-delay: 3.05s; }
 
 @keyframes pop {
   from { opacity: 0; scale: 0.9; }
@@ -159,20 +166,47 @@
   from { opacity: 0; translate: 0 15%; }
   to { opacity: 1; translate: 0 0; }
 }
-@keyframes spread {
-  from { clip-path: inset(0 50% 0 50%); }
+@keyframes spread-left {
+  from { clip-path: inset(0 0 0 100%); }
   to { clip-path: inset(0 0 0 0); }
 }
-@keyframes drop {
-  from { clip-path: inset(0 0 100% 0); }
+@keyframes spread-right {
+  from { clip-path: inset(0 100% 0 0); }
   to { clip-path: inset(0 0 0 0); }
 }
-@keyframes draw {
-  from { stroke-dashoffset: 410; }
-  to { stroke-dashoffset: 0; }
+/* Spine stages (0% = 1s): down to MCP's top (32%) by 1.45s, held under MCP
+   until 1.95s, down to Journey's top (66%) by 2.3s, held until 2.75s, then
+   on to the servers by 3.1s. */
+@keyframes spine {
+  0% { clip-path: inset(0 0 100% 0); }
+  21% { clip-path: inset(0 0 68% 0); }
+  45% { clip-path: inset(0 0 68% 0); }
+  62% { clip-path: inset(0 0 34% 0); }
+  83% { clip-path: inset(0 0 34% 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+@keyframes branch {
+  0% { clip-path: inset(0 50% 85% 50%); }
+  60% { clip-path: inset(0 0 60% 0); }
+  100% { clip-path: inset(0 0 0 0); }
 }
 @keyframes bar {
-  0%, 45% { clip-path: inset(0 0 0 0 round 999px); }
-  53%, 85% { clip-path: inset(0 0 0 100% round 999px); }
-  95%, 100% { clip-path: inset(0 0 0 0 round 999px); }
+  from { clip-path: inset(0 0 0 100% round 999px); }
+  to { clip-path: inset(0 0 0 0 round 999px); }
+}
+@keyframes flow-down {
+  from { background-position: 0 0; }
+  to { background-position: 0 26.2em; }
+}
+@keyframes flow-right {
+  from { background-position: 0 0; }
+  to { background-position: 10.48em 0; }
+}
+@keyframes flow-left {
+  from { background-position: 0 0; }
+  to { background-position: -10.48em 0; }
+}
+@keyframes flow-along {
+  from { stroke-dashoffset: 26.2; }
+  to { stroke-dashoffset: 0; }
 }
