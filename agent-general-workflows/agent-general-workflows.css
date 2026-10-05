@@ -1,8 +1,8 @@
 /*
- * Agent general workflows. The agent's photo is simply there; the workflow
- * cards come in one after another (Password Reset, the passkey Sign In,
- * DTMF), then the channel icons grow in one at a time in a shuffled order.
- * Then it holds. The photo, cards and icons stay still once they are in.
+ * Agent general workflows. The agent's photo is simply there; the channel
+ * icons grow in one after another, down the left column and then the right,
+ * then the workflow cards come in one after another (Password Reset, the
+ * passkey Sign In, DTMF). Then it holds. The photo, cards and icons stay still once they are in.
  *
  * Pure CSS, one --cycle whose first and last frames are the finished
  * graphic. Every animation is infinite and the block's Loop setting decides:
@@ -102,63 +102,64 @@
 
 /*
  * Timeline (one 10s cycle). 0–4%: the finished cards and icons fade and
- * reset. Cards by group: Password Reset 6–12%, Sign In 9–15%, DTMF 12–18%.
- * Icons one at a time, 150ms apart in a shuffled order: authentication 18%,
- * voice 19.5%, document 21%, wallet 22.5%, chat 24%, code 25.5% (each 5%
- * long). Hold to 100%.
+ * reset. The icons grow in one after another, down the left column and then
+ * the right (wallet, authentication, code, document, voice, chat), 250ms
+ * apart from 6% (each 5% long). The cards then come in one after another,
+ * top to bottom: Password Reset 25%, Sign In 29%, DTMF 33% (each 6% long).
+ * Hold to 100%.
  */
-.reset  { animation: card-1 var(--cycle) ease-out var(--start) infinite both; }
+.wallet { animation: icon-1 var(--cycle) ease-out var(--start) infinite both; }
+.auth { animation: icon-2 var(--cycle) ease-out var(--start) infinite both; }
+.code { animation: icon-3 var(--cycle) ease-out var(--start) infinite both; }
+.doc { animation: icon-4 var(--cycle) ease-out var(--start) infinite both; }
+.voice { animation: icon-5 var(--cycle) ease-out var(--start) infinite both; }
+.chat { animation: icon-6 var(--cycle) ease-out var(--start) infinite both; }
+.reset { animation: card-1 var(--cycle) ease-out var(--start) infinite both; }
 .signin { animation: card-2 var(--cycle) ease-out var(--start) infinite both; }
-.dtmf   { animation: card-3 var(--cycle) ease-out var(--start) infinite both; }
-.auth   { animation: icon-1 var(--cycle) ease-out var(--start) infinite both; }
-.voice  { animation: icon-2 var(--cycle) ease-out var(--start) infinite both; }
-.doc    { animation: icon-3 var(--cycle) ease-out var(--start) infinite both; }
-.wallet { animation: icon-4 var(--cycle) ease-out var(--start) infinite both; }
-.chat   { animation: icon-5 var(--cycle) ease-out var(--start) infinite both; }
-.code   { animation: icon-6 var(--cycle) ease-out var(--start) infinite both; }
+.dtmf { animation: card-3 var(--cycle) ease-out var(--start) infinite both; }
 
-@keyframes card-1 {
-  0% { opacity: 1; scale: 1; }
-  4%, 6% { opacity: 0; scale: 0.94; }
-  12%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes card-2 {
-  0% { opacity: 1; scale: 1; }
-  4%, 9% { opacity: 0; scale: 0.94; }
-  15%, 100% { opacity: 1; scale: 1; }
-}
-@keyframes card-3 {
-  0% { opacity: 1; scale: 1; }
-  4%, 12% { opacity: 0; scale: 0.94; }
-  18%, 100% { opacity: 1; scale: 1; }
-}
 @keyframes icon-1 {
   0% { opacity: 1; scale: 1; }
-  4%, 18% { opacity: 0; scale: 0.5; }
-  23%, 100% { opacity: 1; scale: 1; }
+  4%, 6% { opacity: 0; scale: 0.5; }
+  11%, 100% { opacity: 1; scale: 1; }
 }
 @keyframes icon-2 {
   0% { opacity: 1; scale: 1; }
-  4%, 19.5% { opacity: 0; scale: 0.5; }
-  24.5%, 100% { opacity: 1; scale: 1; }
+  4%, 8.5% { opacity: 0; scale: 0.5; }
+  13.5%, 100% { opacity: 1; scale: 1; }
 }
 @keyframes icon-3 {
   0% { opacity: 1; scale: 1; }
-  4%, 21% { opacity: 0; scale: 0.5; }
-  26%, 100% { opacity: 1; scale: 1; }
+  4%, 11% { opacity: 0; scale: 0.5; }
+  16%, 100% { opacity: 1; scale: 1; }
 }
 @keyframes icon-4 {
   0% { opacity: 1; scale: 1; }
-  4%, 22.5% { opacity: 0; scale: 0.5; }
-  27.5%, 100% { opacity: 1; scale: 1; }
+  4%, 13.5% { opacity: 0; scale: 0.5; }
+  18.5%, 100% { opacity: 1; scale: 1; }
 }
 @keyframes icon-5 {
   0% { opacity: 1; scale: 1; }
-  4%, 24% { opacity: 0; scale: 0.5; }
-  29%, 100% { opacity: 1; scale: 1; }
+  4%, 16% { opacity: 0; scale: 0.5; }
+  21%, 100% { opacity: 1; scale: 1; }
 }
 @keyframes icon-6 {
   0% { opacity: 1; scale: 1; }
-  4%, 25.5% { opacity: 0; scale: 0.5; }
-  30.5%, 100% { opacity: 1; scale: 1; }
+  4%, 18.5% { opacity: 0; scale: 0.5; }
+  23.5%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes card-1 {
+  0% { opacity: 1; scale: 1; }
+  4%, 25% { opacity: 0; scale: 0.94; }
+  31%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes card-2 {
+  0% { opacity: 1; scale: 1; }
+  4%, 29% { opacity: 0; scale: 0.94; }
+  35%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes card-3 {
+  0% { opacity: 1; scale: 1; }
+  4%, 33% { opacity: 0; scale: 0.94; }
+  39%, 100% { opacity: 1; scale: 1; }
 }
