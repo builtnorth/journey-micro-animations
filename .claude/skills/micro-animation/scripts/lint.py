@@ -109,6 +109,7 @@ def lint(folder: Path):
         (r'@import|@font-face', 'loading fonts or files; use the theme font variable'),
         (r'animation(-name)?\s*:\s*var\(', 'animation name from var(): the block renames @keyframes, so it never matches'),
         (r'!important', '!important (the block controls playback with its own classes)'),
+        (r'animation-name\s*:', 'animation-name on its own: the block renames @keyframes inside `animation:` shorthands; write the whole `animation:` shorthand instead'),
     ]:
         for m in re.finditer(pat, css):
             line = css.count('\n', 0, m.start()) + 1

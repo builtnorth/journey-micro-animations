@@ -107,27 +107,27 @@
 .col { position: absolute; width: 2.597%; }
 .col .dot { position: absolute; top: 0; left: 0; width: 100%; aspect-ratio: 1; border-radius: 50%; background: currentColor; }
 .col .bar { position: absolute; top: var(--b, 0%); bottom: 0; left: 0; width: 100%; border-radius: 999px; background: currentColor; }
-.c1 { left: 3.03%; top: 9.524%; height: 90.476%; animation-duration: 1.46s; animation-delay: -1.34s; }
-.c2 { left: 7.792%; top: 16.667%; height: 83.333%; animation-duration: 1.62s; animation-delay: -1.7s; }
-.c3 { left: 12.554%; top: 14.286%; height: 85.714%; animation-duration: 1.57s; animation-delay: -1.66s; }
-.c4 { left: 17.316%; top: 7.619%; height: 92.381%; --b: 7.216%; animation-duration: 0.93s; animation-delay: -0.84s; }
-.c5 { left: 22.078%; top: 7.143%; height: 92.857%; animation-duration: 1.75s; animation-delay: -1.17s; }
-.c6 { left: 26.84%; top: 21.905%; height: 78.095%; --b: 8.537%; animation-duration: 1.71s; animation-delay: -0.2s; }
-.c7 { left: 31.602%; top: 10%; height: 90%; --b: 7.407%; animation-duration: 1.32s; animation-delay: -0.44s; }
-.c8 { left: 36.364%; top: 21.905%; height: 78.095%; --b: 8.537%; animation-duration: 1.39s; animation-delay: -1.03s; }
-.c9 { left: 41.126%; top: 10%; height: 90%; --b: 7.407%; animation-duration: 0.91s; animation-delay: -0.39s; }
-.c10 { left: 45.887%; top: 14.286%; height: 85.714%; animation-duration: 1.15s; animation-delay: -1.65s; }
-.c11 { left: 50.649%; top: 7.143%; height: 92.857%; animation-duration: 1.59s; animation-delay: -0.29s; }
-.c12 { left: 55.411%; top: 10%; height: 90%; --b: 7.407%; animation-duration: 1.62s; animation-delay: -0.25s; }
-.c13 { left: 60.173%; top: 21.905%; height: 78.095%; --b: 8.537%; animation-duration: 1.46s; animation-delay: -0.23s; }
-.c14 { left: 64.935%; top: 14.762%; height: 85.238%; --b: 7.821%; animation-duration: 0.9s; animation-delay: -1.57s; }
-.c15 { left: 69.697%; top: 21.429%; height: 78.571%; animation-duration: 1.09s; animation-delay: -0.39s; }
-.c16 { left: 74.459%; top: 35.714%; height: 64.286%; animation-duration: 1.78s; animation-delay: -1.57s; }
-.c17 { left: 79.221%; top: 14.762%; height: 85.238%; --b: 7.821%; animation-duration: 1.16s; animation-delay: -1.73s; }
-.c18 { left: 83.983%; top: 21.905%; height: 78.095%; --b: 8.537%; animation-duration: 1.39s; animation-delay: -1.22s; }
-.c19 { left: 88.745%; top: 4.762%; height: 95.238%; animation-duration: 1.08s; animation-delay: -1.69s; }
-.c20 { left: 93.506%; top: 7.143%; height: 92.857%; animation-duration: 1.52s; animation-delay: -1.74s; }
-.c21 { left: 97.403%; top: 26.19%; height: 73.81%; animation-duration: 1.7s; animation-delay: -0.54s; }
+.c1 { left: 3.03%; top: 9.524%; height: 90.476%; animation: talk 1.46s ease-in-out -1.34s infinite alternate; }
+.c2 { left: 7.792%; top: 16.667%; height: 83.333%; animation: talk 1.62s ease-in-out -1.7s infinite alternate; }
+.c3 { left: 12.554%; top: 14.286%; height: 85.714%; animation: talk 1.57s ease-in-out -1.66s infinite alternate; }
+.c4 { left: 17.316%; top: 7.619%; height: 92.381%; --b: 7.216%; animation: talk 0.93s ease-in-out -0.84s infinite alternate; }
+.c5 { left: 22.078%; top: 7.143%; height: 92.857%; animation: talk 1.75s ease-in-out -1.17s infinite alternate; }
+.c6 { left: 26.84%; top: 21.905%; height: 78.095%; --b: 8.537%; animation: talk 1.71s ease-in-out -0.2s infinite alternate; }
+.c7 { left: 31.602%; top: 10%; height: 90%; --b: 7.407%; animation: talk 1.32s ease-in-out -0.44s infinite alternate; }
+.c8 { left: 36.364%; top: 21.905%; height: 78.095%; --b: 8.537%; animation: talk 1.39s ease-in-out -1.03s infinite alternate; }
+.c9 { left: 41.126%; top: 10%; height: 90%; --b: 7.407%; animation: talk 0.91s ease-in-out -0.39s infinite alternate; }
+.c10 { left: 45.887%; top: 14.286%; height: 85.714%; animation: talk 1.15s ease-in-out -1.65s infinite alternate; }
+.c11 { left: 50.649%; top: 7.143%; height: 92.857%; animation: talk 1.59s ease-in-out -0.29s infinite alternate; }
+.c12 { left: 55.411%; top: 10%; height: 90%; --b: 7.407%; animation: talk 1.62s ease-in-out -0.25s infinite alternate; }
+.c13 { left: 60.173%; top: 21.905%; height: 78.095%; --b: 8.537%; animation: talk 1.46s ease-in-out -0.23s infinite alternate; }
+.c14 { left: 64.935%; top: 14.762%; height: 85.238%; --b: 7.821%; animation: talk 0.9s ease-in-out -1.57s infinite alternate; }
+.c15 { left: 69.697%; top: 21.429%; height: 78.571%; animation: talk 1.09s ease-in-out -0.39s infinite alternate; }
+.c16 { left: 74.459%; top: 35.714%; height: 64.286%; animation: talk 1.78s ease-in-out -1.57s infinite alternate; }
+.c17 { left: 79.221%; top: 14.762%; height: 85.238%; --b: 7.821%; animation: talk 1.16s ease-in-out -1.73s infinite alternate; }
+.c18 { left: 83.983%; top: 21.905%; height: 78.095%; --b: 8.537%; animation: talk 1.39s ease-in-out -1.22s infinite alternate; }
+.c19 { left: 88.745%; top: 4.762%; height: 95.238%; animation: talk 1.08s ease-in-out -1.69s infinite alternate; }
+.c20 { left: 93.506%; top: 7.143%; height: 92.857%; animation: talk 1.52s ease-in-out -1.74s infinite alternate; }
+.c21 { left: 97.403%; top: 26.19%; height: 73.81%; animation: talk 1.7s ease-in-out -0.54s infinite alternate; }
 .status { position: absolute; top: calc(16 * var(--u)); left: calc(24.3 * var(--u)); right: calc(26.6 * var(--u)); display: flex; align-items: center; justify-content: space-between; }
 .clock { font-size: calc(12.79 * var(--u)); color: #fff; }
 .status-icons { width: calc(60.73 * var(--u)); height: calc(10.33 * var(--u)); }
@@ -153,7 +153,6 @@
  * height) on its own 0.9–1.8s rhythm, like a voice talking.
  */
 .reel { animation: tick 60s steps(60) infinite; }
-.col { animation-name: talk; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-direction: alternate; }
 .lines { animation: lines var(--build) ease var(--start) 1 both; }
 .lines .r1.up { animation: draw-1-up var(--build) ease-out var(--start) 1 both, flow 1.2s linear infinite; }
 .lines .r2.left { animation: draw-2-left var(--build) ease-out var(--start) 1 both, flow 1.2s linear infinite; }

@@ -71,7 +71,7 @@ The default is the build, then stillness.
   Put position, size and animation on the `<div>`, never on the `<svg>`
   itself: on the site a styled `<svg>` lost its size and drew at full width. Animating paint inside an SVG (opacity, stroke-dashoffset,
   fill) is fine.
-- **Write keyframe names literally** in `animation` / `animation-name`. The
+- **Write keyframe names literally, in the `animation` shorthand** (not a separate `animation-name`, which the block may not rename: bars set up that way never moved on the site). The
   block scopes the CSS and renames every `@keyframes`, so a name held in a
   custom property (`animation: var(--draw) …`) never matches and the
   animation silently doesn't run on the site, though it works in the editor.
