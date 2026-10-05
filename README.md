@@ -23,3 +23,4 @@ lint, photo prep and render scripts).
 | `featured-image-payments/` | Agent call window confirming each payment step in turn beside the customer's phone, ending on "Payment confirmed" (design width 1216) |
 | `password-reset-flow/` | Password reset request, SMS and Face ID arriving in step with the agent window confirming each step, ending on "Success" (design width 1624) |
 | `agent-general-workflows/` | Agent photo with the channel icons growing in down the left then the right, then the Password Reset, passkey Sign In and DTMF cards coming in one after another (design width 1304) |
+| `featured-image-products/` | Photo of a man holding a phone, the streaks drawing out from behind it, then the Authentication, Documents, Payments and Flexible Workflows cards coming in one after another (design width 1216) |

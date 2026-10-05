@@ -1,0 +1,115 @@
+/*
+ * Featured image: products. The photo comes in first, the streaks draw out
+ * from behind it on either side, then the four product cards come in one
+ * after another, top to bottom (Authentication, Documents, Payments,
+ * Flexible Workflows). Then it holds. Nothing moves once it is in.
+ *
+ * Pure CSS, one --cycle whose first and last frames are the finished
+ * graphic. Every animation is infinite and the block's Loop setting decides:
+ * on, the whole sequence repeats (the 0–4% reset eases back to the start);
+ * off, it plays once and ends on the finished graphic, as does reduced
+ * motion. The --start delay skips the reset on the first pass.
+ *
+ * Laid out on the Figma frame's 1216 × 1132 grid (set the block's design
+ * width to 1216); --u is one grid pixel, so the graphic scales as a whole.
+ * Icons and streaks are the Figma exports; the photo is hosted on Cloudinary.
+ */
+.fip {
+  --cycle: 10s;
+  --start: -0.45s;
+  --u: calc(100cqw / 1216);
+  container-type: inline-size;
+  width: 100%;
+  max-width: 1216px;
+  margin-inline: auto;
+  font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
+}
+.fip *, .fip *::before, .fip *::after { box-sizing: border-box; }
+.fip p { margin: 0; }
+
+.stage { position: relative; width: 100%; aspect-ratio: 1216 / 1132; overflow: hidden; }
+.stage > * { position: absolute; }
+.streak svg, .glyph svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+/* Streaks behind the photo, drawn out from it. */
+.streak { width: calc(561.001 * var(--u)); height: calc(182.697 * var(--u)); }
+.streak.right { left: calc(597 * var(--u)); top: calc(351.15 * var(--u)); }
+.streak.left  { left: calc(71 * var(--u));  top: calc(571 * var(--u)); }
+
+.photo {
+  left: calc(212.3 * var(--u)); top: calc(200.34 * var(--u));
+  width: calc(791.273 * var(--u)); height: calc(731.261 * var(--u));
+  border-radius: calc(66.68 * var(--u)); overflow: hidden;
+}
+.photo img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+
+/* Cards hug their text (min-width at the Figma width) and grow away from
+   the frame edge they sit against. */
+.card {
+  display: flex; align-items: center; gap: calc(33.36 * var(--u));
+  height: calc(130.45 * var(--u)); padding: 0 calc(41.7 * var(--u));
+  border-radius: calc(25.02 * var(--u)); background: var(--wp--preset--color--neutral-four, #fff);
+  filter: drop-shadow(0 0 calc(22.227 * var(--u)) rgba(0, 0, 0, 0.1));
+  color: var(--wp--preset--color--contrast, #0f2b4d);
+  font-size: calc(36.099 * var(--u)); font-weight: 600; line-height: 1.25; white-space: nowrap;
+}
+.glyph { flex: none; width: calc(88.75 * var(--u)); height: calc(88.75 * var(--u)); }
+.auth { left: calc(437.91 * var(--u)); top: calc(147 * var(--u)); min-width: calc(486.606 * var(--u)); }
+.auth .glyph { padding: calc(0.905 * var(--u)) calc(3.396 * var(--u)) calc(1.561 * var(--u)) calc(3.379 * var(--u)); }
+.docs { left: calc(56.72 * var(--u)); top: calc(359.27 * var(--u)); min-width: calc(423.26 * var(--u)); }
+.docs .glyph { padding: calc(3.618 * var(--u)) calc(6.323 * var(--u)) calc(3.591 * var(--u)) calc(6.243 * var(--u)); }
+.pay  { right: calc(55.726 * var(--u)); top: calc(639.32 * var(--u)); min-width: calc(393.404 * var(--u)); }
+.pay .glyph { padding: calc(4.797 * var(--u)) calc(6.218 * var(--u)) calc(4.93 * var(--u)) calc(5.987 * var(--u)); }
+.flow { left: calc(56.72 * var(--u)); top: calc(854.92 * var(--u)); min-width: calc(558.993 * var(--u)); }
+
+/*
+ * Timeline (one 10s cycle). 0–4%: the finished graphic fades and resets.
+ * The photo comes in 4.5–12%. The streaks draw out from behind it, right
+ * 11–19% then left 14–22%. The cards then come in one after another, top
+ * to bottom, 3% apart from 21% (each 6% long). Hold to 100%.
+ */
+.photo { animation: photo var(--cycle) ease-out var(--start) infinite both; }
+.streak.right { animation: streak-right var(--cycle) ease-out var(--start) infinite both; }
+.streak.left { animation: streak-left var(--cycle) ease-out var(--start) infinite both; }
+.auth { animation: card-1 var(--cycle) ease-out var(--start) infinite both; }
+.docs { animation: card-2 var(--cycle) ease-out var(--start) infinite both; }
+.pay  { animation: card-3 var(--cycle) ease-out var(--start) infinite both; }
+.flow { animation: card-4 var(--cycle) ease-out var(--start) infinite both; }
+
+@keyframes photo {
+  0% { opacity: 1; scale: 1; }
+  4%, 4.5% { opacity: 0; scale: 0.96; }
+  12%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes streak-right {
+  0% { opacity: 1; clip-path: inset(0 0 0 0); }
+  4% { opacity: 0; clip-path: inset(0 0 0 0); }
+  4.5%, 11% { opacity: 1; clip-path: inset(0 100% 0 0); }
+  19%, 100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+@keyframes streak-left {
+  0% { opacity: 1; clip-path: inset(0 0 0 0); }
+  4% { opacity: 0; clip-path: inset(0 0 0 0); }
+  4.5%, 14% { opacity: 1; clip-path: inset(0 0 0 100%); }
+  22%, 100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+@keyframes card-1 {
+  0% { opacity: 1; scale: 1; }
+  4%, 21% { opacity: 0; scale: 0.94; }
+  27%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes card-2 {
+  0% { opacity: 1; scale: 1; }
+  4%, 24% { opacity: 0; scale: 0.94; }
+  30%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes card-3 {
+  0% { opacity: 1; scale: 1; }
+  4%, 27% { opacity: 0; scale: 0.94; }
+  33%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes card-4 {
+  0% { opacity: 1; scale: 1; }
+  4%, 30% { opacity: 0; scale: 0.94; }
+  36%, 100% { opacity: 1; scale: 1; }
+}
