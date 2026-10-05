@@ -2,15 +2,14 @@
  * Deploy product to customer. The customer appears on her call, the dashed
  * connectors draw out from her and the channel cards come in by ring:
  * Payments, then eForms / OTP, IVR/IVA / eSignatures / Passkeys, and last
- * AI / Live Agent. Then it holds, while the call timer counts up and the
- * connectors flow out from the customer. Icons, cards and
- * the phone stay still.
+ * AI / Live Agent. Then it holds, while the call timer counts up, the
+ * connectors flow out from the customer and the bars on the phone's screen
+ * breathe very slowly. Icons, cards and the phone stay still.
  *
- * Pure CSS, one --cycle whose first and last frames are the finished
- * graphic. Every animation is infinite and the block's Loop setting decides:
- * on, the whole sequence repeats (the 0–4% reset eases back to the start);
- * off, it plays once and ends on the finished graphic, as does reduced
- * motion. The --start delay skips the reset on the first pass.
+ * The build plays once and stays (its keyframes run on one --build
+ * timeline, entered past the reset by the --start delay, so it ends on the
+ * finished graphic). Only the timer, the connector flow and the screen bars
+ * loop, and only with the block's Loop on.
  *
  * Laid out on the Figma frame's 786 × 598 grid (set the block's design
  * width to 786); --u is one grid pixel, so the graphic scales as a whole.
@@ -20,7 +19,7 @@
   --navy: #0f2b4d;
   --line: #006fba;
   --shadow: rgba(15, 43, 77, 0.1);
-  --cycle: 10s;
+  --build: 10s;
   --start: -0.45s;
   --u: calc(100cqw / 786);
   container-type: inline-size;
@@ -123,27 +122,50 @@
  * eSignatures / Passkeys 27–33%, AI / Live Agent 36–42%. Hold 42–100%.
  *
  * Alongside the build, on their own clocks: the call timer counts up a
- * second at a time from 2:47 (a 60s reel), and the connectors flow out from
- * the customer.
+ * second at a time from 2:47 (a 60s reel), the connectors flow out from
+ * the customer, and the screen bars fade gently in a slow wave from left to
+ * right (each 8s, 0.3s after the one before).
  */
 .reel { animation: tick 60s steps(60) infinite; }
-.lines { animation: lines var(--cycle) ease var(--start) infinite both; }
-.lines .r1.up { animation: draw-1-up var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r2.left { animation: draw-2-left var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r2.right { animation: draw-2-right var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r3.up { animation: draw-3-up var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r3.sw { animation: draw-3-sw var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r3.se { animation: draw-3-se var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r4.sw { animation: draw-4-sw var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
-.lines .r4.se { animation: draw-4-se var(--cycle) ease-out var(--start) infinite both, flow 1.2s linear infinite; }
+.wave g { animation: breathe 8s ease-in-out infinite; }
+.wave g:nth-child(1) { animation-delay: -6.3s; }
+.wave g:nth-child(2) { animation-delay: -6.0s; }
+.wave g:nth-child(3) { animation-delay: -5.7s; }
+.wave g:nth-child(4) { animation-delay: -5.4s; }
+.wave g:nth-child(5) { animation-delay: -5.1s; }
+.wave g:nth-child(6) { animation-delay: -4.8s; }
+.wave g:nth-child(7) { animation-delay: -4.5s; }
+.wave g:nth-child(8) { animation-delay: -4.2s; }
+.wave g:nth-child(9) { animation-delay: -3.9s; }
+.wave g:nth-child(10) { animation-delay: -3.6s; }
+.wave g:nth-child(11) { animation-delay: -3.3s; }
+.wave g:nth-child(12) { animation-delay: -3.0s; }
+.wave g:nth-child(13) { animation-delay: -2.7s; }
+.wave g:nth-child(14) { animation-delay: -2.4s; }
+.wave g:nth-child(15) { animation-delay: -2.1s; }
+.wave g:nth-child(16) { animation-delay: -1.8s; }
+.wave g:nth-child(17) { animation-delay: -1.5s; }
+.wave g:nth-child(18) { animation-delay: -1.2s; }
+.wave g:nth-child(19) { animation-delay: -0.9s; }
+.wave g:nth-child(20) { animation-delay: -0.6s; }
+.wave g:nth-child(21) { animation-delay: -0.3s; }
+.lines { animation: lines var(--build) ease var(--start) 1 both; }
+.lines .r1.up { animation: draw-1-up var(--build) ease-out var(--start) 1 both, flow 1.2s linear infinite; }
+.lines .r2.left { animation: draw-2-left var(--build) ease-out var(--start) 1 both, flow 1.2s linear infinite; }
+.lines .r2.right { animation: draw-2-right var(--build) ease-out var(--start) 1 both, flow 1.2s linear infinite; }
+.lines .r3.up { animation: draw-3-up var(--build) ease-out var(--start) 1 both, flow 1.2s linear infinite; }
+.lines .r3.sw { animation: draw-3-sw var(--build) ease-out var(--start) 1 both, flow 1.2s linear infinite; }
+.lines .r3.se { animation: draw-3-se var(--build) ease-out var(--start) 1 both, flow 1.2s linear infinite; }
+.lines .r4.sw { animation: draw-4-sw var(--build) ease-out var(--start) 1 both, flow 1.2s linear infinite; }
+.lines .r4.se { animation: draw-4-se var(--build) ease-out var(--start) 1 both, flow 1.2s linear infinite; }
 
-.avatar { animation: avatar var(--cycle) ease-out var(--start) infinite both; }
+.avatar { animation: avatar var(--build) ease-out var(--start) 1 both; }
 
-.pay            { animation: in-1 var(--cycle) ease-out var(--start) infinite both; }
-.eforms, .otp   { animation: in-2 var(--cycle) ease-out var(--start) infinite both; }
+.pay            { animation: in-1 var(--build) ease-out var(--start) 1 both; }
+.eforms, .otp   { animation: in-2 var(--build) ease-out var(--start) 1 both; }
 .ivr, .esig,
-.pass           { animation: in-3 var(--cycle) ease-out var(--start) infinite both; }
-.ai, .live      { animation: in-4 var(--cycle) ease-out var(--start) infinite both; }
+.pass           { animation: in-3 var(--build) ease-out var(--start) 1 both; }
+.ai, .live      { animation: in-4 var(--build) ease-out var(--start) 1 both; }
 
 @keyframes lines {
   0% { opacity: 1; }
@@ -216,6 +238,10 @@
   42%, 100% { opacity: 1; scale: 1; }
 }
 
+@keyframes breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
 @keyframes tick { to { translate: 0 -72em; } }
 
 /* Ambient: data flowing out along the connectors; rests at its first frame. */
