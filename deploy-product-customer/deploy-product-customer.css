@@ -35,7 +35,7 @@
 
 .stage { position: relative; width: 100%; aspect-ratio: 786 / 598; overflow: hidden; }
 
-/* Connectors: dashed, as in the frame (the rings run behind the cards); each drawn from the hub outward. */
+/* Connectors: thin and finely dashed (the rings run behind the cards); each drawn from the hub outward. */
 .lines { position: absolute; inset: 0; width: 100%; height: 100%; }
 .lines path { stroke-dasharray: 4 4; }
 
