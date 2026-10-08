@@ -114,6 +114,7 @@ def lint(folder: Path):
         (r'@import|@font-face', 'loading fonts or files; use the theme font variable'),
         (r'animation(-name)?\s*:\s*var\(', 'animation name from var(): the block renames @keyframes, so it never matches'),
         (r'!important', '!important (the block controls playback with its own classes)'),
+        (r'\d(cqw|cqh|cqi|cqb|cqmin|cqmax)\b|container-type|container\s*:', 'container query units/containers: the block scales the stage with zoom and Safari applies it twice to cq units; size in px (--u: 1px) and set the block\'s design width'),
         (r'animation-name\s*:', 'animation-name on its own: the block renames @keyframes inside `animation:` shorthands; write the whole `animation:` shorthand instead'),
     ]:
         for m in re.finditer(pat, css):

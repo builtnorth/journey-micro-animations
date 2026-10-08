@@ -33,7 +33,7 @@ for (const a of args.filter((x) => x.startsWith('--img='))) {
   const mime = /\.jpe?g$/i.test(file) ? 'image/jpeg' : 'image/png';
   html = html.split(`src="${src}"`).join(`src="data:${mime};base64,${fs.readFileSync(file).toString('base64')}"`);
 }
-const width = Number(opt('width', (css.match(/calc\(100cqw \/ ([\d.]+)\)/) || [])[1] || 1000));
+const width = Number(opt('width', (css.match(/^\s*width:\s*([\d.]+)px;/m) || [])[1] || 1000));
 const times = opt('times', '0,0.8,1.6,2.4,3.2,4').split(',').map(Number);
 const scale = Number(opt('scale', 1));
 fs.mkdirSync(outdir, { recursive: true });

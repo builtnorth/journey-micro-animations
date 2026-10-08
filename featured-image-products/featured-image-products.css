@@ -11,16 +11,13 @@
  * end drawn out. The cards play once either way and stay.
  *
  * Laid out on the Figma frame's 1216 × 1132 grid (set the block's design
- * width to 1216); --u is one grid pixel, so the graphic scales as a whole.
+ * width to 1216); --u is one grid pixel (1px); the block scales the graphic.
  * Icons and bars are from the Figma exports; the photo is hosted on Cloudinary.
  */
 .fip {
   --loop: 12s;
-  --u: calc(100cqw / 1216);
-  container-type: inline-size;
-  width: 100%;
-  max-width: 1216px;
-  margin-inline: auto;
+  --u: 1px;
+  width: 1216px;
   font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
 }
 .fip *, .fip *::before, .fip *::after { box-sizing: border-box; }

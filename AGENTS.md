@@ -141,11 +141,17 @@ these limits:
   away from the frame edge it sits against.
 - **Design width:** the graphic is designed at a fixed px width and the block
   scales it. Set the block's design width to the Figma frame's width.
+- **Size in px, never container query units.** The block scales the stage
+  with `zoom`, and Safari resolves `cqw`/`cqh` inside a zoomed element
+  against the already-shrunk width and then zooms again, so a `cqw` graphic
+  draws at the scale squared, shrunk into the top-left corner. Don't set
+  `container-type`; size everything in px (through `--u: 1px`).
 
 ## Building from Figma
 
-- Lay out on the Figma frame's grid: `--u` is one frame pixel
-  (`calc(100cqw / <frame width>)`) and every size and position is a multiple of it.
+- Lay out on the Figma frame's grid: `--u` is one frame pixel (`1px`) and
+  every size and position is a multiple of it; the root is the frame's width
+  in px (`width: <frame width>px`) and the block scales it.
 - Use the Figma exports as they are: SVG icons with their paths unchanged,
   photos as exported. Don't redraw, simplify or recolor them. Only strip
   `id`s, Figma wrapper groups and anything that breaks the rules above.

@@ -12,7 +12,7 @@
  * loop, and only with the block's Loop on.
  *
  * Laid out on the Figma frame's 786 × 598 grid (set the block's design
- * width to 786); --u is one grid pixel, so the graphic scales as a whole.
+ * width to 786); --u is one grid pixel (1px); the block scales the graphic.
  * Icons are the Figma exports; the photo is hosted on Cloudinary.
  */
 .dpc {
@@ -21,11 +21,8 @@
   --shadow: rgba(15, 43, 77, 0.1);
   --build: 10s;
   --start: -0.45s;
-  --u: calc(100cqw / 786);
-  container-type: inline-size;
-  width: 100%;
-  max-width: 786px;
-  margin-inline: auto;
+  --u: 1px;
+  width: 786px;
   font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
   color: var(--navy);
   -webkit-font-smoothing: antialiased;

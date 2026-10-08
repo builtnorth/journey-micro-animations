@@ -11,15 +11,12 @@
  * motion) they stay still. The build plays once either way.
  *
  * Laid out on the Figma frame's 1140 × 1132 grid (set the block's design
- * width to 1140); --u is one grid pixel, so the graphic scales as a whole.
+ * width to 1140); --u is one grid pixel (1px); the block scales the graphic.
  * Icons, bars and connectors are the Figma exports.
  */
 .mcp {
-  --u: calc(100cqw / 1140);
-  container-type: inline-size;
-  width: 100%;
-  max-width: 1140px;
-  margin-inline: auto;
+  --u: 1px;
+  width: 1140px;
   font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
 }
 .mcp *, .mcp *::before, .mcp *::after { box-sizing: border-box; }

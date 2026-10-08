@@ -9,15 +9,12 @@
  * plays and the outer badges make one slow turn.
  *
  * Laid out on the Figma frame's 1000 × 992 grid (set the block's design
- * width to 1000); --u is one grid pixel, so the graphic scales as a whole.
+ * width to 1000); --u is one grid pixel (1px); the block scales the graphic.
  * Icons are the Figma exports; the photo is a cut-out PNG hosted on Cloudinary.
  */
 .gdm {
-  --u: calc(100cqw / 1000);
-  container-type: inline-size;
-  width: 100%;
-  max-width: 1000px;
-  margin-inline: auto;
+  --u: 1px;
+  width: 1000px;
   font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
 }
 .gdm *, .gdm *::before, .gdm *::after { box-sizing: border-box; }

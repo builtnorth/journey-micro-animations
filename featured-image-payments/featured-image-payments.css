@@ -13,7 +13,7 @@
  * motion. The --start delay skips the reset on the first pass.
  *
  * Laid out on the Figma frame's 1216 × 1132 grid (set the block's design
- * width to 1216); --u is one grid pixel, so the graphic scales as a whole.
+ * width to 1216); --u is one grid pixel (1px); the block scales the graphic.
  * Icons are the Figma exports; the avatar and the phone screen are images
  * hosted on Cloudinary. The "Payment confirmed" screen isn't in Figma: it is
  * drawn here in the window's style.
@@ -21,12 +21,9 @@
 .fip {
   --cycle: 12s;
   --start: -0.5s;
-  --u: calc(100cqw / 1216);
+  --u: 1px;
   --ink: #254e70;
-  container-type: inline-size;
-  width: 100%;
-  max-width: 1216px;
-  margin-inline: auto;
+  width: 1216px;
   font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
