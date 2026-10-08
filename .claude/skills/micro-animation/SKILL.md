@@ -41,7 +41,8 @@ before building rather than inventing extra motion.
 layer (e.g. `Graphic / get-demo-graphic` → `get-demo`).
 
 - Root: `<div class="<prefix>"><div class="stage">…</div></div>`; the root
-  sets `--u: 1px`, `width: <frame width>px` and the font
+  sets `--u: 1px`, `width: <frame width>px` (px only: no `cqw` or
+  `container-type`, the block does the scaling) and the font
   (`var(--wp--custom--animation--font, "Inter"), sans-serif`);
   `.stage` has `aspect-ratio: <w> / <h>` and `overflow: hidden`.
 - Static layers that never move (panels, backgrounds, connector lines):
@@ -130,3 +131,11 @@ first. Known causes, all checked by it: `url()` or `id`s in markup, a
 allowlist (`pathLength`, `stroke-dasharray` …), a non-https image `src`,
 and loops with the block's Loop off. When you find a new one, add it to
 `AGENTS.md` and to `lint.py`.
+
+If a graphic is right in Chrome but shrinks into the top-left corner in
+Safari, it is sizing itself with container query units (`cqw`) or
+`container-type`. The block scales the stage with `zoom`, and Safari
+applies that zoom twice to `cq` units. Size everything in px
+(`--u: 1px`, root `width: <frame width>px`) and set the block's design
+width; never make a graphic scale itself. `render.js` only runs Chromium,
+so it won't show this: `lint.py` catches it.
