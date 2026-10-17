@@ -1,45 +1,21 @@
-/*
- * Featured image: products. The photo is simply there. The four product
- * cards come in straight away, one after another, top to bottom
- * (Authentication, Documents, Payments, Flexible Workflows), once; as they
- * arrive, the grey bars on either side start drawing out from behind the
- * photo one at a time, both sides together.
- *
- * Only the bars loop, and only with the block's Loop on: every 12s they
- * draw back in towards the photo one by one and out again, like data
- * flowing out of it. With Loop off (and reduced motion) they play once and
- * end drawn out. The cards play once either way and stay.
- *
- * Laid out on the Figma frame's 1216 × 1132 grid (set the block's design
- * width to 1216); --u is one grid pixel, so the graphic scales as a whole.
- * Icons and bars are from the Figma exports; the photo is hosted on Cloudinary.
- */
 .fip {
   --loop: 12s;
   --u: 1px;
   width: 100%;
-  max-width: 1216px;
-  margin-inline: auto;
   font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
 }
 .fip *, .fip *::before, .fip *::after { box-sizing: border-box; }
 .fip p { margin: 0; }
 
-.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1216 / 1132; overflow: hidden; }
-/* The scene is laid out at the design size in px and zoomed to the stage's width
-   as a whole, so text is zoomed once like everything else (WebKit zooms font
-   sizes in container units twice when the block zooms the graphic). Browsers
-   without length division fall back to sizing every length with cqw. */
-.scene { position: absolute; left: 0; top: 0; width: 1216px; height: 1132px; zoom: calc(100cqw / 1216px); }
+.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1103 / 838; overflow: visible; }
+.scene { position: absolute; left: -57px; top: -147px; width: 1216px; height: 1132px; zoom: calc(100cqw / 1103px); }
 @supports not (zoom: calc(1px / 1px)) {
-  .fip { --u: calc(100cqw / 1216); }
-  .scene { width: 100%; height: 100%; zoom: 1; }
+  .fip { --u: calc(100cqw / 1103); }
+  .scene { left: calc(-57 * var(--u)); top: calc(-147 * var(--u)); width: calc(1216 * var(--u)); height: calc(1132 * var(--u)); zoom: 1; }
 }
 .scene > * { position: absolute; }
 .glyph svg { display: block; width: 100%; height: 100%; overflow: visible; }
 
-/* Bars behind the photo, in two groups as Figma has them; the right group
-   is the left one mirrored, so each bar draws out from the photo's side. */
 .streak { width: calc(561.001 * var(--u)); height: calc(182.697 * var(--u)); }
 .streak.right { left: calc(597 * var(--u)); top: calc(351.15 * var(--u)); scale: -1 1; }
 .streak.left  { left: calc(71 * var(--u));  top: calc(571 * var(--u)); }
@@ -79,8 +55,6 @@
 }
 .photo img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
 
-/* Cards hug their text (min-width at the Figma width) and grow away from
-   the frame edge they sit against. */
 .card {
   display: flex; align-items: center; gap: calc(33.36 * var(--u));
   height: calc(130.45 * var(--u)); padding: 0 calc(41.7 * var(--u));
@@ -98,17 +72,6 @@
 .pay .glyph { padding: calc(4.797 * var(--u)) calc(6.218 * var(--u)) calc(4.93 * var(--u)) calc(5.987 * var(--u)); }
 .flow { left: calc(56.72 * var(--u)); top: calc(854.92 * var(--u)); min-width: calc(558.993 * var(--u)); }
 
-/*
- * Cards (once): one after another from 0.15s, 200ms apart, while the photo
- * is barely in view on its own.
- *
- * Bars: one at a time, 100ms apart in a shuffled order (--d, 0–2.2s; the
- * same bar on each side shares it, so both sides move together), from 0.6s
- * while the cards are still arriving, all out by about 3.8s. Each runs a 12s loop offset by its --d:
- * drawn out 0–40%, drawn back in towards the photo 40–48%, out again
- * 85–93%. The delay starts each bar inside its drawn-in stretch, so the
- * first pass draws them out in turn.
- */
 .bar { animation: bar var(--loop) ease-in-out calc(var(--d) - 9.6s) infinite both; }
 .card { animation: card 0.6s ease-out 0.15s 1 both; }
 .docs { animation-delay: 0.35s; }

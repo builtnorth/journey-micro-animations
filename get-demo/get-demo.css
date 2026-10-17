@@ -1,42 +1,19 @@
-/*
- * Get a demo. Builds once: the agent and her panel fade in together, the
- * three rings grow out from her centre one after another, fading in as they
- * grow, then the badges grow in one by one in a shuffled order.
- *
- * Then, with the block's Loop on, the outer ring's badges slowly orbit her,
- * each turning back against the ring so its icon stays upright (the inner
- * badges stay put, so nothing passes over her). With Loop off the build
- * plays and the outer badges make one slow turn.
- *
- * Laid out on the Figma frame's 1000 × 992 grid (set the block's design
- * width to 1000); --u is one grid pixel, so the graphic scales as a whole.
- * Icons are the Figma exports; the photo is a cut-out PNG hosted on Cloudinary.
- */
 .gdm {
   --u: 1px;
   width: 100%;
-  max-width: 1000px;
-  margin-inline: auto;
   font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
 }
 .gdm *, .gdm *::before, .gdm *::after { box-sizing: border-box; }
 
-.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1000 / 992.052; overflow: hidden; }
-/* The scene is laid out at the design size in px and zoomed to the stage's width
-   as a whole, so text is zoomed once like everything else (WebKit zooms font
-   sizes in container units twice when the block zooms the graphic). Browsers
-   without length division fall back to sizing every length with cqw. */
-.scene { position: absolute; left: 0; top: 0; width: 1000px; height: 992.052px; zoom: calc(100cqw / 1000px); }
+.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 859 / 851; overflow: visible; }
+.scene { position: absolute; left: -71px; top: -70px; width: 1000px; height: 992.052px; zoom: calc(100cqw / 859px); }
 @supports not (zoom: calc(1px / 1px)) {
-  .gdm { --u: calc(100cqw / 1000); }
-  .scene { width: 100%; height: 100%; zoom: 1; }
+  .gdm { --u: calc(100cqw / 859); }
+  .scene { left: calc(-71 * var(--u)); top: calc(-70 * var(--u)); width: calc(1000 * var(--u)); height: calc(992.052 * var(--u)); zoom: 1; }
 }
 
-/* Layers, back to front: panel, the three rings, the agent, badges. */
 .back { position: absolute; inset: 0; width: 100%; height: 100%; }
 
-/* Each ring is its own element, built like a badge (a positioned div around
-   an SVG), so it scales reliably in every browser. */
 .ring { position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); width: calc(var(--s) * var(--u)); height: calc(var(--s) * var(--u)); }
 .ring.r1 { --x: 276.759; --y: 307.111; --s: 396.204; }
 .ring.r2 { --x: 167.411; --y: 196.873; --s: 615.197; }
@@ -50,14 +27,9 @@
   height: calc(668.27 * var(--u));
   max-width: none;
   object-fit: fill;
-  /* Her outline, traced from the PNG's transparency: the cut-out is done here
-     so she stays cut out even if the site serves the image without its
-     transparency (WordPress converts imports to AVIF). */
-  clip-path: polygon(52.83% 1.18%, 51.07% 1.18%, 50.88% 1.38%, 46.20% 1.38%, 44.44% 2.17%, 42.30% 2.17%, 42.50% 2.17%, 42.69% 2.56%, 41.33% 3.16%, 40.74% 3.16%, 40.55% 3.35%, 38.21% 3.35%, 37.23% 3.94%, 35.48% 4.34%, 34.89% 4.73%, 34.50% 4.54%, 33.72% 4.93%, 33.72% 5.72%, 33.14% 6.31%, 32.75% 6.11%, 32.75% 6.51%, 31.58% 7.89%, 30.21% 9.07%, 30.21% 9.66%, 29.04% 11.05%, 28.46% 13.21%, 28.07% 13.61%, 27.49% 14.79%, 27.29% 15.98%, 26.90% 16.37%, 26.90% 16.96%, 26.32% 18.34%, 26.12% 20.32%, 26.51% 21.10%, 26.51% 22.29%, 26.90% 23.47%, 27.49% 24.26%, 27.49% 25.64%, 27.68% 25.84%, 27.68% 30.37%, 26.90% 31.76%, 27.29% 32.35%, 27.29% 33.14%, 27.88% 34.71%, 27.88% 35.31%, 28.46% 37.08%, 28.46% 37.87%, 28.65% 38.07%, 28.46% 38.26%, 28.65% 43.79%, 29.04% 44.97%, 30.02% 46.55%, 32.16% 48.13%, 33.72% 50.10%, 33.53% 50.30%, 33.53% 51.68%, 33.92% 52.66%, 34.11% 55.03%, 34.31% 55.42%, 34.50% 55.03%, 34.70% 55.23%, 34.50% 55.82%, 34.70% 57.99%, 35.28% 59.76%, 35.28% 61.93%, 35.09% 62.13%, 34.89% 61.93%, 35.48% 63.71%, 35.67% 68.05%, 34.50% 70.81%, 33.53% 71.79%, 32.94% 71.99%, 31.97% 72.78%, 31.38% 72.78%, 30.99% 73.18%, 29.82% 73.57%, 28.46% 75.15%, 27.68% 76.73%, 27.49% 78.11%, 26.71% 78.70%, 26.12% 79.68%, 26.12% 80.47%, 25.15% 81.26%, 23.78% 83.43%, 23.78% 84.22%, 23.20% 85.21%, 23.20% 88.76%, 22.81% 90.14%, 22.81% 90.93%, 23.39% 91.32%, 25.15% 91.72%, 30.02% 93.49%, 30.60% 93.49%, 35.48% 95.27%, 36.06% 95.27%, 49.51% 99.80%, 52.05% 99.21%, 56.92% 97.44%, 57.50% 97.44%, 72.71% 92.31%, 73.29% 92.31%, 83.04% 88.95%, 83.63% 88.95%, 88.50% 87.18%, 89.08% 87.18%, 98.83% 83.83%, 99.42% 83.83%, 99.81% 83.43%, 99.81% 63.12%, 95.91% 62.72%, 94.93% 62.33%, 92.01% 61.93%, 91.23% 61.54%, 88.50% 61.54%, 88.30% 61.34%, 87.72% 61.34%, 85.96% 59.96%, 85.58% 59.96%, 84.02% 58.78%, 81.87% 57.59%, 81.48% 57.59%, 80.51% 56.80%, 80.12% 56.02%, 80.31% 55.82%, 80.31% 54.83%, 80.51% 54.64%, 80.51% 53.85%, 80.90% 52.66%, 80.90% 51.68%, 81.09% 51.48%, 81.48% 48.72%, 82.46% 45.96%, 82.46% 44.97%, 82.07% 43.98%, 81.09% 42.80%, 80.31% 41.22%, 79.73% 39.05%, 78.95% 37.67%, 78.36% 35.70%, 73.29% 29.39%, 72.51% 28.01%, 71.35% 26.82%, 70.76% 23.47%, 70.37% 22.68%, 70.18% 21.30%, 68.81% 17.16%, 68.42% 16.57%, 67.84% 14.60%, 65.89% 11.05%, 64.72% 9.47%, 59.65% 4.54%, 55.95% 2.17%);
+    clip-path: polygon(52.83% 1.18%, 51.07% 1.18%, 50.88% 1.38%, 46.20% 1.38%, 44.44% 2.17%, 42.30% 2.17%, 42.50% 2.17%, 42.69% 2.56%, 41.33% 3.16%, 40.74% 3.16%, 40.55% 3.35%, 38.21% 3.35%, 37.23% 3.94%, 35.48% 4.34%, 34.89% 4.73%, 34.50% 4.54%, 33.72% 4.93%, 33.72% 5.72%, 33.14% 6.31%, 32.75% 6.11%, 32.75% 6.51%, 31.58% 7.89%, 30.21% 9.07%, 30.21% 9.66%, 29.04% 11.05%, 28.46% 13.21%, 28.07% 13.61%, 27.49% 14.79%, 27.29% 15.98%, 26.90% 16.37%, 26.90% 16.96%, 26.32% 18.34%, 26.12% 20.32%, 26.51% 21.10%, 26.51% 22.29%, 26.90% 23.47%, 27.49% 24.26%, 27.49% 25.64%, 27.68% 25.84%, 27.68% 30.37%, 26.90% 31.76%, 27.29% 32.35%, 27.29% 33.14%, 27.88% 34.71%, 27.88% 35.31%, 28.46% 37.08%, 28.46% 37.87%, 28.65% 38.07%, 28.46% 38.26%, 28.65% 43.79%, 29.04% 44.97%, 30.02% 46.55%, 32.16% 48.13%, 33.72% 50.10%, 33.53% 50.30%, 33.53% 51.68%, 33.92% 52.66%, 34.11% 55.03%, 34.31% 55.42%, 34.50% 55.03%, 34.70% 55.23%, 34.50% 55.82%, 34.70% 57.99%, 35.28% 59.76%, 35.28% 61.93%, 35.09% 62.13%, 34.89% 61.93%, 35.48% 63.71%, 35.67% 68.05%, 34.50% 70.81%, 33.53% 71.79%, 32.94% 71.99%, 31.97% 72.78%, 31.38% 72.78%, 30.99% 73.18%, 29.82% 73.57%, 28.46% 75.15%, 27.68% 76.73%, 27.49% 78.11%, 26.71% 78.70%, 26.12% 79.68%, 26.12% 80.47%, 25.15% 81.26%, 23.78% 83.43%, 23.78% 84.22%, 23.20% 85.21%, 23.20% 88.76%, 22.81% 90.14%, 22.81% 90.93%, 23.39% 91.32%, 25.15% 91.72%, 30.02% 93.49%, 30.60% 93.49%, 35.48% 95.27%, 36.06% 95.27%, 49.51% 99.80%, 52.05% 99.21%, 56.92% 97.44%, 57.50% 97.44%, 72.71% 92.31%, 73.29% 92.31%, 83.04% 88.95%, 83.63% 88.95%, 88.50% 87.18%, 89.08% 87.18%, 98.83% 83.83%, 99.42% 83.83%, 99.81% 83.43%, 99.81% 63.12%, 95.91% 62.72%, 94.93% 62.33%, 92.01% 61.93%, 91.23% 61.54%, 88.50% 61.54%, 88.30% 61.34%, 87.72% 61.34%, 85.96% 59.96%, 85.58% 59.96%, 84.02% 58.78%, 81.87% 57.59%, 81.48% 57.59%, 80.51% 56.80%, 80.12% 56.02%, 80.31% 55.82%, 80.31% 54.83%, 80.51% 54.64%, 80.51% 53.85%, 80.90% 52.66%, 80.90% 51.68%, 81.09% 51.48%, 81.48% 48.72%, 82.46% 45.96%, 82.46% 44.97%, 82.07% 43.98%, 81.09% 42.80%, 80.31% 41.22%, 79.73% 39.05%, 78.95% 37.67%, 78.36% 35.70%, 73.29% 29.39%, 72.51% 28.01%, 71.35% 26.82%, 70.76% 23.47%, 70.37% 22.68%, 70.18% 21.30%, 68.81% 17.16%, 68.42% 16.57%, 67.84% 14.60%, 65.89% 11.05%, 64.72% 9.47%, 59.65% 4.54%, 55.95% 2.17%);
 }
 
-/* Each ring's badges sit in an orbit box the size of the ring, centred on
-   it, so turning the box carries them round the ring. */
 .orbit { position: absolute; left: calc(var(--ox) * var(--u)); top: calc(var(--oy) * var(--u)); width: calc(var(--os) * var(--u)); height: calc(var(--os) * var(--u)); }
 .o1 { --ox: 276.759; --oy: 307.111; --os: 396.204; }
 .o2 { --ox: 167.411; --oy: 196.873; --os: 615.197; }
@@ -77,16 +49,6 @@
 .esig      { --x: 83.844;  --y: 661.827; }
 .check     { --x: 542.278; --y: 836.074; }
 
-/*
- * Build (once): panel and agent 0–0.7s. Rings grow from the centre (scale
- * 0.15 to 1, fading in over the first 40%), 1.4s each with a soft ease out:
- * inner 0.4s, middle 0.65s, outer 0.9s. Badges grow in one at a time,
- * 150ms apart in a shuffled order (Done, Payments, Time, eSignatures,
- * Speed, Passkeys, AI, Developers), from 1.6s.
- *
- * Orbit (from 2.8s, with Loop on): the outer ring's badges, 120s a turn
- * clockwise, each counter-turning at the same speed.
- */
 .panel, .agent { animation: fade-in 0.7s ease-out 0s 1 both; }
 .ring.r1 { animation: ring 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s 1 both; }
 .ring.r2 { animation: ring 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.65s 1 both; }

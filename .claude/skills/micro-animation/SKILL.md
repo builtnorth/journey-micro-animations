@@ -41,13 +41,17 @@ before building rather than inventing extra motion.
 layer (e.g. `Graphic / get-demo-graphic` → `get-demo`).
 
 - Root: `<div class="<prefix>"><div class="stage"><div class="scene">…</div></div></div>`.
-  The root sets `--u: 1px`, `width: 100%`, `max-width: <frame width>px` and
-  the font (`var(--wp--custom--animation--font, "Inter"), sans-serif`);
-  `.stage` is the size container (`container-type: inline-size`,
-  `aspect-ratio: <w> / <h>`, `overflow: hidden`); `.scene` is laid out at
-  the frame size in px and zoomed to fit (`zoom: calc(100cqw / <w>px)`),
-  with the `@supports not (zoom: calc(1px / 1px))` cqw fallback. Copy the
-  frame from an existing graphic; `AGENTS.md` says why (Safari).
+  The root sets `--u: 1px`, `width: 100%` (no `max-width`) and the font
+  (`var(--wp--custom--animation--font, "Inter"), sans-serif`); `.stage` is
+  the size container; `.scene` is laid out at the frame size in px, then
+  moved and zoomed so the artwork fills the stage, with the `@supports`
+  cqw fallback. Copy the frame from an existing graphic; `AGENTS.md` says
+  why (Safari) and how to trim it.
+- Once the graphic is built, run `node $S/bounds.js <name>` and trim the
+  stage to the box it prints (stage `aspect-ratio`, scene `left`/`top`,
+  `zoom`, the fallback, and `overflow` from `cropped`), so the artwork fills
+  the block edge to edge.
+- No comments in the HTML or CSS: they ship to the page.
 - Static layers that never move (panels, backgrounds, connector lines):
   one full-frame `<svg viewBox="0 0 <w> <h>">` with plain shapes.
 - Everything that moves (rings, badges, cards, photos): its own positioned
@@ -117,12 +121,12 @@ python3 $S/compare.py strip <scratch>/r
 
 ## 6. Commit and hand over
 
-- Add the folder to the README table (with its design width).
+- Add the folder to the README table.
 - Commit as `Dan Northern <157666970+dannorthern@users.noreply.github.com>`
   with **no** Claude attribution lines, and push to the repo's default branch
   (`claude/confident-goodall-excjjt`):
   `git -c user.name="Dan Northern" -c user.email="157666970+dannorthern@users.noreply.github.com" commit …`
-- Tell the user: the block's design width, whether Loop needs to be on
+- Tell the user: whether Loop needs to be on
   (only if the graphic has a live loop), and any image still pending.
 
 ## When something works in the editor but not on the site

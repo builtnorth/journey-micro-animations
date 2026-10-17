@@ -1,47 +1,21 @@
-/*
- * AI / MCP. Builds once, top to bottom, following the flow: the agent bot
- * comes in, the dotted line runs out from it to its tools (the inner pair,
- * then the outer pair), the green line draws down to MCP, the bars draw out
- * from behind it, the line runs on to the Journey node, and it branches out
- * to the three servers (the middle one first).
- *
- * The data lines are what loop, with the block's Loop on: the dots run in
- * along the top line to the bot, and the green dashes run down from it
- * through MCP and Journey to the servers. With Loop off (and reduced
- * motion) they stay still. The build plays once either way.
- *
- * Laid out on the Figma frame's 1140 × 1132 grid (set the block's design
- * width to 1140); --u is one grid pixel, so the graphic scales as a whole.
- * Icons, bars and connectors are the Figma exports.
- */
 .mcp {
   --u: 1px;
   width: 100%;
-  max-width: 1140px;
-  margin-inline: auto;
   font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
 }
 .mcp *, .mcp *::before, .mcp *::after { box-sizing: border-box; }
 .mcp p { margin: 0; }
 
-.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1140 / 1132; overflow: hidden; }
-/* The scene is laid out at the design size in px and zoomed to the stage's width
-   as a whole, so text is zoomed once like everything else (WebKit zooms font
-   sizes in container units twice when the block zooms the graphic). Browsers
-   without length division fall back to sizing every length with cqw. */
-.scene { position: absolute; left: 0; top: 0; width: 1140px; height: 1132px; zoom: calc(100cqw / 1140px); }
+.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1064 / 1007; overflow: visible; }
+.scene { position: absolute; left: -38px; top: -63px; width: 1140px; height: 1132px; zoom: calc(100cqw / 1064px); }
 @supports not (zoom: calc(1px / 1px)) {
-  .mcp { --u: calc(100cqw / 1140); }
-  .scene { width: 100%; height: 100%; zoom: 1; }
+  .mcp { --u: calc(100cqw / 1064); }
+  .scene { left: calc(-38 * var(--u)); top: calc(-63 * var(--u)); width: calc(1140 * var(--u)); height: calc(1132 * var(--u)); zoom: 1; }
 }
 .scene > * { position: absolute; display: block; }
 .glyph, .logo, .half { position: absolute; }
 .glyph svg, .logo svg, .half svg, .arcs svg { display: block; width: 100%; height: 100%; overflow: visible; }
 
-/* ---- Agent and its tools ---- */
-/* The dotted line runs whole behind the tools and the bot, in two halves
-   that meet at the bot. Sizes in em, where 1em is one grid pixel, so the
-   flow keyframes stay literal. */
 .dotted {
   top: calc(176.03 * var(--u)); height: calc(2.6 * var(--u)); font-size: var(--u);
   background: repeating-linear-gradient(90deg, #c2ced0 0 5.24em, transparent 0 10.48em);
@@ -63,9 +37,6 @@
 }
 .bot .glyph { left: calc(57.512 * var(--u)); top: calc(57.512 * var(--u)); width: calc(118.218 * var(--u)); height: calc(118.218 * var(--u)); }
 
-/* ---- Green data lines: dashed, and whole behind each item: the spine runs
-   from the bot's centre to the servers, the branches from Journey's centre
-   out and down to the side servers. ---- */
 .spine {
   left: calc(568.72 * var(--u)); top: calc(179.29 * var(--u)); width: calc(3.2 * var(--u)); height: calc(813.73 * var(--u)); font-size: var(--u);
   background: repeating-linear-gradient(180deg, #07aa4d 0 6em, transparent 0 12em);
@@ -73,8 +44,6 @@
 .arcs { left: calc(195.255 * var(--u)); top: calc(801.71 * var(--u)); width: calc(749.516 * var(--u)); height: calc(191.31 * var(--u)); }
 .arc { stroke-dasharray: 6 6; }
 
-/* ---- MCP and the bars behind it (the right group is the left one
-   mirrored, so each bar draws out from MCP's side) ---- */
 .streak { top: calc(471.48 * var(--u)); width: calc(378.69 * var(--u)); height: calc(123.325 * var(--u)); }
 .streak.left  { left: calc(188.67 * var(--u)); }
 .streak.right { left: calc(572.6 * var(--u)); scale: -1 1; }
@@ -115,7 +84,6 @@
 .hub .logo { position: relative; flex: none; width: calc(83.862 * var(--u)); height: calc(83.862 * var(--u)); }
 .hub .logo svg { position: absolute; left: calc(5.593 * var(--u)); top: calc(1.831 * var(--u)); width: calc(72.284 * var(--u)); height: calc(80.404 * var(--u)); }
 
-/* ---- Journey and the servers ---- */
 .journey {
   left: calc(484.83 * var(--u)); top: calc(713.91 * var(--u)); width: calc(170.916 * var(--u)); height: calc(170.404 * var(--u));
   border-radius: 50%; background: linear-gradient(180deg, #2484c6, #006fba); box-shadow: 0 0 calc(26.207 * var(--u)) rgba(0, 0, 0, 0.1);
@@ -133,24 +101,11 @@
 .s1 { --x: 38; }
 .s2 { --x: 410.138; }
 .s3 { --x: 782.276; }
-/* A server's front: status lights, then a vent grille. */
 .led { flex: none; width: calc(12 * var(--u)); height: calc(12 * var(--u)); border-radius: 50%; background: #cfdbe0; }
 .led.on { background: #07aa4d; }
 .grille { display: flex; gap: calc(7 * var(--u)); margin-left: auto; padding: calc(9 * var(--u)) calc(12 * var(--u)); border-radius: calc(8 * var(--u)); background: #eef3f6; }
 .slot { display: block; width: calc(5 * var(--u)); height: calc(26 * var(--u)); border-radius: 999px; background: #cfdbe0; }
 
-/*
- * Build (once): bot 0–0.5s; dotted line 0.4–1s, out from the bot both
- * ways; tools 0.7s (inner pair) and 0.95s (outer pair). The green spine
- * draws down in stages: to MCP by 1.45s, when MCP comes in; on to Journey
- * by 2.3s, when it comes in; on to the servers by 3.1s, as the branches
- * draw out from Journey. The bars draw out from behind MCP one by one from
- * 1.8s (shuffled by --d, both sides together). Servers 3.05s (middle) and
- * 3.4s (sides).
- *
- * Flow (with Loop on): the dashes move one pattern length per loop, so it
- * repeats without a jump: green 12 down per 1s, grey 10.48 in per 0.4s.
- */
 .bot { animation: pop 0.5s ease-out 0s 1 both; }
 .d-left { animation: spread-left 0.6s ease-out 0.4s 1 both, flow-right 0.4s linear 0s infinite; }
 .d-right { animation: spread-right 0.6s ease-out 0.4s 1 both, flow-left 0.4s linear 0s infinite; }
@@ -185,9 +140,6 @@
   from { clip-path: inset(0 100% 0 0); }
   to { clip-path: inset(0 0 0 0); }
 }
-/* Spine stages (0% = 1s): down to MCP's top (32%) by 1.45s, held under MCP
-   until 1.95s, down to Journey's top (66%) by 2.3s, held until 2.75s, then
-   on to the servers by 3.1s. */
 @keyframes spine {
   0% { clip-path: inset(0 0 100% 0); }
   21% { clip-path: inset(0 0 68% 0); }

@@ -1,19 +1,3 @@
-/*
- * Agent general workflows. The agent's photo is simply there; the channel
- * icons grow in one after another, down the left column and then the right,
- * then the workflow cards come in one after another (Password Reset, the
- * passkey Sign In, DTMF). Then it holds. The photo, cards and icons stay still once they are in.
- *
- * Pure CSS, one --cycle whose first and last frames are the finished
- * graphic. Every animation is infinite and the block's Loop setting decides:
- * on, the whole sequence repeats (the 0–4% reset eases back to the start);
- * off, it plays once and ends on the finished graphic, as does reduced
- * motion. The --start delay skips the reset on the first pass.
- *
- * Laid out on the Figma frame's 1304 × 1132 grid (set the block's design
- * width to 1304); --u is one grid pixel, so the graphic scales as a whole.
- * Icons are the Figma exports; the photo is hosted on Cloudinary.
- */
 .agw {
   --navy: #0e2b4d;
   --shadow: rgba(0, 0, 0, 0.1);
@@ -21,26 +5,19 @@
   --start: -0.45s;
   --u: 1px;
   width: 100%;
-  max-width: 1304px;
-  margin-inline: auto;
   font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 .agw *, .agw *::before, .agw *::after { box-sizing: border-box; }
 .agw p { margin: 0; }
 
-.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1304 / 1132; overflow: hidden; }
-/* The scene is laid out at the design size in px and zoomed to the stage's width
-   as a whole, so text is zoomed once like everything else (WebKit zooms font
-   sizes in container units twice when the block zooms the graphic). Browsers
-   without length division fall back to sizing every length with cqw. */
-.scene { position: absolute; left: 0; top: 0; width: 1304px; height: 1132px; zoom: calc(100cqw / 1304px); }
+.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1172 / 1132; overflow: visible; clip-path: inset(0 -25% 0 -25%); }
+.scene { position: absolute; left: -68px; top: 0px; width: 1304px; height: 1132px; zoom: calc(100cqw / 1172px); }
 @supports not (zoom: calc(1px / 1px)) {
-  .agw { --u: calc(100cqw / 1304); }
-  .scene { width: 100%; height: 100%; zoom: 1; }
+  .agw { --u: calc(100cqw / 1172); }
+  .scene { left: calc(-68 * var(--u)); top: calc(0 * var(--u)); width: calc(1304 * var(--u)); height: calc(1132 * var(--u)); zoom: 1; }
 }
 
-/* The agent: still, no entrance. */
 .agent {
   position: absolute;
   left: calc(257.254 * var(--u));
@@ -52,7 +29,6 @@
   object-fit: cover;
 }
 
-/* Channel icons: navy circles down the left, outlined icons on the right. */
 .icon { position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); width: calc(var(--s) * var(--u)); height: calc(var(--s) * var(--u)); }
 .icon svg, .glyph svg, .close svg, .key svg, .spinner svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .wallet { --x: 68; --y: 90;      --s: 108.663; }
@@ -62,8 +38,6 @@
 .voice  { --x: 1024;    --y: 134;     --s: 84.9; }
 .chat   { --x: 1024.317; --y: 315.267; --s: 84.266; }
 
-/* Workflow cards: they fit their label (the font varies by site), at least
-   the frame's width. Password Reset grows leftward, DTMF rightward. */
 .card {
   position: absolute;
   top: calc(var(--y) * var(--u));
@@ -87,7 +61,6 @@
 .dtmf .glyph { width: calc(53.659 * var(--u)); height: calc(55.896 * var(--u)); }
 .dtmf .label { font-size: calc(43.914 * var(--u)); }
 
-/* Passkey sign-in sheet: positions inside it are frame px less its origin (738, 705). */
 .signin {
   position: absolute;
   left: calc(738 * var(--u));
@@ -108,14 +81,6 @@
 .spinner { left: calc(224.28 * var(--u)); top: calc(238.169 * var(--u)); width: calc(48.456 * var(--u)); height: calc(48.456 * var(--u)); }
 .status { left: 0; right: 0; top: calc(290.777 * var(--u)); font-size: calc(16.613 * var(--u)); line-height: calc(29.073 * var(--u)); text-align: center; }
 
-/*
- * Timeline (one 10s cycle). 0–4%: the finished cards and icons fade and
- * reset. The icons grow in one after another, down the left column and then
- * the right (wallet, authentication, code, document, voice, chat), 250ms
- * apart from 6% (each 5% long). The cards then come in one after another,
- * top to bottom: Password Reset 25%, Sign In 29%, DTMF 33% (each 6% long).
- * Hold to 100%.
- */
 .wallet { animation: icon-1 var(--cycle) ease-out var(--start) infinite both; }
 .auth { animation: icon-2 var(--cycle) ease-out var(--start) infinite both; }
 .code { animation: icon-3 var(--cycle) ease-out var(--start) infinite both; }

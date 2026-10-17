@@ -1,31 +1,9 @@
-/*
- * Featured image: payments. An agent's call window beside the customer's
- * phone. The call steps run through in order: each waits (bouncing dots),
- * works (spinner) and confirms (green tick), the line runs down to the next
- * and the phone's progress bar steps forward. When the payment completes,
- * the step list gives way to "Payment confirmed" and it holds. No entrance
- * animation: the window and phone are there from the start.
- *
- * Pure CSS, one --cycle whose first and last frames are the finished
- * graphic. Every animation is infinite and the block's Loop setting decides:
- * on, the whole sequence repeats (the 0–4% reset eases back to the start);
- * off, it plays once and ends on the finished graphic, as does reduced
- * motion. The --start delay skips the reset on the first pass.
- *
- * Laid out on the Figma frame's 1216 × 1132 grid (set the block's design
- * width to 1216); --u is one grid pixel, so the graphic scales as a whole.
- * Icons are the Figma exports; the avatar and the phone screen are images
- * hosted on Cloudinary. The "Payment confirmed" screen isn't in Figma: it is
- * drawn here in the window's style.
- */
 .fip {
   --cycle: 12s;
   --start: -0.5s;
   --u: 1px;
   --ink: #254e70;
   width: 100%;
-  max-width: 1216px;
-  margin-inline: auto;
   font-family: var(--wp--custom--animation--font, "Inter"), sans-serif;
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
@@ -33,22 +11,16 @@
 .fip *, .fip *::before, .fip *::after { box-sizing: border-box; }
 
 .stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1216 / 1132; overflow: hidden; }
-/* The scene is laid out at the design size in px and zoomed to the stage's width
-   as a whole, so text is zoomed once like everything else (WebKit zooms font
-   sizes in container units twice when the block zooms the graphic). Browsers
-   without length division fall back to sizing every length with cqw. */
-.scene { position: absolute; left: 0; top: 0; width: 1216px; height: 1132px; zoom: calc(100cqw / 1216px); }
+.scene { position: absolute; left: 0px; top: 0px; width: 1216px; height: 1132px; zoom: calc(100cqw / 1216px); }
 @supports not (zoom: calc(1px / 1px)) {
   .fip { --u: calc(100cqw / 1216); }
-  .scene { width: 100%; height: 100%; zoom: 1; }
+  .scene { left: calc(0 * var(--u)); top: calc(0 * var(--u)); width: calc(1216 * var(--u)); height: calc(1132 * var(--u)); zoom: 1; }
 }
 
-/* Everything is placed on the frame grid inside two full-frame groups. */
 .window, .phone { position: absolute; inset: 0; }
 .window > *, .phone > *, .step > * { position: absolute; display: block; }
 .icon svg, .lights svg, .status-icons svg, .camera svg, .antenna svg { display: block; width: 100%; height: 100%; overflow: visible; }
 
-/* ---- Agent window ---- */
 .window::before {
   content: "";
   position: absolute;
@@ -93,9 +65,7 @@
   color: #e6513f; font-size: calc(23.698 * var(--u)); line-height: calc(42.22 * var(--u)); text-align: center;
 }
 
-/* Steps: rows 113.75 apart; each row's parts are placed from its label. */
 .track { left: calc(431.31 * var(--u)); top: calc(472.59 * var(--u)); width: calc(4.74 * var(--u)); height: calc(445.53 * var(--u)); background: #e4eced; }
-/* Green segments from each step's icon to the next (under the halos). */
 .seg { left: calc(431.31 * var(--u)); width: calc(4.74 * var(--u)); height: calc(113.75 * var(--u)); background: #07aa4d; transform-origin: top; }
 .g1 { top: calc(460.75 * var(--u)); }
 .g2 { top: calc(574.5 * var(--u)); }
@@ -116,14 +86,12 @@
 .halo { left: calc(364.45 * var(--u)); top: calc(-9.07 * var(--u)); width: calc(52.14 * var(--u)); height: calc(52.14 * var(--u)); border-radius: 50%; background: #fff; }
 .icon { left: calc(372.06 * var(--u)); top: calc(-1.96 * var(--u)); width: calc(37.917 * var(--u)); height: calc(37.917 * var(--u)); }
 .spinner { width: 100%; height: 100%; }
-/* Waiting: Figma's grey disc with three dots, as boxes so the dots can move. */
 .icon.wait { border-radius: 50%; background: #e4eced; box-shadow: 0 0 0 calc(1.086 * var(--u)) #e4eced; }
 .dot { position: absolute; top: calc(16.59 * var(--u)); width: calc(5.817 * var(--u)); height: calc(5.817 * var(--u)); border-radius: 50%; background: #a1bcc9; font-size: var(--u); }
 .d1 { left: calc(7.11 * var(--u)); }
 .d2 { left: calc(16.59 * var(--u)); }
 .d3 { left: calc(26.07 * var(--u)); }
 
-/* "Payment confirmed": replaces the step list once every step is done. */
 .confirmed {
   left: 0; top: calc(380.17 * var(--u));
   width: calc(708.578 * var(--u)); height: calc(613.787 * var(--u));
@@ -135,7 +103,6 @@
 .big-check svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .title { left: 0; right: 0; top: calc(344 * var(--u)); text-align: center; white-space: nowrap; font-size: calc(37.917 * var(--u)); line-height: calc(46 * var(--u)); letter-spacing: 0.04em; color: #07aa4d; }
 
-/* ---- Phone ---- */
 .phone::before {
   content: "";
   position: absolute;
@@ -150,7 +117,6 @@
   border: calc(4.45 * var(--u)) solid #342e3c; border-radius: calc(89.008 * var(--u));
   background: #111;
 }
-/* The screen clips the app (a plain rectangle) to the phone's rounded glass. */
 .screen {
   left: calc(692.25 * var(--u)); top: calc(23.25 * var(--u));
   width: calc(499.93 * var(--u)); height: calc(1084.42 * var(--u));
@@ -185,14 +151,6 @@
   box-shadow: inset calc(1.483 * var(--u)) 0 calc(2.967 * var(--u)) rgba(0, 0, 0, 0.5);
 }
 
-/*
- * Timeline (one 12s cycle). 0–4%: the finished graphic resets to
- * the start: every step Waiting, its dots bouncing. Each step then works for
- * 0.9s (spinner, blue "…ing") and ticks green, the green line runs down to the
- * next, and the phone's progress bar steps forward: rows start at
- * 0.9s, 2.2s, 3.5s, 4.8s, 6.1s. The window shows "Payment confirmed" at
- * 7.5s and it holds to the end.
- */
 .s1 .wait { animation: wait-1 var(--cycle) linear var(--start) infinite both; }
 .s1 .busy { animation: busy-1 var(--cycle) linear var(--start) infinite both; }
 .s1 .done { animation: done-1 var(--cycle) ease-out var(--start) infinite both; }

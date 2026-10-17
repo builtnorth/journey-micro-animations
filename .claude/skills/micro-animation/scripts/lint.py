@@ -108,6 +108,15 @@ def lint(folder: Path):
         elif t not in HTML_OK:
             W(f'{name}.html: <{tag}> may not be allowed; prefer div/span/img')
 
+    # --- no comments: they ship to the page
+    for m in re.finditer(r'<!--', html):
+        E(f'{name}.html:{html.count(chr(10), 0, m.start()) + 1}: comment (they ship to the page; explain in AGENTS.md or the commit)')
+    for m in re.finditer(r'/\*', css):
+        E(f'{name}.css:{css.count(chr(10), 0, m.start()) + 1}: comment (they ship to the page; explain in AGENTS.md or the commit)')
+    rootrule = re.search(r'^\.[a-z-]+ \{([^}]*)\}', css, flags=re.M)
+    if rootrule and 'max-width' in rootrule.group(1):
+        E(f'{name}.css: the root has a max-width: the graphic must fill 100% of its container')
+
     # --- the scaling frame (Safari gets container units wrong under the block's zoom)
     if not re.search(r'<div class="stage">\s*<div class="scene">', html):
         E(f'{name}.html: the stage\'s only child must be <div class="scene"> wrapping all the content (see AGENTS.md)')

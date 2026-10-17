@@ -139,30 +139,43 @@ these limits:
   The font differs from Figma's and by site, so anything holding text grows
   to fit it (`min-width` at the Figma width, not a fixed `width`), growing
   away from the frame edge it sits against.
-- **The graphic scales itself to the column, the same in every browser.**
-  Don't rely on the block to scale it: with the usual settings it doesn't.
-  And never size lengths, least of all font sizes, in container units (`cqw`)
-  directly: when the block zooms the graphic (its Scale setting), Safari
-  (WebKit) gets them wrong. Text comes out too small, and when the zoom
-  lands between the container and the content the whole layout shrinks into
-  a corner. So every graphic uses the same frame, which `lint.py` checks:
-  - root: `width: 100%`, `max-width: <frame width>px`, `--u: 1px`;
-  - `.stage`: `container-type: inline-size`, `aspect-ratio: <w> / <h>`,
-    `overflow: hidden`;
-  - `.scene`, the stage's only child, wrapping all the content:
-    `position: absolute; left: 0; top: 0; width: <w>px; height: <h>px;
-    zoom: calc(100cqw / <w>px);` so the whole scene, text included, is laid
-    out in px and zoomed once to the stage's width;
+- **The graphic fills 100% of its container, with no margin of its own,
+  the same in every browser.** It scales itself (the block doesn't, with the
+  usual settings), never caps its own size, and its stage is trimmed to the
+  artwork. Never size lengths, least of all font sizes, in container units
+  (`cqw`) directly: when the block zooms the graphic (its Scale setting),
+  Safari (WebKit) gets them wrong (text too small; with the zoom on the
+  stage, the layout shrinks into a corner). So every graphic uses the same
+  frame, which `lint.py` checks:
+  - root: `width: 100%`, `--u: 1px`, the font; no `max-width`;
+  - `.stage`: `container-type: inline-size`, `aspect-ratio: <w> / <h>` of
+    the trimmed artwork (below);
+  - `.scene`, the stage's only child, wrapping all the content, laid out at
+    the Figma frame size in px and moved and zoomed so the artwork fills the
+    stage: `position: absolute; left: -<x>px; top: -<y>px; width: <W>px;
+    height: <H>px; zoom: calc(100cqw / <w>px);`;
   - a fallback for browsers without length division:
-    `@supports not (zoom: calc(1px / 1px)) { <root> { --u: calc(100cqw / <w>); } .scene { width: 100%; height: 100%; zoom: 1; } }`.
+    `@supports not (zoom: calc(1px / 1px)) { <root> { --u: calc(100cqw / <w>); } .scene { left: calc(-<x> * var(--u)); top: calc(-<y> * var(--u)); width: calc(<W> * var(--u)); height: calc(<H> * var(--u)); zoom: 1; } }`.
   Copy it from an existing graphic. Children of the scene are positioned
   with `.scene > *`, never `.stage > *`.
+- **Trim the stage to the artwork.** `scripts/bounds.js <folder>` prints the
+  box of the solid artwork in the finished frame (soft shadows don't count)
+  as `x`, `y`, `w`, `h`, and which frame edges the artwork runs off
+  (`cropped`, e.g. a phone cut by the bottom of the frame). Use that box for
+  the stage and scene. Edges the artwork runs off stay clipped; the others
+  let shadows and motion (orbits, entrances) spill past the block:
+  `overflow: hidden` when all four are cropped, `overflow: visible` when
+  none are, otherwise `overflow: visible; clip-path: inset(...)` with `0` on
+  the cropped sides and `-25%` on the rest.
+- **No comments in the graphic's HTML or CSS.** They ship to the page.
+  Explain things in `AGENTS.md`, the skill or the commit message instead.
 
 ## Building from Figma
 
 - Lay out on the Figma frame's grid: `--u` is one frame pixel (`1px`, or
-  `calc(100cqw / <frame width>)` in the fallback) and every size and position
-  is a multiple of it.
+  `calc(100cqw / <w>)` in the fallback) and every size and position in the
+  scene is a multiple of it, in frame coordinates (the trim only moves the
+  scene).
 - Use the Figma exports as they are: SVG icons with their paths unchanged,
   photos as exported. Don't redraw, simplify or recolor them. Only strip
   `id`s, Figma wrapper groups and anything that breaks the rules above.
