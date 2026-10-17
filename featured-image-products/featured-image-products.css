@@ -7,11 +7,11 @@
 .fip *, .fip *::before, .fip *::after { box-sizing: border-box; }
 .fip p { margin: 0; }
 
-.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1103 / 838; overflow: visible; }
-.scene { position: absolute; left: -57px; top: -147px; width: 1216px; height: 1132px; zoom: calc(100cqw / 1103px); }
+.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1171 / 906; overflow: hidden; }
+.scene { position: absolute; left: -23px; top: -113px; width: 1216px; height: 1132px; zoom: calc(100cqw / 1171px); }
 @supports not (zoom: calc(1px / 1px)) {
-  .fip { --u: calc(100cqw / 1103); }
-  .scene { left: calc(-57 * var(--u)); top: calc(-147 * var(--u)); width: calc(1216 * var(--u)); height: calc(1132 * var(--u)); zoom: 1; }
+  .fip { --u: calc(100cqw / 1171); }
+  .scene { left: calc(-23 * var(--u)); top: calc(-113 * var(--u)); width: calc(1216 * var(--u)); height: calc(1132 * var(--u)); zoom: 1; }
 }
 .scene > * { position: absolute; }
 .glyph svg { display: block; width: 100%; height: 100%; overflow: visible; }

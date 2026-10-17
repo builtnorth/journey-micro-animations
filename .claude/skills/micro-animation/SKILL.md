@@ -47,10 +47,11 @@ layer (e.g. `Graphic / get-demo-graphic` → `get-demo`).
   moved and zoomed so the artwork fills the stage, with the `@supports`
   cqw fallback. Copy the frame from an existing graphic; `AGENTS.md` says
   why (Safari) and how to trim it.
-- Once the graphic is built, run `node $S/bounds.js <name>` and trim the
-  stage to the box it prints (stage `aspect-ratio`, scene `left`/`top`,
-  `zoom`, the fallback, and `overflow` from `cropped`), so the artwork fills
-  the block edge to edge.
+- Once the graphic is built (and again after any change to its motion or
+  layout), run `node $S/bounds.js <name>` and trim the stage to the box it
+  prints (stage `aspect-ratio`, scene `left`/`top`, `zoom` and the fallback;
+  the stage keeps `overflow: hidden`), so the artwork fills the block edge
+  to edge and nothing ever draws outside it.
 - No comments in the HTML or CSS: they ship to the page.
 - Static layers that never move (panels, backgrounds, connector lines):
   one full-frame `<svg viewBox="0 0 <w> <h>">` with plain shapes.

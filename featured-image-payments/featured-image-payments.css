@@ -10,11 +10,11 @@
 }
 .fip *, .fip *::before, .fip *::after { box-sizing: border-box; }
 
-.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1216 / 1132; overflow: hidden; }
-.scene { position: absolute; left: 0px; top: 0px; width: 1216px; height: 1132px; zoom: calc(100cqw / 1216px); }
+.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1216 / 1130; overflow: hidden; }
+.scene { position: absolute; left: 0px; top: -1px; width: 1216px; height: 1132px; zoom: calc(100cqw / 1216px); }
 @supports not (zoom: calc(1px / 1px)) {
   .fip { --u: calc(100cqw / 1216); }
-  .scene { left: calc(0 * var(--u)); top: calc(0 * var(--u)); width: calc(1216 * var(--u)); height: calc(1132 * var(--u)); zoom: 1; }
+  .scene { left: calc(0 * var(--u)); top: calc(-1 * var(--u)); width: calc(1216 * var(--u)); height: calc(1132 * var(--u)); zoom: 1; }
 }
 
 .window, .phone { position: absolute; inset: 0; }

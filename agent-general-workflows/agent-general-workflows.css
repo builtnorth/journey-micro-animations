@@ -11,11 +11,11 @@
 .agw *, .agw *::before, .agw *::after { box-sizing: border-box; }
 .agw p { margin: 0; }
 
-.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1172 / 1132; overflow: visible; clip-path: inset(0 -25% 0 -25%); }
-.scene { position: absolute; left: -68px; top: 0px; width: 1304px; height: 1132px; zoom: calc(100cqw / 1172px); }
+.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1238 / 1131; overflow: hidden; }
+.scene { position: absolute; left: -37px; top: -1px; width: 1304px; height: 1132px; zoom: calc(100cqw / 1238px); }
 @supports not (zoom: calc(1px / 1px)) {
-  .agw { --u: calc(100cqw / 1172); }
-  .scene { left: calc(-68 * var(--u)); top: calc(0 * var(--u)); width: calc(1304 * var(--u)); height: calc(1132 * var(--u)); zoom: 1; }
+  .agw { --u: calc(100cqw / 1238); }
+  .scene { left: calc(-37 * var(--u)); top: calc(-1 * var(--u)); width: calc(1304 * var(--u)); height: calc(1132 * var(--u)); zoom: 1; }
 }
 
 .agent {

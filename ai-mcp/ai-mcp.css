@@ -6,11 +6,11 @@
 .mcp *, .mcp *::before, .mcp *::after { box-sizing: border-box; }
 .mcp p { margin: 0; }
 
-.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1064 / 1007; overflow: visible; }
-.scene { position: absolute; left: -38px; top: -63px; width: 1140px; height: 1132px; zoom: calc(100cqw / 1064px); }
+.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1120 / 1047; overflow: hidden; }
+.scene { position: absolute; left: -10px; top: -57px; width: 1140px; height: 1132px; zoom: calc(100cqw / 1120px); }
 @supports not (zoom: calc(1px / 1px)) {
-  .mcp { --u: calc(100cqw / 1064); }
-  .scene { left: calc(-38 * var(--u)); top: calc(-63 * var(--u)); width: calc(1140 * var(--u)); height: calc(1132 * var(--u)); zoom: 1; }
+  .mcp { --u: calc(100cqw / 1120); }
+  .scene { left: calc(-10 * var(--u)); top: calc(-57 * var(--u)); width: calc(1140 * var(--u)); height: calc(1132 * var(--u)); zoom: 1; }
 }
 .scene > * { position: absolute; display: block; }
 .glyph, .logo, .half { position: absolute; }

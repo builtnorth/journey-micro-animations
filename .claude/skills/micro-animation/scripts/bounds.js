@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 /*
- * Measure a graphic's solid artwork in its finished frame, in frame px.
+ * Measure everything a graphic ever draws, in frame px.
  *
  *   node bounds.js <folder>
  *
- * Renders the untrimmed frame on a transparent page at the finished frame
- * and prints the box of the solid pixels (alpha >= 64, so soft shadows don't
- * count): the stage is trimmed to it, so the artwork fills the block edge to
- * edge. `cropped` lists the frame edges the artwork runs off (cut by the
- * frame in Figma, like a phone running off the bottom): those stay clipped;
- * on the other sides shadows and motion may spill past the block.
+ * Renders the untrimmed frame on a transparent page, seeks every animation
+ * through its whole duration (build, loops, orbits) and prints the box of
+ * every pixel drawn at any moment, soft shadows included. The stage is
+ * trimmed to that box and clips at it (`overflow: hidden`): the artwork
+ * fills the block edge to edge and nothing ever draws outside it (the
+ * editor clips there, the front end might not). Artwork the Figma frame
+ * itself crops (a phone running off the bottom) is cut at the frame edge.
  * Images are replaced by opaque placeholders (Cloudinary is blocked here),
  * which is right because photos are opaque rectangles.
  */
@@ -38,7 +39,7 @@ const PIXEL = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQ
     .scene{left:0!important;top:0!important;zoom:1!important}</style><div style="width:${W}px;margin:200px">${html}</div>`);
   await page.waitForTimeout(300);
   const box = { x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity };
-  for (const f of [0.999]) {
+  for (const f of Array.from({ length: 121 }, (_, i) => Math.min(i / 120, 0.999))) {
     await page.evaluate((f) => document.getAnimations().forEach((a) => {
       const t = a.effect.getComputedTiming(); a.pause(); a.currentTime = (t.delay || 0) + f * t.duration;
     }), f);
@@ -50,14 +51,13 @@ const PIXEL = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQ
       const d = g.getImageData(0, 0, c.width, c.height).data;
       let x0 = Infinity, y0 = Infinity, x1 = -1, y1 = -1;
       for (let y = 0; y < c.height; y++) for (let x = 0; x < c.width; x++) {
-        if (d[(y * c.width + x) * 4 + 3] >= 64) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+        if (d[(y * c.width + x) * 4 + 3] > 0) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
       }
       return { x0, y0, x1: x1 + 1, y1: y1 + 1 };
     }, png.toString('base64'));
     if (b.x1 > 0) { box.x0 = Math.min(box.x0, b.x0); box.y0 = Math.min(box.y0, b.y0); box.x1 = Math.max(box.x1, b.x1); box.y1 = Math.max(box.y1, b.y1); }
   }
   await browser.close();
-  const cropped = [box.y0 <= 0 && 'top', box.x1 >= Math.floor(W) && 'right', box.y1 >= Math.floor(H) && 'bottom', box.x0 <= 0 && 'left'].filter(Boolean);
-  const r = { frame: [W, H], x: box.x0, y: box.y0, w: box.x1 - box.x0, h: box.y1 - box.y0, cropped };
+  const r = { frame: [W, H], x: box.x0, y: box.y0, w: box.x1 - box.x0, h: box.y1 - box.y0 };
   console.log(JSON.stringify(r));
 })();

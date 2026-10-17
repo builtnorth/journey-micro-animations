@@ -128,6 +128,8 @@ def lint(folder: Path):
     stage = re.search(r'^\.stage \{([^}]*)\}', css, flags=re.M)
     if not stage or 'container-type: inline-size' not in stage.group(1):
         E(f'{name}.css: .stage must be the size container (`container-type: inline-size`)')
+    if not stage or 'overflow: hidden' not in stage.group(1):
+        E(f'{name}.css: .stage must clip (`overflow: hidden`): nothing may draw outside the box; trim it with bounds.js')
     body = re.sub(r'@supports not \(zoom[^{]*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}', '', re.sub(r'/\*.*?\*/', '', css, flags=re.S))
     for m in re.finditer(r'[^;{}]*(?<![A-Za-z-])cq(w|h|i|b|min|max)\b[^;{}]*', body):
         decl = m.group(0).strip()

@@ -149,7 +149,7 @@ these limits:
   frame, which `lint.py` checks:
   - root: `width: 100%`, `--u: 1px`, the font; no `max-width`;
   - `.stage`: `container-type: inline-size`, `aspect-ratio: <w> / <h>` of
-    the trimmed artwork (below);
+    the trimmed artwork (below), `overflow: hidden`;
   - `.scene`, the stage's only child, wrapping all the content, laid out at
     the Figma frame size in px and moved and zoomed so the artwork fills the
     stage: `position: absolute; left: -<x>px; top: -<y>px; width: <W>px;
@@ -158,15 +158,14 @@ these limits:
     `@supports not (zoom: calc(1px / 1px)) { <root> { --u: calc(100cqw / <w>); } .scene { left: calc(-<x> * var(--u)); top: calc(-<y> * var(--u)); width: calc(<W> * var(--u)); height: calc(<H> * var(--u)); zoom: 1; } }`.
   Copy it from an existing graphic. Children of the scene are positioned
   with `.scene > *`, never `.stage > *`.
-- **Trim the stage to the artwork.** `scripts/bounds.js <folder>` prints the
-  box of the solid artwork in the finished frame (soft shadows don't count)
-  as `x`, `y`, `w`, `h`, and which frame edges the artwork runs off
-  (`cropped`, e.g. a phone cut by the bottom of the frame). Use that box for
-  the stage and scene. Edges the artwork runs off stay clipped; the others
-  let shadows and motion (orbits, entrances) spill past the block:
-  `overflow: hidden` when all four are cropped, `overflow: visible` when
-  none are, otherwise `overflow: visible; clip-path: inset(...)` with `0` on
-  the cropped sides and `-25%` on the rest.
+- **Trim the stage to everything the graphic draws, and nothing ever draws
+  outside it.** `scripts/bounds.js <folder>` prints the box of every pixel
+  drawn at any moment of any animation (build, loops, orbits, entrances,
+  soft shadows included) as `x`, `y`, `w`, `h`. Use that box for the stage
+  and scene, and the stage clips at it (`overflow: hidden`): the artwork
+  fills the block edge to edge, and nothing spills past the block (the
+  editor clips there). Artwork the Figma frame itself crops, like a phone
+  running off the bottom, is cut at the frame edge, as in Figma.
 - **No comments in the graphic's HTML or CSS.** They ship to the page.
   Explain things in `AGENTS.md`, the skill or the commit message instead.
 
