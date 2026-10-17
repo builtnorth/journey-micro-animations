@@ -41,7 +41,8 @@ before building rather than inventing extra motion.
 layer (e.g. `Graphic / get-demo-graphic` → `get-demo`).
 
 - Root: `<div class="<prefix>"><div class="stage">…</div></div>`; the root
-  sets `--u: 1px`, `width: <frame width>px` and the font
+  sets `--u: calc(100cqw / <frame width>)`, `container-type: inline-size`,
+  `max-width: <frame width>px` and the font
   (`var(--wp--custom--animation--font, "Inter"), sans-serif`);
   `.stage` has `aspect-ratio: <w> / <h>` and `overflow: hidden`.
 - Static layers that never move (panels, backgrounds, connector lines):
