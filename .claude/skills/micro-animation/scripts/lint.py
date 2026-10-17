@@ -108,6 +108,30 @@ def lint(folder: Path):
         elif t not in HTML_OK:
             W(f'{name}.html: <{tag}> may not be allowed; prefer div/span/img')
 
+    # --- the scaling frame (Safari gets container units wrong under the block's zoom)
+    if not re.search(r'<div class="stage">\s*<div class="scene">', html):
+        E(f'{name}.html: the stage\'s only child must be <div class="scene"> wrapping all the content (see AGENTS.md)')
+    scene = re.search(r'^\.scene \{([^}]*)\}', css, flags=re.M)
+    if not scene or not re.search(r'zoom:\s*calc\(100cqw / [\d.]+px\)', scene.group(1)):
+        E(f'{name}.css: .scene must be laid out in px at the frame size and zoomed with `zoom: calc(100cqw / <w>px)` (see AGENTS.md)')
+    if not re.search(r'@supports not \(zoom: calc\(1px / 1px\)\)', css):
+        E(f'{name}.css: missing the `@supports not (zoom: calc(1px / 1px))` cqw fallback')
+    stage = re.search(r'^\.stage \{([^}]*)\}', css, flags=re.M)
+    if not stage or 'container-type: inline-size' not in stage.group(1):
+        E(f'{name}.css: .stage must be the size container (`container-type: inline-size`)')
+    body = re.sub(r'@supports not \(zoom[^{]*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}', '', re.sub(r'/\*.*?\*/', '', css, flags=re.S))
+    for m in re.finditer(r'[^;{}]*(?<![A-Za-z-])cq(w|h|i|b|min|max)\b[^;{}]*', body):
+        decl = m.group(0).strip()
+        if not re.match(r'zoom:\s*calc\(100cqw / [\d.]+px\)$', decl):
+            line = css.count('\n', 0, css.find(decl)) + 1
+            E(f'{name}.css:{line}: container units outside the scene zoom ({decl[:60]}): Safari gets them wrong under the block\'s zoom; use --u (1px)')
+    stage_b = re.search(r'^\.stage \{[^}]*\}', body, flags=re.M)
+    for m in re.finditer(r'container-type', body):
+        if not stage_b or not (stage_b.start() <= m.start() < stage_b.end()):
+            E(f'{name}.css: container-type outside .stage')
+    if re.search(r'\.stage\s*>\s*\*', css):
+        E(f'{name}.css: position the scene\'s children with `.scene > *`, not `.stage > *`')
+
     # --- CSS
     for pat, msg in [
         (r'url\(', 'url() in CSS'),

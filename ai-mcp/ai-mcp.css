@@ -15,8 +15,7 @@
  * Icons, bars and connectors are the Figma exports.
  */
 .mcp {
-  --u: calc(100cqw / 1140);
-  container-type: inline-size;
+  --u: 1px;
   width: 100%;
   max-width: 1140px;
   margin-inline: auto;
@@ -25,8 +24,17 @@
 .mcp *, .mcp *::before, .mcp *::after { box-sizing: border-box; }
 .mcp p { margin: 0; }
 
-.stage { position: relative; width: 100%; aspect-ratio: 1140 / 1132; overflow: hidden; }
-.stage > * { position: absolute; display: block; }
+.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1140 / 1132; overflow: hidden; }
+/* The scene is laid out at the design size in px and zoomed to the stage's width
+   as a whole, so text is zoomed once like everything else (WebKit zooms font
+   sizes in container units twice when the block zooms the graphic). Browsers
+   without length division fall back to sizing every length with cqw. */
+.scene { position: absolute; left: 0; top: 0; width: 1140px; height: 1132px; zoom: calc(100cqw / 1140px); }
+@supports not (zoom: calc(1px / 1px)) {
+  .mcp { --u: calc(100cqw / 1140); }
+  .scene { width: 100%; height: 100%; zoom: 1; }
+}
+.scene > * { position: absolute; display: block; }
 .glyph, .logo, .half { position: absolute; }
 .glyph svg, .logo svg, .half svg, .arcs svg { display: block; width: 100%; height: 100%; overflow: visible; }
 

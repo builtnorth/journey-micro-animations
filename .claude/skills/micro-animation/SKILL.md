@@ -40,11 +40,14 @@ before building rather than inventing extra motion.
 `<name>/<name>.html` and `<name>/<name>.css`, `<name>` from the Figma
 layer (e.g. `Graphic / get-demo-graphic` → `get-demo`).
 
-- Root: `<div class="<prefix>"><div class="stage">…</div></div>`; the root
-  sets `--u: calc(100cqw / <frame width>)`, `container-type: inline-size`,
-  `max-width: <frame width>px` and the font
-  (`var(--wp--custom--animation--font, "Inter"), sans-serif`);
-  `.stage` has `aspect-ratio: <w> / <h>` and `overflow: hidden`.
+- Root: `<div class="<prefix>"><div class="stage"><div class="scene">…</div></div></div>`.
+  The root sets `--u: 1px`, `width: 100%`, `max-width: <frame width>px` and
+  the font (`var(--wp--custom--animation--font, "Inter"), sans-serif`);
+  `.stage` is the size container (`container-type: inline-size`,
+  `aspect-ratio: <w> / <h>`, `overflow: hidden`); `.scene` is laid out at
+  the frame size in px and zoomed to fit (`zoom: calc(100cqw / <w>px)`),
+  with the `@supports not (zoom: calc(1px / 1px))` cqw fallback. Copy the
+  frame from an existing graphic; `AGENTS.md` says why (Safari).
 - Static layers that never move (panels, backgrounds, connector lines):
   one full-frame `<svg viewBox="0 0 <w> <h>">` with plain shapes.
 - Everything that moves (rings, badges, cards, photos): its own positioned
@@ -131,3 +134,12 @@ first. Known causes, all checked by it: `url()` or `id`s in markup, a
 allowlist (`pathLength`, `stroke-dasharray` …), a non-https image `src`,
 and loops with the block's Loop off. When you find a new one, add it to
 `AGENTS.md` and to `lint.py`.
+
+If a graphic is right in Chrome but wrong in Safari (text too small, or the
+layout shrunk into the top-left corner while the connector lines stay put),
+it is using container units outside the `.stage` / `.scene` frame: copy the
+frame from an existing graphic. To check in WebKit here, `apt-get install
+gir1.2-webkit2-4.1 xvfb` and render with WebKitGTK from `python3.12`
+(`gi.require_version('WebKit2', '4.1')`) under `xvfb-run`; Playwright's own
+WebKit download is blocked in this environment. Test with the block's zoom
+on the root and on `.stage` (e.g. `zoom: .61`) as well as without.

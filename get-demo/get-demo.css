@@ -13,8 +13,7 @@
  * Icons are the Figma exports; the photo is a cut-out PNG hosted on Cloudinary.
  */
 .gdm {
-  --u: calc(100cqw / 1000);
-  container-type: inline-size;
+  --u: 1px;
   width: 100%;
   max-width: 1000px;
   margin-inline: auto;
@@ -22,7 +21,16 @@
 }
 .gdm *, .gdm *::before, .gdm *::after { box-sizing: border-box; }
 
-.stage { position: relative; width: 100%; aspect-ratio: 1000 / 992.052; overflow: hidden; }
+.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1000 / 992.052; overflow: hidden; }
+/* The scene is laid out at the design size in px and zoomed to the stage's width
+   as a whole, so text is zoomed once like everything else (WebKit zooms font
+   sizes in container units twice when the block zooms the graphic). Browsers
+   without length division fall back to sizing every length with cqw. */
+.scene { position: absolute; left: 0; top: 0; width: 1000px; height: 992.052px; zoom: calc(100cqw / 1000px); }
+@supports not (zoom: calc(1px / 1px)) {
+  .gdm { --u: calc(100cqw / 1000); }
+  .scene { width: 100%; height: 100%; zoom: 1; }
+}
 
 /* Layers, back to front: panel, the three rings, the agent, badges. */
 .back { position: absolute; inset: 0; width: 100%; height: 100%; }

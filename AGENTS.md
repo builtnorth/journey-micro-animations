@@ -139,13 +139,30 @@ these limits:
   The font differs from Figma's and by site, so anything holding text grows
   to fit it (`min-width` at the Figma width, not a fixed `width`), growing
   away from the frame edge it sits against.
-- **Design width:** the graphic is designed at a fixed px width and the block
-  scales it. Set the block's design width to the Figma frame's width.
+- **The graphic scales itself to the column, the same in every browser.**
+  Don't rely on the block to scale it: with the usual settings it doesn't.
+  And never size lengths, least of all font sizes, in container units (`cqw`)
+  directly: when the block zooms the graphic (its Scale setting), Safari
+  (WebKit) gets them wrong. Text comes out too small, and when the zoom
+  lands between the container and the content the whole layout shrinks into
+  a corner. So every graphic uses the same frame, which `lint.py` checks:
+  - root: `width: 100%`, `max-width: <frame width>px`, `--u: 1px`;
+  - `.stage`: `container-type: inline-size`, `aspect-ratio: <w> / <h>`,
+    `overflow: hidden`;
+  - `.scene`, the stage's only child, wrapping all the content:
+    `position: absolute; left: 0; top: 0; width: <w>px; height: <h>px;
+    zoom: calc(100cqw / <w>px);` so the whole scene, text included, is laid
+    out in px and zoomed once to the stage's width;
+  - a fallback for browsers without length division:
+    `@supports not (zoom: calc(1px / 1px)) { <root> { --u: calc(100cqw / <w>); } .scene { width: 100%; height: 100%; zoom: 1; } }`.
+  Copy it from an existing graphic. Children of the scene are positioned
+  with `.scene > *`, never `.stage > *`.
 
 ## Building from Figma
 
-- Lay out on the Figma frame's grid: `--u` is one frame pixel
-  (`calc(100cqw / <frame width>)`) and every size and position is a multiple of it.
+- Lay out on the Figma frame's grid: `--u` is one frame pixel (`1px`, or
+  `calc(100cqw / <frame width>)` in the fallback) and every size and position
+  is a multiple of it.
 - Use the Figma exports as they are: SVG icons with their paths unchanged,
   photos as exported. Don't redraw, simplify or recolor them. Only strip
   `id`s, Figma wrapper groups and anything that breaks the rules above.

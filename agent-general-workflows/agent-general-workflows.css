@@ -19,8 +19,7 @@
   --shadow: rgba(0, 0, 0, 0.1);
   --cycle: 10s;
   --start: -0.45s;
-  --u: calc(100cqw / 1304);
-  container-type: inline-size;
+  --u: 1px;
   width: 100%;
   max-width: 1304px;
   margin-inline: auto;
@@ -30,7 +29,16 @@
 .agw *, .agw *::before, .agw *::after { box-sizing: border-box; }
 .agw p { margin: 0; }
 
-.stage { position: relative; width: 100%; aspect-ratio: 1304 / 1132; overflow: hidden; }
+.stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 1304 / 1132; overflow: hidden; }
+/* The scene is laid out at the design size in px and zoomed to the stage's width
+   as a whole, so text is zoomed once like everything else (WebKit zooms font
+   sizes in container units twice when the block zooms the graphic). Browsers
+   without length division fall back to sizing every length with cqw. */
+.scene { position: absolute; left: 0; top: 0; width: 1304px; height: 1132px; zoom: calc(100cqw / 1304px); }
+@supports not (zoom: calc(1px / 1px)) {
+  .agw { --u: calc(100cqw / 1304); }
+  .scene { width: 100%; height: 100%; zoom: 1; }
+}
 
 /* The agent: still, no entrance. */
 .agent {
